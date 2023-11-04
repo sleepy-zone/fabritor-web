@@ -1,0 +1,12 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#ice-container {
+  height: 100%;
+}
+
+.fabritor-layout  .ant-tabs-left >.ant-tabs-nav .ant-tabs-tab {
+  padding: 8px 18px;
+}
