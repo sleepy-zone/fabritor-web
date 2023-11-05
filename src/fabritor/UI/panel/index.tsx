@@ -2,6 +2,8 @@ import { Layout, Tabs, Flex } from 'antd';
 import { AlertOutlined, FileTextOutlined, PictureOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 
+import './index.scss';
+
 const { Sider } = Layout;
 
 const siderStyle: React.CSSProperties = {
@@ -29,7 +31,6 @@ const OBJECT_TYPES = [
 ]
 
 export default function Panel () {
-
   const renderPanel = (value) => {
     if (value === 'template') {
       return '模板'

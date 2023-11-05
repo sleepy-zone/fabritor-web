@@ -91,7 +91,8 @@ export default class Editor {
   }
 
   private _initEvents () {
-    
+    const { sketchEventHandler } = this._options;
+    this.canvas.on('mouse:down', sketchEventHandler?.clickHandler);
   }
 
   public addTextbox () {

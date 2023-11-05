@@ -1,12 +1,16 @@
+import { useContext } from 'react';
 import { Button } from 'antd';
 import { getGlobalEditor } from '@/utils/global';
-
-import './index.scss';
+import { GloablStateContext } from '@/context';
 
 export default function TextPanel () {
+  const { setActiveObject } = useContext(GloablStateContext);
+
   const handleAddText = () => {
     const editor = getGlobalEditor();
-    editor.addTextbox();
+    const textbox = editor.addTextbox();
+    editor.canvas.setActiveObject(textbox);
+    setActiveObject(textbox);
   }
 
   return (

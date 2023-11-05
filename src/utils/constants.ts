@@ -15,14 +15,24 @@ export const TEXTBOX_DEFAULT_CONFIG = {
   // styles
   fill: '#000000',
   fontWeight: 500,
-  fontSize: 40,
+  fontSize: 50,
   lineHeight: 1.3,
   textAlign: 'center',
   fontFamily: 'AlibabaPuHuiTi',
   // size
-  width: 240,
+  width: 300,
   // controls
   ...OBJECT_DEFAULT_CONFIG,
   // 中文处理
   splitByGrapheme: true
 }
+
+export const TEXT_ALIGN_LIST = [
+  { label: '居左', value: 'left' },
+  { label: '居中', value: 'center' },
+  { label: '居右', value: 'right' }
+];
+
+export const FONT_PRESET_FAMILY_LIST = [
+  { label: '阿里巴巴普惠体', value: 'AlibabaPuHuiTi' }
+]

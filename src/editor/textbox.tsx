@@ -5,7 +5,7 @@ export const createTextbox = (options, editor) => {
   const { text = '', left, top, ...rest } = options || {};
   const { canvas, sketch } = editor;
 
-  const textBox = new fabric.Textbox(text || '单击进行编辑', {
+  const textBox = new fabric.Textbox(text || '双击进行编辑', {
     ...TEXTBOX_DEFAULT_CONFIG,
     ...rest
   });
@@ -16,6 +16,9 @@ export const createTextbox = (options, editor) => {
   if (top == null) {
     textBox.set('top', sketch.height / 2 - textBox.calcTextHeight() / 2);
   }
+
+  textBox.setControlVisible('mt', false);
+  textBox.setControlVisible('mb', false);
 
   canvas.add(textBox);
   canvas.requestRenderAll();
