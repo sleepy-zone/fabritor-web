@@ -1,5 +1,6 @@
 import { Layout, Tabs, Flex } from 'antd';
 import { AlertOutlined, FileTextOutlined, PictureOutlined } from '@ant-design/icons';
+import TextPanel from './TextPanel';
 
 const { Sider } = Layout;
 
@@ -33,6 +34,9 @@ export default function Panel () {
     if (value === 'template') {
       return '模板'
     }
+    if (value === 'text') {
+      return <TextPanel />;
+    }
     return value;
   }
 
@@ -51,6 +55,7 @@ export default function Panel () {
       width={360}
     >
       <Tabs
+        defaultActiveKey='text'
         tabPosition="left"
         style={{ height: '100%' }}
         size="small"

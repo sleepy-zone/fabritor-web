@@ -12,7 +12,7 @@ export default function Setter () {
       style={siderStyle}
       width={300}
     >
-      left sidebar
+      Setter
     </Sider>
   )
 }
