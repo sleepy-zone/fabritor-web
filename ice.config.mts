@@ -6,6 +6,8 @@ export default defineConfig(() => ({
   // Set your configs here.
   minify,
   ssr: false,
+  ssg: false,
+  dataLoader: false,
   server: {
     onDemand: true,
     format: 'esm',
