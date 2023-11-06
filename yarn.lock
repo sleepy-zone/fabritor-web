@@ -1219,6 +1219,11 @@
   resolved "https://registry.npmmirror.com/@types/fabric/-/fabric-5.3.5.tgz#dfe3e41b0076e39305c39f1e944ee5f92a5fc974"
   integrity sha512-ZJgLE4DYpPRPEfO32iYe+6ii7k9WgiFdm/2E98RaAGZGfgdyiXbXzaglWxDGe9WmJXXbsZ814QYDiKkOZwFqLg==
 
+"@types/fontfaceobserver@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/fontfaceobserver/-/fontfaceobserver-2.1.2.tgz#540482cffc5da400fe6a479777180ca6bbbeb11c"
+  integrity sha512-QPTBzwHoy3KFaj6702gqqw9YpooQbN0biSBGyVUKvYzeIwpqJeZrzSx+HVzndy9Vsp2ZmvsTVs4k/evcySQC3A==
+
 "@types/http-errors@*":
   version "2.0.3"
   resolved "https://registry.npmmirror.com/@types/http-errors/-/http-errors-2.0.3.tgz#c54e61f79b3947d040f150abd58f71efb422ff62"
@@ -3415,6 +3420,11 @@ follow-redirects@^1.0.0:
   version "1.15.3"
   resolved "https://registry.npmmirror.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
   integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
+
+fontfaceobserver@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/fontfaceobserver/-/fontfaceobserver-2.3.0.tgz#5fb392116e75d5024b7ec8e4f2ce92106d1488c8"
+  integrity sha512-6FPvD/IVyT4ZlNe7Wcn5Fb/4ChigpucKYSvD6a+0iMoLn2inpo711eyIcKjmDtE5XNcgAkSH9uN/nfAeZzHEfg==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -6723,6 +6733,11 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.npmmirror.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"

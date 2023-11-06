@@ -1,3 +1,6 @@
+export const APP_NAME = 'fabritor';
+export const LOG_PREFIX = `${APP_NAME}_log：`;
+
 export const OBJECT_DEFAULT_CONFIG = {
   // controls
   borderColor: '#FF6666',
@@ -15,12 +18,12 @@ export const TEXTBOX_DEFAULT_CONFIG = {
   // styles
   fill: '#000000',
   fontWeight: 500,
-  fontSize: 50,
+  fontSize: 80,
   lineHeight: 1.3,
   textAlign: 'center',
   fontFamily: 'AlibabaPuHuiTi',
   // size
-  width: 300,
+  width: 500,
   // controls
   ...OBJECT_DEFAULT_CONFIG,
   // 中文处理

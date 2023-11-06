@@ -7,13 +7,16 @@
     "@ice/runtime": "^1.2.7",
     "antd": "^5.11.0",
     "fabric": "^5.3.0",
+    "fontfaceobserver": "^2.3.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@applint/spec": "^1.2.3",
     "@ice/app": "^3.3.0",
     "@types/fabric": "^5.3.5",
+    "@types/fontfaceobserver": "^2.1.2",
     "@types/node": "^18.11.17",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
