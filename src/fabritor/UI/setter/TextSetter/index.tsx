@@ -1,7 +1,9 @@
 import { useContext, useEffect } from 'react';
-import { Form, InputNumber, ColorPicker, Select } from 'antd';
+import { Form, Radio, InputNumber, ColorPicker, Select, Space, Button } from 'antd';
 import { TEXT_ALIGN_LIST, FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
+import { BoldOutlined, ItalicOutlined, UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
 import { GloablStateContext } from '@/context';
+import FontStylePanel from '../../panel/TextPanel/FontStylePanel';
 
 const { Item: FormItem } = Form;
 
@@ -18,7 +20,14 @@ export default function TextSetter (props) {
       fontFamily: object.fontFamily,
       fontSize: object.fontSize,
       fill: object.fill,
-      textAlign: object.textAlign
+      textAlign: object.textAlign,
+      lineHeight: object.lineHeight,
+      fontStyles: {
+        bold: object.fontWeight === 'bold',
+        italic: object.fontStyle === 'italic',
+        underline: object.underline,
+        linethrough: object.linethrough
+      }
     });
   }, [object]);
 
@@ -42,6 +51,12 @@ export default function TextSetter (props) {
           <InputNumber />
         </FormItem>
         <FormItem
+          label="行高"
+          name="lineHeight"
+        >
+          <InputNumber precision={2} step={0.01}/>
+        </FormItem>
+        <FormItem
           label="颜色"
           name="fill"
         >
@@ -51,8 +66,20 @@ export default function TextSetter (props) {
           label="对齐"
           name="textAlign"
         >
-          <Select options={TEXT_ALIGN_LIST} />
+          <Radio.Group
+            options={TEXT_ALIGN_LIST}
+            optionType="button"
+            buttonStyle="solid"
+          />
         </FormItem>
+        <FormItem
+          label="样式"
+          name="fontStyles"
+        >
+          <FontStylePanel />
+        </FormItem>
+        {/*竖版*/}
+        {/*特效*/}
       </Form>
     </div>
   )

@@ -6,9 +6,9 @@ import { GloablStateContext } from '@/context';
 export default function TextPanel () {
   const { setActiveObject } = useContext(GloablStateContext);
 
-  const handleAddText = () => {
+  const handleAddText = async () => {
     const editor = getGlobalEditor();
-    const textbox = editor.addTextbox();
+    const textbox = await editor.addTextbox();
     editor.canvas.setActiveObject(textbox);
     setActiveObject(textbox);
   }

@@ -95,7 +95,7 @@ export default class Editor {
     this.canvas.on('mouse:down', sketchEventHandler?.clickHandler);
   }
 
-  public addTextbox () {
+  public async addTextbox () {
     return createTextbox({}, this);
   }
 

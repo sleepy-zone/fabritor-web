@@ -17,7 +17,7 @@ export const OBJECT_DEFAULT_CONFIG = {
 export const TEXTBOX_DEFAULT_CONFIG = {
   // styles
   fill: '#000000',
-  fontWeight: 500,
+  fontWeight: 'normal',
   fontSize: 80,
   lineHeight: 1.3,
   textAlign: 'center',

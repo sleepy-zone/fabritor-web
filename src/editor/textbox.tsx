@@ -1,9 +1,9 @@
 import { fabric } from 'fabric';
 import { TEXTBOX_DEFAULT_CONFIG } from '../utils/constants';
-import { uuid } from '@/utils';
+import { uuid, loadFont } from '@/utils';
 
-export const createTextbox = (options, editor) => {
-  const { text = '', left, top, ...rest } = options || {};
+export const createTextbox = async (options, editor) => {
+  const { text = '', left, top, fontFamily, ...rest } = options || {};
   const { canvas, sketch } = editor;
 
   const textBox = new fabric.Textbox(text || '双击进行编辑', {
@@ -22,6 +22,11 @@ export const createTextbox = (options, editor) => {
 
   textBox.setControlVisible('mt', false);
   textBox.setControlVisible('mb', false);
+
+  if (fontFamily) {
+    await loadFont(fontFamily);
+    textBox.set('fontFamily', fontFamily);
+  }
 
   canvas.add(textBox);
   canvas.requestRenderAll();
