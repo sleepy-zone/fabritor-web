@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Layout } from 'antd';
 import TextSetter from './TextSetter';
+import ImageSetter from './ImageSetter';
 import { GloablStateContext } from '@/context';
 
 import './index.scss';
@@ -14,6 +15,7 @@ const siderStyle: React.CSSProperties = {
 export default function Setter (props) {
   const { object } = useContext(GloablStateContext);
   const objectType = object?.get?.('type') || '';
+  console.log('objectType', objectType);
 
   return (
     <Sider
@@ -22,7 +24,11 @@ export default function Setter (props) {
     >
       {
         objectType === 'textbox' ?
-        <TextSetter object={object} /> : null
+        <TextSetter /> : null
+      }
+      {
+        objectType === 'image' ?
+        <ImageSetter /> : null
       }
     </Sider>
   )
