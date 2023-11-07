@@ -39,6 +39,7 @@ export const createTextbox = async (options) => {
   }
 
   canvas.add(textBox);
+  canvas.setActiveObject(textBox);
   canvas.requestRenderAll();
 
   return textBox;

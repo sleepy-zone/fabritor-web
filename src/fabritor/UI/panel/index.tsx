@@ -1,6 +1,7 @@
 import { Layout, Tabs, Flex } from 'antd';
 import { AlertOutlined, FileTextOutlined, PictureOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
+import ImagePanel from './ImagePanel';
 
 import './index.scss';
 
@@ -38,6 +39,9 @@ export default function Panel () {
     if (value === 'text') {
       return <TextPanel />;
     }
+    if (value === 'image') {
+      return <ImagePanel />;
+    }
     return value;
   }
 
@@ -56,7 +60,7 @@ export default function Panel () {
       width={360}
     >
       <Tabs
-        defaultActiveKey='text'
+        defaultActiveKey='image'
         tabPosition="left"
         style={{ height: '100%' }}
         size="small"

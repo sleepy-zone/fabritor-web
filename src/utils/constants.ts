@@ -30,6 +30,10 @@ export const TEXTBOX_DEFAULT_CONFIG = {
   splitByGrapheme: true
 }
 
+export const IMAGE_DEFAULT_CONFIG = {
+  ...OBJECT_DEFAULT_CONFIG
+}
+
 export const FONT_PRESET_FAMILY_LIST = [
   { label: '阿里巴巴普惠体', value: 'AlibabaPuHuiTi' }
 ]
