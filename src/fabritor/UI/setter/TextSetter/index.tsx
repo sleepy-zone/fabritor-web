@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react';
-import { Form, Radio, InputNumber, ColorPicker, Select, Space, Button } from 'antd';
-import { TEXT_ALIGN_LIST, FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
-import { BoldOutlined, ItalicOutlined, UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
+import { Form, Radio, InputNumber, ColorPicker, Select } from 'antd';
+import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
-import FontStylePanel from '../../panel/TextPanel/FontStylePanel';
+import FontStyleSetter from './FontStyleSetter';
+import AlignSetter from './AlignSetter';
 
 const { Item: FormItem } = Form;
 
@@ -12,7 +12,7 @@ export default function TextSetter (props) {
   const [form] = Form.useForm();
 
   const handleValuesChange = (values) => {
-    console.log(values)
+    
   }
 
   useEffect(() => {
@@ -66,17 +66,13 @@ export default function TextSetter (props) {
           label="对齐"
           name="textAlign"
         >
-          <Radio.Group
-            options={TEXT_ALIGN_LIST}
-            optionType="button"
-            buttonStyle="solid"
-          />
+          <AlignSetter />
         </FormItem>
         <FormItem
           label="样式"
           name="fontStyles"
         >
-          <FontStylePanel />
+          <FontStyleSetter />
         </FormItem>
         {/*竖版*/}
         {/*特效*/}

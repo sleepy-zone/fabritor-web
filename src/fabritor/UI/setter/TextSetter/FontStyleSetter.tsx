@@ -1,22 +1,22 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Space, Button } from 'antd';
 import { BoldOutlined, ItalicOutlined, UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
 
 const FONT_STYLES = [
   {
-    icon: <BoldOutlined />,
+    icon: BoldOutlined,
     value: 'bold'
   },
   {
-    icon: <ItalicOutlined />,
+    icon: ItalicOutlined,
     value: 'italic'
   },
   {
-    icon: <UnderlineOutlined />,
+    icon: UnderlineOutlined,
     value: 'underline'
   },
   {
-    icon: <StrikethroughOutlined />,
+    icon: StrikethroughOutlined,
     value: 'linethrough'
   }
 ]
@@ -31,20 +31,20 @@ export default function FontStylePanel (props) {
     });
   }
 
-  useEffect(() => {
-    console.log(value)
-  }, [value]);
-
   return (
     <Space.Compact block>
       {
         FONT_STYLES.map(FONT_STYLE => (
           <Button
-            style={{ width: 50 }}
-            icon={FONT_STYLE.icon}
+            style={{ width: 46 }}
+            icon={
+              <FONT_STYLE.icon
+                style={{ 
+                  color: value?.[FONT_STYLE.value] ? '#1677ff' : ''
+                }}
+              />
+            }
             key={FONT_STYLE.value}
-            type={ value?.[FONT_STYLE.value] ? 'primary' : 'default' }
-            ghost={value?.[FONT_STYLE.value]}
             onClick={() => { handleClick(FONT_STYLE.value) }}
           />
         ))
