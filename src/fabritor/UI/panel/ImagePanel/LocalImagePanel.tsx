@@ -12,7 +12,9 @@ export default function LocalImagePanel (props) {
 
   const handleFileChange = (evt) => {
     const file = evt.target.files[0];
+    if (!file) return;
     const url = URL.createObjectURL(file);
+    formRef.current?.reset?.();
     if (file.type === 'image/svg+xml') {
       addSvg?.({ url });
       return;
