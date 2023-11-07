@@ -1,18 +1,48 @@
 import { useContext, useEffect } from 'react';
-import { Form, Radio, InputNumber, ColorPicker, Select } from 'antd';
+import { Form, InputNumber, Select, Switch } from 'antd';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';
 import AlignSetter from './AlignSetter';
+import ColorSetter from './ColorSetter';
+import { loadFont } from '@/utils';
+import { getGlobalEditor } from '@/utils/global';
 
 const { Item: FormItem } = Form;
 
-export default function TextSetter (props) {
+export default function TextSetter () {
   const { object } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
-  const handleValuesChange = (values) => {
-    
+  const handleFontStyles = (styles) => {
+    object.set('fontWeight', styles?.bold ? 'bold' : 'normal');
+    object.set('fontStyle', styles?.italic ? 'italic' : 'normal');
+    object.set('underline', !!styles.underline);
+    object.set('linethrough', !!styles.linethrough);
+  }
+
+  const handleValuesChange = async (values) => {
+    console.log(values);
+    const keys = Object.keys(values);
+    if (!keys?.length) return;
+
+    for (let key of keys) {
+      if (key === 'fontStyles') {
+        handleFontStyles(values[key]);
+      } else if (key === 'fontFamily') {
+        try {
+          await loadFont(values[key]);
+        } finally {
+          object.set(key, values[key]);
+        }
+        return;
+      } else {
+        object.set(key, values[key]);
+      }
+    }
+   
+    const editor = getGlobalEditor();
+    editor.canvas.requestRenderAll();
   }
 
   useEffect(() => {
@@ -42,7 +72,9 @@ export default function TextSetter (props) {
           label="字体"
           name="fontFamily"
         >
-          <Select options={FONT_PRESET_FAMILY_LIST} />
+          <Select
+            options={[{ label: '系统默认', value: 'Times New Roman' }, ...FONT_PRESET_FAMILY_LIST]}
+          />
         </FormItem>
         <FormItem
           label="字号"
@@ -60,7 +92,7 @@ export default function TextSetter (props) {
           label="颜色"
           name="fill"
         >
-          <ColorPicker />
+          <ColorSetter />
         </FormItem>
         <FormItem
           label="对齐"
@@ -74,7 +106,6 @@ export default function TextSetter (props) {
         >
           <FontStyleSetter />
         </FormItem>
-        {/*竖版*/}
         {/*特效*/}
       </Form>
     </div>

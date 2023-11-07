@@ -1,6 +1,5 @@
 import { fabric } from 'fabric';
 import { calcCanvasZoomLevel } from '@/utils/helper';
-import { createTextbox } from './textbox';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -24,7 +23,6 @@ export default class Editor {
   private _initFabric () {
     const { canvasEl, workspaceEl } = this._options;
     this.canvas = new fabric.Canvas(canvasEl, {
-      selection: false,
       containerClass: 'fabritor-canvas',
       enableRetinaScaling: true,
       fireRightClick: true,
@@ -93,10 +91,6 @@ export default class Editor {
   private _initEvents () {
     const { sketchEventHandler } = this._options;
     this.canvas.on('mouse:down', sketchEventHandler?.clickHandler);
-  }
-
-  public async addTextbox () {
-    return createTextbox({}, this);
   }
 
   public destroy () {

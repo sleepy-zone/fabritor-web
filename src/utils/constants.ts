@@ -18,7 +18,7 @@ export const TEXTBOX_DEFAULT_CONFIG = {
   // styles
   fill: '#000000',
   fontWeight: 'normal',
-  fontSize: 80,
+  fontSize: 50,
   lineHeight: 1.30,
   textAlign: 'center',
   fontFamily: 'AlibabaPuHuiTi',
