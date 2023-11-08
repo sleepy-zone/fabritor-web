@@ -1,7 +1,6 @@
 import { fabric } from 'fabric';
 import { calcCanvasZoomLevel } from '@/utils/helper';
-import { renderController, renderRotateController, renderToolBarController } from './controller';
-
+import { renderController, renderRotateController, renderToolBarController, handleMouseOverCorner } from './controller';
 export default class Editor {
   public canvas: fabric.Canvas;
   private _options;
@@ -99,7 +98,13 @@ export default class Editor {
   private _initEvents () {
     const { sketchEventHandler } = this._options;
     this.canvas.on('mouse:down', sketchEventHandler?.clickHandler);
-    this.canvas.on('mouse:over', console.log);
+    this.canvas.on('mouse:over', (opt) => {
+      // @ts-ignore
+      const corner = opt.target?.__corner;
+      if (corner) {
+        handleMouseOverCorner(corner, opt.target);
+      }
+    });
   }
 
   public destroy () {

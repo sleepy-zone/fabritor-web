@@ -174,3 +174,7 @@ export const renderRotateController = () => {
 export const renderToolBarController = () => {
 
 }
+
+export const handleMouseOverCorner = (corner, target) => {
+  console.log(corner, target);
+}
