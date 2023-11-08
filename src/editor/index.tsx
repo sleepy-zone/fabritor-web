@@ -1,5 +1,6 @@
 import { fabric } from 'fabric';
 import { calcCanvasZoomLevel } from '@/utils/helper';
+import { renderController, renderRotateController, renderToolBarController } from './controller';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -15,9 +16,16 @@ export default class Editor {
   }
 
   public init() {
+    this._initControl();
     this._initFabric();
     this._initSketch();
     this._initEvents();
+  }
+
+  private _initControl () {
+    renderController();
+    renderRotateController();
+    renderToolBarController();
   }
 
   private _initFabric () {
@@ -91,6 +99,7 @@ export default class Editor {
   private _initEvents () {
     const { sketchEventHandler } = this._options;
     this.canvas.on('mouse:down', sketchEventHandler?.clickHandler);
+    this.canvas.on('mouse:over', console.log);
   }
 
   public destroy () {

@@ -27,8 +27,8 @@ export const createTextbox = async (options) => {
     textBox.set('top', top);
   }
 
-  textBox.setControlVisible('mt', false);
-  textBox.setControlVisible('mb', false);
+  // textBox.setControlVisible('mt', false);
+  // textBox.setControlVisible('mb', false);
 
   if (fontFamily) {
     try {

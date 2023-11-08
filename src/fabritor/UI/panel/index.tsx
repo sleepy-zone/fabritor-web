@@ -60,7 +60,7 @@ export default function Panel () {
       width={360}
     >
       <Tabs
-        defaultActiveKey='image'
+        defaultActiveKey='text'
         tabPosition="left"
         style={{ height: '100%' }}
         size="small"
