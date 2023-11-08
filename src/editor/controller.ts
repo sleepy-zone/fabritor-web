@@ -1,7 +1,7 @@
 // cursor css https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor
 
 import { fabric } from 'fabric';
-import { ROTATE_SVG } from '@/assets/icon';
+import { ROTATE_SVG, ROTATE_CURSOR } from '@/assets/icon';
 
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
@@ -56,6 +56,7 @@ const renderRotateIcon = (ctx, left, top, styleOverride, fabricObject) => {
   ctx.restore();
 }
 
+// TODO control hover style
 export const renderController = () => {
   // middle top
   const mtConfig = {
@@ -154,12 +155,13 @@ export const renderController = () => {
   });
 }
 
+// https://medium.com/@luizzappa/custom-icon-and-cursor-in-fabric-js-controls-4714ba0ac28f
 export const renderRotateController = () => {
   const mtrConfig = {
     x: 0,
     y: 0.5,
     offsetY: 38,
-    cursorStyleHandler: () => 'crosshair',
+    cursorStyleHandler: () => `url("data:image/svg+xml;charset=utf-8,${ROTATE_CURSOR}") 12 12, crosshair`,
     render: renderRotateIcon,
     withConnection: false
   };
