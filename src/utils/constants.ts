@@ -31,7 +31,8 @@ export const TEXTBOX_DEFAULT_CONFIG = {
 }
 
 export const IMAGE_DEFAULT_CONFIG = {
-  ...OBJECT_DEFAULT_CONFIG
+  ...OBJECT_DEFAULT_CONFIG,
+  padding: 0
 }
 
 export const FONT_PRESET_FAMILY_LIST = [

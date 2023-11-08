@@ -38,7 +38,9 @@ export default function Fabritor () {
         canvasEl: canvasEl.current,
         workspaceEl: workspaceEl.current,
         sketchEventHandler: {
-          clickHandler
+          clickHandler,
+          cloneHandler: (opt) => { setActiveObject(opt.target) },
+          delHandler: () => { setActiveObject(null) }
         }
       });
   

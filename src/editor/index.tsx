@@ -105,6 +105,8 @@ export default class Editor {
         handleMouseOverCorner(corner, opt.target);
       }
     });
+    this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
+    this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
   }
 
   public destroy () {

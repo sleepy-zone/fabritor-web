@@ -1,10 +1,16 @@
 // cursor css https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor
 
 import { fabric } from 'fabric';
-import { ROTATE_SVG, ROTATE_CURSOR } from '@/assets/icon';
+import { ROTATE_SVG, ROTATE_CURSOR, COPY_SVG, DEL_SVG } from '@/assets/icon';
 
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
+
+const COPY_IMG = document.createElement('img');
+COPY_IMG.src = COPY_SVG;
+
+const DEL_IMG = document.createElement('img');
+DEL_IMG.src = DEL_SVG;
 
 const renderSizeIcon = (ctx, left, top, styleOverride, fabricObject, TBorLR) => {
   const xSize = TBorLR === 'TB' ? 20 : 6;
@@ -47,13 +53,37 @@ const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) => {
   ctx.restore();
 }
 
-const renderRotateIcon = (ctx, left, top, styleOverride, fabricObject) => {
-  const size = 24;
-  ctx.save();
-  ctx.translate(left, top);
-  ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
-  ctx.drawImage(ROTATE_IMG, -size / 2, -size / 2, size, size);
-  ctx.restore();
+function renderSvgIcon(icon) {
+  return function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+    const size = 24;
+    ctx.save();
+    ctx.translate(left, top);
+    ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+    ctx.drawImage(icon, -size / 2, -size / 2, size, size);
+    ctx.restore();
+  }
+}
+
+const handleCopyObject = (eventData, transform) => {
+  const target = transform.target;
+  const canvas = target.canvas;
+  target.clone((cloned) => {
+    cloned.left += 100;
+    cloned.top += 100;
+    canvas.add(cloned);
+    canvas.setActiveObject(cloned);
+    canvas.fire('fabritor:clone', { target: cloned });
+  });
+  return true;
+}
+
+const handleDelObject = (eventData, transform) => {
+  const target = transform.target;
+  const canvas = target.canvas;
+  canvas.remove(target);
+  canvas.requestRenderAll();
+  canvas.fire('fabritor:del', { target: null });
+  return true;
 }
 
 // TODO control hover style
@@ -155,14 +185,15 @@ export const renderController = () => {
   });
 }
 
-// https://medium.com/@luizzappa/custom-icon-and-cursor-in-fabric-js-controls-4714ba0ac28f
+// reference: https://medium.com/@luizzappa/custom-icon-and-cursor-in-fabric-js-controls-4714ba0ac28f
 export const renderRotateController = () => {
   const mtrConfig = {
     x: 0,
     y: 0.5,
     offsetY: 38,
+    // TODO change cursor rotation
     cursorStyleHandler: () => `url("data:image/svg+xml;charset=utf-8,${ROTATE_CURSOR}") 12 12, crosshair`,
-    render: renderRotateIcon,
+    render: renderSvgIcon(ROTATE_IMG),
     withConnection: false
   };
   Object.keys(mtrConfig).forEach(key => {
@@ -172,9 +203,32 @@ export const renderRotateController = () => {
 
 // copy & paste & delete & more
 export const renderToolBarController = () => {
+  const copyControl = new fabric.Control({
+    x: 0,
+    y: -0.5,
+    offsetX: -24,
+    offsetY: -26,
+    cursorStyle: 'pointer',
+    mouseUpHandler: handleCopyObject,
+    render: renderSvgIcon(COPY_IMG)
+  });
+  fabric.Object.prototype.controls.copy = copyControl;
+  fabric.Textbox.prototype.controls.copy = copyControl;
 
+  const delControl = new fabric.Control({
+    x: 0,
+    y: -0.5,
+    offsetX: 24,
+    offsetY: -26,
+    cursorStyle: 'pointer',
+    mouseUpHandler: handleDelObject,
+    render: renderSvgIcon(DEL_IMG)
+  });
+  fabric.Object.prototype.controls.del = delControl;
+  fabric.Textbox.prototype.controls.del = delControl;
 }
 
+// TODO handle corner mouse over
 export const handleMouseOverCorner = (corner, target) => {
-  console.log(corner, target);
+  // console.log(corner, target);
 }

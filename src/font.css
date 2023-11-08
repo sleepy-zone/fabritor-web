@@ -1,5 +1,6 @@
 @font-face {
   font-family: "AlibabaPuHuiTi";
-  src: url("./assets/fonts/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.woff") format("woff");
+  src: url("./assets/fonts/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.woff") format("woff"),
+    url("./assets/fonts/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.woff2") format("woff2");
   font-display: swap;
 }
