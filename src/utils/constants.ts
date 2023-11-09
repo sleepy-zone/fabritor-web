@@ -24,14 +24,11 @@ export const TEXTBOX_DEFAULT_CONFIG = {
   fontFamily: 'AlibabaPuHuiTi',
   // size
   width: 500,
-  // controls
-  ...OBJECT_DEFAULT_CONFIG,
   // 中文处理
   splitByGrapheme: true
 }
 
 export const IMAGE_DEFAULT_CONFIG = {
-  ...OBJECT_DEFAULT_CONFIG,
   padding: 0
 }
 

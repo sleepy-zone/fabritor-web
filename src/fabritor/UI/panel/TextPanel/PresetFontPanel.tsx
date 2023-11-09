@@ -1,6 +1,5 @@
-import { Flex, Card, Typography } from 'antd';
-
-const { Title } = Typography;
+import { Flex, Card } from 'antd';
+import Title from '@/fabritor/components/Title';
 
 const PRESET_FONT_LIST = [
   {
@@ -45,7 +44,7 @@ export default function PresetFontPanel (props) {
 
   return (
     <Flex vertical gap={8} style={{ marginTop: 16 }}>
-      <Title level={4}>默认文字样式</Title>
+      <Title>默认文字样式</Title>
       {
         PRESET_FONT_LIST.map(item => (
           <Card

@@ -86,7 +86,6 @@ const handleDelObject = (eventData, transform) => {
   return true;
 }
 
-// TODO control hover style
 export const renderController = () => {
   // middle top
   const mtConfig = {

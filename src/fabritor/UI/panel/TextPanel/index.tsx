@@ -12,13 +12,6 @@ export default function TextPanel () {
     setActiveObject(textbox);
   }
 
-  // const clear = () => {
-  //   const editor = getGlobalEditor();
-  //   editor.canvas.discardActiveObject();
-  //   editor.canvas.requestRenderAll();
-  //   setActiveObject(null);
-  // }
-
   return (
     <div className="fabritor-panel-text-wrapper">
       <Button type="primary" block onClick={() => { handleAddText({}) }} size="large">

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { Form, InputNumber, Select, Switch } from 'antd';
+import { Form, InputNumber, Select } from 'antd';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';

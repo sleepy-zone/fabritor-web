@@ -13,3 +13,12 @@ export const loadFont = async (f: string) => {
 export const uuid = () => {
   return uuidv4();
 }
+
+export const downloadFile = (content: string, type: string, name: string) => {
+  const link = document.createElement('a');
+  link.href = content;
+  link.download = `${name || uuid()}.${type}`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

@@ -2,6 +2,7 @@ import { Layout, Tabs, Flex } from 'antd';
 import { AlertOutlined, FileTextOutlined, PictureOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
+import TemplatePanel from './TemplatePanel';
 
 import './index.scss';
 
@@ -34,7 +35,7 @@ const OBJECT_TYPES = [
 export default function Panel () {
   const renderPanel = (value) => {
     if (value === 'template') {
-      return '模板'
+      return <TemplatePanel />;
     }
     if (value === 'text') {
       return <TextPanel />;
@@ -60,7 +61,7 @@ export default function Panel () {
       width={360}
     >
       <Tabs
-        defaultActiveKey='text'
+        defaultActiveKey='template'
         tabPosition="left"
         style={{ height: '100%' }}
         size="small"

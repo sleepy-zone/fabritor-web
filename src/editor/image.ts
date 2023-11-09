@@ -4,7 +4,7 @@ import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 
 export const loadImageFromUrl = async (url) => {
-  return new Promise((resolve) => {
+  return new Promise<fabric.Image>((resolve) => {
     fabric.Image.fromURL(url, (img) => {
       resolve(img);
     });
@@ -25,7 +25,13 @@ export const createImage = async (options) => {
   const editor = getGlobalEditor();
   const { canvas, sketch } = editor;
 
-  const img: fabric.Image = await loadImageFromUrl(url);
+  let img!: fabric.Image;
+  if (options.url) {
+    img = await loadImageFromUrl(url);
+  }
+  if (options.img) {
+    img = new fabric.Image(options.img);
+  }
 
   img.set({
     ...IMAGE_DEFAULT_CONFIG,

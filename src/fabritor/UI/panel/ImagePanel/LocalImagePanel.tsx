@@ -1,25 +1,33 @@
 import { useRef } from 'react';
 import { Button } from 'antd';
+import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
 
 export default function LocalImagePanel (props) {
   const { addImage, addSvg } = props;
-  const formRef = useRef<HTMLFormElement>();
-  const inputRef = useRef<HTMLInputElement>();
+  const localFileSelectorRef = useRef<any>();
 
   const handleClick = () => {
-    inputRef.current?.click?.();
+    localFileSelectorRef.current?.start?.();
   }
 
-  const handleFileChange = (evt) => {
-    const file = evt.target.files[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    formRef.current?.reset?.();
+  const handleFileChange = (file) => {
     if (file.type === 'image/svg+xml') {
+      const url = URL.createObjectURL(file);
       addSvg?.({ url });
       return;
     }
-    addImage?.({ url });
+    
+    const reader = new FileReader();
+    reader.onload = (revt) => {
+      const img = new Image();
+      img.onload = () => {
+        localFileSelectorRef.current?.reset?.();
+        addImage?.({ img });
+      }
+      // @ts-ignore
+      img.src = revt.target.result;
+    }
+    reader.readAsDataURL(file);
   }
 
   return (
@@ -28,9 +36,7 @@ export default function LocalImagePanel (props) {
         添加本地图片
       </Button>
 
-      <form style={{ display: 'none' }} ref={formRef}>
-        <input type="file" accept="image/*" ref={inputRef} onChange={handleFileChange}/>
-      </form>
+      <LocalFileSelector ref={localFileSelectorRef} onChange={handleFileChange} />
     </div>
   );
 }

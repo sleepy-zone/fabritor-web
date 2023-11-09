@@ -1,5 +1,5 @@
-import { createContext, useEffect, useRef, useState } from 'react';
-import { Layout } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { Layout, Spin } from 'antd';
 import Header from './UI/header';
 import Panel from './UI/panel';
 import Setter from './UI/setter';
@@ -18,10 +18,11 @@ const workspaceStyle = {
 }
 
 export default function Fabritor () {
-  const canvasEl = useRef<HTMLCanvasElement>();
-  const workspaceEl = useRef<HTMLDivElement>();
+  const canvasEl = useRef<HTMLCanvasElement>(null);
+  const workspaceEl = useRef<HTMLDivElement>(null);
   const editorRef = useRef<Editor | null>();
   const [activeObject, setActiveObject] = useState<fabric.Object | null>();
+  const [isReady, setReady] = useState(false);
 
   const clickHandler = (opt) => {
     const { target } = opt;
@@ -46,6 +47,7 @@ export default function Fabritor () {
   
       editorRef.current = editor;
       setGlobalEditor(editor);
+      setReady(true);
     }, 300);
 
     return () => {
@@ -60,10 +62,13 @@ export default function Fabritor () {
     <GloablStateContext.Provider
       value={{
         object: activeObject,
-        setActiveObject
+        setActiveObject,
+        isReady,
+        setReady
       }}
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">
+        <Spin spinning={!isReady} fullscreen />
         <Header />
         <Layout>
           <Panel />

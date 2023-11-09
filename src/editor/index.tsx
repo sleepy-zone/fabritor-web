@@ -1,11 +1,18 @@
 import { fabric } from 'fabric';
 import { calcCanvasZoomLevel } from '@/utils/helper';
 import { renderController, renderRotateController, renderToolBarController, handleMouseOverCorner } from './controller';
+import { initObjectPrototype } from './object';
+import { throttle } from 'lodash-es';
+import { loadFont } from '@/utils';
+import { message } from 'antd';
+
+const SKETCH_ID = 'fabritor-sketch';
 export default class Editor {
   public canvas: fabric.Canvas;
   private _options;
   private _template;
   public sketch: fabric.Rect;
+  private _resizeObserver: ResizeObserver | null;
 
   constructor (options) {
     const { template, ...rest } = options;
@@ -15,21 +22,24 @@ export default class Editor {
   }
 
   public init() {
-    this._initControl();
+    this._initObject();
     this._initFabric();
     this._initSketch();
     this._initEvents();
   }
 
-  private _initControl () {
+  private _initObject () {
     renderController();
     renderRotateController();
     renderToolBarController();
+
+    initObjectPrototype();
   }
 
   private _initFabric () {
     const { canvasEl, workspaceEl } = this._options;
     this.canvas = new fabric.Canvas(canvasEl, {
+      selection: false,
       containerClass: 'fabritor-canvas',
       enableRetinaScaling: true,
       fireRightClick: true,
@@ -37,7 +47,8 @@ export default class Editor {
       controlsAboveOverlay: true,
       width: workspaceEl.offsetWidth,
       height: workspaceEl.offsetHeight,
-      backgroundColor: '#ddd'
+      backgroundColor: '#ddd',
+      preserveObjectStacking: true
     });
   }
 
@@ -54,13 +65,34 @@ export default class Editor {
       hasControls: false,
       hoverCursor: 'default',
       // @ts-ignore custom id 
-      id: 'fabritor-sketch'
+      id: SKETCH_ID,
+      // @ts-ignore custom desc
+      fabritor_desc: '一段简短的描述',
     });
     this.canvas.add(sketch);
     this.canvas.requestRenderAll();
     this.sketch = sketch;
 
+    this._initResizeObserver();
+
     this._adjustSketch2Canvas();
+  }
+
+  public setSketchSize (size) {
+    this.sketch.set(size);
+    this._adjustSketch2Canvas();
+  }
+
+  private _initResizeObserver () {
+    const { workspaceEl } = this._options;
+    this._resizeObserver = new ResizeObserver(
+      throttle(() => {
+        this.canvas.setWidth(workspaceEl.offsetWidth);
+        this.canvas.setHeight(workspaceEl.offsetHeight);
+        this._adjustSketch2Canvas();
+      }, 100)
+    );
+    this._resizeObserver.observe(workspaceEl);
   }
 
   private _adjustSketch2Canvas () {
@@ -76,7 +108,7 @@ export default class Editor {
     );
 
     const center = this.canvas.getCenter();
-    this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.06);
+    this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.1);
 
     // sketch 移至画布中心
     const sketchCenter = this.sketch.getCenterPoint();
@@ -107,6 +139,19 @@ export default class Editor {
     });
     this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
     this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
+    this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
+  }
+
+  private _scrollSketch (opt) {
+    const delta = opt.e.deltaY;
+    let zoom = this.canvas.getZoom();
+    zoom *= 0.999 ** delta;
+    if (zoom > 20) zoom = 20;
+    if (zoom < 0.01) zoom = 0.01;
+    const center = this.canvas.getCenter();
+    this.canvas.zoomToPoint({ x: center.left, y: center.top }, zoom);
+    opt.e.preventDefault();
+    opt.e.stopPropagation();
   }
 
   public destroy () {
@@ -115,5 +160,75 @@ export default class Editor {
       // @ts-ignore
       this.canvas = null;
     }
+    const { workspaceEl } = this._options;
+    if (this._resizeObserver) {
+      this._resizeObserver.unobserve(workspaceEl);
+      this._resizeObserver = null;
+    }
+  }
+
+  public export2Img (options) {
+    const transform = this.canvas.viewportTransform;
+    this.canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+    const { left, top, width, height } = this.sketch;
+    const dataURL = this.canvas.toDataURL({
+      // multiplier: 2,
+      left,
+      top,
+      width,
+      height,
+      format: 'png',
+      ...options
+    });
+    // @ts-ignore
+    this.canvas.setViewportTransform(transform);
+    return dataURL;
+  }
+
+  public export2Svg () {
+    const { left, top, width, height } = this.sketch;
+    const svg = this.canvas.toSVG({
+      width,
+      height,
+      viewBox: {
+        x: left,
+        y: top,
+        width,
+        height
+      } as any
+    });
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  }
+
+  public export2Json () {
+    const json = this.canvas.toJSON(['id', 'fabritor_desc', 'selectable', 'hasControls']);
+    return `data:text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(json, null, 2)
+    )}`;
+  }
+
+  public async loadFromJSON (json) {
+    if (!json) return;
+    if (typeof json === 'string') {
+      try {
+        json = JSON.parse(json);
+      } catch(e) {
+        message.error('加载本地模板失败，请重试');
+        return;
+      }
+    }
+    const { objects } = json;
+    for (let item of objects) {
+      if (item.type === 'textbox') {
+        await loadFont(item.fontFamily);
+      }
+    }
+    this.canvas.loadFromJSON(json, () => {
+      this.canvas.requestRenderAll();
+    }, (o, obj) => {
+      if (obj.id === SKETCH_ID) {
+        this.sketch = obj;
+      }
+    });
   }
 }
