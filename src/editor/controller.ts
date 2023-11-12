@@ -69,6 +69,7 @@ const handleCopyObject = (eventData, transform) => {
   const target = transform.target;
   const canvas = target.canvas;
   pasteObject(target, canvas);
+  return true;
 }
 
 const handleDelObject = (eventData, transform) => {
