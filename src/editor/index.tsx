@@ -1,10 +1,11 @@
 import { fabric } from 'fabric';
+import { message } from 'antd';
 import { calcCanvasZoomLevel } from '@/utils/helper';
 import { renderController, renderRotateController, renderToolBarController, handleMouseOverCorner } from './controller';
 import { initObjectPrototype } from './object';
 import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
-import { message } from 'antd';
+import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 
 const SKETCH_ID = 'fabritor-sketch';
 export default class Editor {
@@ -26,6 +27,7 @@ export default class Editor {
     this._initFabric();
     this._initSketch();
     this._initEvents();
+    this._initGuidelines();
   }
 
   private _initObject () {
@@ -50,6 +52,11 @@ export default class Editor {
       backgroundColor: '#ddd',
       preserveObjectStacking: true
     });
+  }
+
+  private _initGuidelines () {
+    initAligningGuidelines(this.canvas);
+    initCenteringGuidelines(this.canvas);
   }
 
   private _initSketch () {
@@ -90,7 +97,7 @@ export default class Editor {
         this.canvas.setWidth(workspaceEl.offsetWidth);
         this.canvas.setHeight(workspaceEl.offsetHeight);
         this._adjustSketch2Canvas();
-      }, 100)
+      }, 50)
     );
     this._resizeObserver.observe(workspaceEl);
   }

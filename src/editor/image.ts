@@ -34,7 +34,6 @@ export const createImage = async (options) => {
   }
 
   img.set({
-    ...IMAGE_DEFAULT_CONFIG,
     ...rest,
     id: uuid()
   });
@@ -67,7 +66,6 @@ export const createSvg = async (options) => {
   const svg: fabric.Group = await loadSvgFromUrl(url);
 
   svg.set({
-    ...IMAGE_DEFAULT_CONFIG,
     ...rest,
     id: uuid()
   });
