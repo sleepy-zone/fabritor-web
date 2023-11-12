@@ -1,5 +1,4 @@
 import { fabric } from 'fabric';
-import { IMAGE_DEFAULT_CONFIG } from '../utils/constants';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 

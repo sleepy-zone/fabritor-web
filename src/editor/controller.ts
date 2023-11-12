@@ -2,6 +2,7 @@
 
 import { fabric } from 'fabric';
 import { ROTATE_SVG, ROTATE_CURSOR, COPY_SVG, DEL_SVG } from '@/assets/icon';
+import { pasteObject, removeObject } from '@/utils/helper';
 
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
@@ -67,22 +68,13 @@ function renderSvgIcon(icon) {
 const handleCopyObject = (eventData, transform) => {
   const target = transform.target;
   const canvas = target.canvas;
-  target.clone((cloned) => {
-    cloned.left += 100;
-    cloned.top += 100;
-    canvas.add(cloned);
-    canvas.setActiveObject(cloned);
-    canvas.fire('fabritor:clone', { target: cloned });
-  });
-  return true;
+  pasteObject(target, canvas);
 }
 
 const handleDelObject = (eventData, transform) => {
   const target = transform.target;
   const canvas = target.canvas;
-  canvas.remove(target);
-  canvas.requestRenderAll();
-  canvas.fire('fabritor:del', { target: null });
+  removeObject(target, canvas);
   return true;
 }
 

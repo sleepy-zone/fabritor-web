@@ -6,6 +6,7 @@ import { initObjectPrototype } from './object';
 import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
+import initHotKey from './hotkey';
 
 const SKETCH_ID = 'fabritor-sketch';
 export default class Editor {
@@ -28,6 +29,7 @@ export default class Editor {
     this._initSketch();
     this._initEvents();
     this._initGuidelines();
+    initHotKey(this.canvas);
   }
 
   private _initObject () {
