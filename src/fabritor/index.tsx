@@ -8,6 +8,8 @@ import { setGlobalEditor } from '@/utils/global';
 import { GloablStateContext } from '@/context';
 
 import '../font.css';
+import { SKETCH_ID } from '@/utils/constants';
+import ContextMenu from './components/ContextMenu';
 
 const { Content } = Layout;
 
@@ -23,14 +25,27 @@ export default function Fabritor () {
   const editorRef = useRef<Editor | null>();
   const [activeObject, setActiveObject] = useState<fabric.Object | null>();
   const [isReady, setReady] = useState(false);
+  const contextMenuRef = useRef<any>(null);
 
   const clickHandler = (opt) => {
     const { target } = opt;
-    if (!target || target.id === 'fabritor-sketch') {
+    if (!target) {
       setActiveObject(null);
+      contextMenuRef.current?.hide();
       return;
     }
     setActiveObject(target);
+
+    if (opt.button === 3) {
+      if (target.id !== SKETCH_ID) {
+        editorRef.current?.canvas.setActiveObject(target);
+      }
+      setTimeout(() => {
+        contextMenuRef.current?.show();
+      }, 50);
+    } else {
+      contextMenuRef.current?.hide();
+    }
   }
 
   useEffect(() => {
@@ -73,9 +88,11 @@ export default function Fabritor () {
         <Layout>
           <Panel />
           <Content>
-            <div style={workspaceStyle} ref={workspaceEl}>
-              <canvas ref={canvasEl} />
-            </div>
+            <ContextMenu ref={contextMenuRef}>
+              <div style={workspaceStyle} ref={workspaceEl}>
+                <canvas ref={canvasEl} />
+              </div>
+            </ContextMenu>
           </Content>
           <Setter />
         </Layout>

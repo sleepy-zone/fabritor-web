@@ -3,14 +3,14 @@ export const LOG_PREFIX = `${APP_NAME}_log：`;
 
 export const OBJECT_DEFAULT_CONFIG = {
   // controls
-  borderColor: '#FF6666',
+  borderColor: '#FF2222',
   borderScaleFactor: 2,
-  cornerStrokeColor: '#FF6666',
-  cornerColor: '#FF6666',
+  cornerStrokeColor: '#2222',
+  cornerColor: '#FF2222',
   cornerSize: 12,
   cornerStyle: 'circle',
   transparentCorners: false,
-  padding: 4,
+  padding: 0,
   centeredScaling: false,
 }
 
@@ -28,10 +28,8 @@ export const TEXTBOX_DEFAULT_CONFIG = {
   splitByGrapheme: true
 }
 
-export const IMAGE_DEFAULT_CONFIG = {
-  padding: 0
-}
-
 export const FONT_PRESET_FAMILY_LIST = [
   { label: '阿里巴巴普惠体', value: 'AlibabaPuHuiTi' }
 ]
+
+export const SKETCH_ID = 'fabritor-sketch';

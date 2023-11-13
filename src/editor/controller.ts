@@ -2,7 +2,7 @@
 
 import { fabric } from 'fabric';
 import { ROTATE_SVG, ROTATE_CURSOR, COPY_SVG, DEL_SVG } from '@/assets/icon';
-import { pasteObject, removeObject } from '@/utils/helper';
+import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
@@ -18,9 +18,9 @@ const renderSizeIcon = (ctx, left, top, styleOverride, fabricObject, TBorLR) => 
   const ySize = TBorLR === 'TB' ? 6 : 20;;
   ctx.save();
   ctx.fillStyle = '#ffffff';
-  ctx.strokeStyle = '#dddddd';
+  ctx.strokeStyle = '#bbbbbb';
   ctx.lineWidth = 2;
-  ctx.shadowBlur = 6;
+  ctx.shadowBlur = 2;
   ctx.shadowColor = '#dddddd';
   ctx.translate(left, top);
   ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
@@ -43,9 +43,9 @@ const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) => {
   const size = 12;
   ctx.save();
   ctx.fillStyle = '#ffffff';
-  ctx.strokeStyle = '#dddddd';
+  ctx.strokeStyle = '#bbbbbb';
   ctx.lineWidth = 2;
-  ctx.shadowBlur = 6;
+  ctx.shadowBlur = 2;
   ctx.shadowColor = '#dddddd';
   ctx.beginPath();
   ctx.arc(left, top, size / 2, 0, 2 * Math.PI, false);
@@ -65,10 +65,11 @@ function renderSvgIcon(icon) {
   }
 }
 
-const handleCopyObject = (eventData, transform) => {
+const handleCopyObject = async (eventData, transform) => {
   const target = transform.target;
   const canvas = target.canvas;
-  pasteObject(target, canvas);
+  await copyObject(canvas, target);
+  pasteObject(canvas);
   return true;
 }
 
@@ -85,7 +86,6 @@ export const renderController = () => {
     x: 0,
     y: -0.5,
     offsetY: -1,
-    cursorStyleHandler: () => 'ns-resize',
     render: renderTBIcon
   };
   Object.keys(mtConfig).forEach(key => {
@@ -97,7 +97,6 @@ export const renderController = () => {
     x: 0,
     y: 0.5,
     offsetY: 1,
-    cursorStyleHandler: () => 'ns-resize',
     render: renderTBIcon
   };
   Object.keys(mbConfig).forEach(key => {
@@ -109,7 +108,6 @@ export const renderController = () => {
     x: -0.5,
     y: 0,
     offsetX: -1,
-    cursorStyleHandler: () => 'ew-resize',
     render: renderLRIcon
   };
   Object.keys(mlConfig).forEach(key => {
@@ -124,7 +122,6 @@ export const renderController = () => {
     x: 0.5,
     y: 0,
     offsetX: 1,
-    cursorStyleHandler: () => 'ew-resize',
     render: renderLRIcon
   };
   Object.keys(mrConfig).forEach(key => {
@@ -136,7 +133,6 @@ export const renderController = () => {
   const tlConfig = {
     x: -0.5,
     y: -0.5,
-    cursorStyleHandler: () => 'nwse-resize',
     render: renderVertexIcon
   }
   Object.keys(tlConfig).forEach(key => {
@@ -147,7 +143,6 @@ export const renderController = () => {
   const trConfig = {
     x: 0.5,
     y: -0.5,
-    cursorStyleHandler: () => 'nesw-resize',
     render: renderVertexIcon
   }
   Object.keys(trConfig).forEach(key => {
@@ -158,7 +153,6 @@ export const renderController = () => {
   const blConfig = {
     x: -0.5,
     y: 0.5,
-    cursorStyleHandler: () => 'nesw-resize',
     render: renderVertexIcon
   }
   Object.keys(blConfig).forEach(key => {
@@ -169,7 +163,6 @@ export const renderController = () => {
   const brConfig = {
     x: 0.5,
     y: 0.5,
-    cursorStyleHandler: () => 'nwse-resize',
     render: renderVertexIcon
   }
   Object.keys(brConfig).forEach(key => {

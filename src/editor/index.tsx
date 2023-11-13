@@ -7,8 +7,9 @@ import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
+import { SKETCH_ID } from '@/utils/constants';
+import { drawObjectBox } from './rect';
 
-const SKETCH_ID = 'fabritor-sketch';
 export default class Editor {
   public canvas: fabric.Canvas;
   private _options;
@@ -43,11 +44,10 @@ export default class Editor {
   private _initFabric () {
     const { canvasEl, workspaceEl } = this._options;
     this.canvas = new fabric.Canvas(canvasEl, {
-      selection: false,
+      selection: true,
       containerClass: 'fabritor-canvas',
       enableRetinaScaling: true,
       fireRightClick: true,
-      stopContextMenu: true,
       controlsAboveOverlay: true,
       width: workspaceEl.offsetWidth,
       height: workspaceEl.offsetHeight,
@@ -117,7 +117,7 @@ export default class Editor {
     );
 
     const center = this.canvas.getCenter();
-    this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.1);
+    this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.06);
 
     // sketch 移至画布中心
     const sketchCenter = this.sketch.getCenterPoint();
@@ -140,12 +140,22 @@ export default class Editor {
     const { sketchEventHandler } = this._options;
     this.canvas.on('mouse:down', sketchEventHandler?.clickHandler);
     this.canvas.on('mouse:over', (opt) => {
+      const { target } = opt;
       // @ts-ignore
-      const corner = opt.target?.__corner;
+      if (!target || target.id === SKETCH_ID) return;
+      drawObjectBox(target);
+      // @ts-ignore
+      const corner = target?.__corner;
       if (corner) {
         handleMouseOverCorner(corner, opt.target);
       }
     });
+    this.canvas.on('mouse:out', (opt) => {
+      const { target } = opt;
+      // @ts-ignore
+      if (!target || target.id === SKETCH_ID) return;
+      this.canvas.requestRenderAll();
+    }) 
     this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
     this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
     this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
