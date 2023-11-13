@@ -1,5 +1,5 @@
 import { Layout, Tabs, Flex } from 'antd';
-import { AlertOutlined, FileTextOutlined, PictureOutlined } from '@ant-design/icons';
+import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import TemplatePanel from './TemplatePanel';
@@ -29,6 +29,16 @@ const OBJECT_TYPES = [
     label: '图片',
     value: 'image',
     icon: <PictureOutlined style={iconStyle} />
+  },
+  {
+    label: '形状',
+    value: 'shape',
+    icon: <BorderOutlined style={iconStyle} />
+  },
+  {
+    label: '画笔',
+    value: 'paint',
+    icon: <BulbOutlined style={iconStyle} />
   }
 ]
 
