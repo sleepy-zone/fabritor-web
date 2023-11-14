@@ -1,13 +1,40 @@
 export default [
   {
     key: 'line-1',
-    svg: `data:image/svg+xml;charset=utf-8,${encodeURIComponent('<svg t="1699945288332" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4016" width="32" height="32"><path d="M960 470.857143H64c-5.028571 0-9.142857 4.114286-9.142857 9.142857v64c0 5.028571 4.114286 9.142857 9.142857 9.142857h896c5.028571 0 9.142857-4.114286 9.142857-9.142857v-64c0-5.028571-4.114286-9.142857-9.142857-9.142857z" p-id="4017" fill="#2c2c2c"></path></svg>')}`
+    svg: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44, 44, 44)" fill="rgb(44, 44, 44)" viewBox="0 -0.5 33 1"><line x1="0.5" x2="32.5" stroke-linecap="butt" fill="none"></line></svg>'
   },
   {
     key: 'dash-line-1',
-    svg: `data:image/svg+xml;charset=utf-8,${encodeURIComponent('<svg t="1699948036266" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5587" width="32" height="32"><path d="M0 465.73568h204.88192v92.20096H0v-92.20096z m409.77408 0H614.656v92.20096H409.77408v-92.20096z m409.76384 0h204.88192v92.20096H819.53792v-92.20096z m0 0" fill="#2c2c2c" p-id="5588"></path></svg>')}`,
+    svg: `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44, 44, 44)" fill="rgb(44, 44, 44)" viewBox="0 -0.5 33 1"><line x1="0.5" x2="32.5" stroke-dasharray="3,1" stroke-linecap="butt" fill="none"></line></svg>`,
     options: {
-      strokeDashArray: [10, 10]
+      strokeDashArray: [15, 5]
     }
-  }
+  },
+  {
+    key: 'dash-line-2',
+    svg: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44,44,44)" fill="rgb(44,44,44)" viewBox="0 -0.5 33 1"><line x1="0.5" x2="32.5" stroke-dasharray="1,1" stroke-linecap="butt" fill="none"></line></svg>',
+    options: {
+      strokeDashArray: [5, 5]
+    }
+  },
+  {
+    key: 'arrow-line-1',
+    svg: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44,44,44)" fill="rgb(44,44,44)" viewBox="0 -0.5 33 1"><line x1="0.5" x2="30" stroke-linecap="butt" fill="none"></line><g transform="translate(33)"><path fill="inherit" stroke-linecap="round" stroke-linejoin="round" d="M -2.5,-1.5,-0.5,0,-2.5,1.5 Z"></path></g></svg>'
+  },
+  // {
+  //   key: 'arrow-line-2',
+  //   svg: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44,44,44)" fill="rgb(44,44,44)" viewBox="0 -0.5 33 1"><line x1="0.5" x2="32.25" stroke-linecap="butt" fill="none"></line><g transform="translate(33)"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M -2.5,-1.5,-0.5,0,-2.5,1.5 "></path></g></svg>'
+  // },
+  // {
+  //   key: 'arrow-line-3',
+  //   svg: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44,44,44)" fill="rgb(44,44,44)" viewBox="0 -0.5 33 1"><line x1="0.75" x2="32.25" stroke-linecap="butt" fill="none"></line><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M 2.5,-1.5,0.5,0,2.5,1.5 "></path><g transform="translate(33)"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M -2.5,-1.5,-0.5,0,-2.5,1.5 "></path></g></svg>'
+  // },
+  // {
+  //   key: 'arrow-line-4',
+  //   svg: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44,44,44)" fill="rgb(44,44,44)" viewBox="0 -0.5 33 1"><line x1="4" x2="29" stroke-linecap="butt" fill="none"></line><rect fill="inherit" stroke-linejoin="round" width="3" height="3" x="0.5" y="-1.5"></rect><g transform="translate(33)"><rect fill="inherit" stroke-linejoin="round" width="3" height="3" x="-3.5" y="-1.5"></rect></g></svg>'
+  // },
+  // {
+  //   key: 'arrow-line-5',
+  //   svg: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44,44,44)" fill="rgb(44,44,44)" viewBox="0 -0.5 33 1"><line x1="4" x2="29" stroke-linecap="butt" fill="none"></line><circle fill="inherit" cx="2" r="1.5"></circle><g transform="translate(33)"><circle fill="inherit" cx="-2" r="1.5"></circle></g></svg>'
+  // }
 ]

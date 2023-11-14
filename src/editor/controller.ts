@@ -217,3 +217,17 @@ export const renderToolBarController = () => {
 export const handleMouseOverCorner = (corner, target) => {
   // console.log(corner, target);
 }
+
+export const renderLineController = () => {
+  fabric.Line.prototype.controls.ml.render = renderVertexIcon;
+  fabric.Line.prototype.controls.mr.render = renderVertexIcon;
+  // fabric.Line.prototype.controls.ml.cursorStyleHandler = () => 'crosshair';
+  // fabric.Line.prototype.controls.mr.cursorStyleHandler = () => 'crosshair';
+}
+
+export default function initControl () {
+  renderController();
+  renderRotateController();
+  renderToolBarController();
+  renderLineController();
+}

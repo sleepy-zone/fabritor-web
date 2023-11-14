@@ -1,7 +1,7 @@
 import { fabric } from 'fabric';
 import { message } from 'antd';
 import { calcCanvasZoomLevel } from '@/utils/helper';
-import { renderController, renderRotateController, renderToolBarController, handleMouseOverCorner } from './controller';
+import initControl, { handleMouseOverCorner } from './controller';
 import { initObjectPrototype } from './object';
 import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
@@ -9,6 +9,7 @@ import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
 import { SKETCH_ID } from '@/utils/constants';
 import { drawObjectBox } from './rect';
+import createArrowLineClass from './arrow';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -34,11 +35,9 @@ export default class Editor {
   }
 
   private _initObject () {
-    renderController();
-    renderRotateController();
-    renderToolBarController();
-
+    initControl();
     initObjectPrototype();
+    createArrowLineClass();
   }
 
   private _initFabric () {

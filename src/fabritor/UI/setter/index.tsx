@@ -27,6 +27,7 @@ export default function Setter (props) {
       case 'image':
         return <ImageSetter />;
       case 'line':
+      case 'arrow-line':
         return <LineSetter />;  
       default:
         return <SketchSetter />;

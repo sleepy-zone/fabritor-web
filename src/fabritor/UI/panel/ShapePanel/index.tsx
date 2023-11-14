@@ -9,14 +9,22 @@ export default function ShapePanel () {
   const { setActiveObject } = useContext(GloablStateContext);
 
   const addLine = (item) => {
-    const line = drawLine(item.options || {});
+    let line;
+    if (item.key.startsWith('arrow')) {
+      line = drawLine({
+        ...item.options,
+        type: 'arrow-line'
+      });
+    } else {
+      drawLine(item.options || {});
+    }
     setActiveObject(line);
   }
 
   return (
     <div className="fabritor-panel-text-wrapper">
       <Title>线条</Title>
-      <Flex justify="space-around">
+      <Flex gap={10} wrap="wrap">
         {
           LineTypeList.map(item => (
             <div
@@ -24,7 +32,7 @@ export default function ShapePanel () {
               onClick={() => { addLine(item) }}
               className="fabritor-panel-shape-item"
             >
-              < img src={item.svg} alt="" />
+              <img src={item.svg} alt="" style={{ width: 56, height: 56 }} />
             </div>
           ))
         }
