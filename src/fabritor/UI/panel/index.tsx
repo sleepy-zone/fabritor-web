@@ -3,6 +3,7 @@ import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbO
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import TemplatePanel from './TemplatePanel';
+import ShapePanel from './ShapePanel';
 
 import './index.scss';
 
@@ -52,6 +53,9 @@ export default function Panel () {
     }
     if (value === 'image') {
       return <ImagePanel />;
+    }
+    if (value === 'shape') {
+      return <ShapePanel />;
     }
     return value;
   }

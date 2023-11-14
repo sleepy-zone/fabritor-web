@@ -4,6 +4,7 @@ import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
 import { GloablStateContext } from '@/context';
+import { LineSetter } from './ShapeSetter';
 
 import './index.scss';
 
@@ -25,6 +26,8 @@ export default function Setter (props) {
         return <TextSetter />;
       case 'image':
         return <ImageSetter />;
+      case 'line':
+        return <LineSetter />;  
       default:
         return <SketchSetter />;
     }

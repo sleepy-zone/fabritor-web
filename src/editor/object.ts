@@ -17,4 +17,15 @@ export const initObjectPrototype = () => {
   Object.keys(asConfig).forEach(key => {
     fabric.ActiveSelection.prototype[key] = asConfig[key];
   });
+
+  const LineHideControls = ['mt', 'mb', 'bl', 'tl', 'tr', 'br'];
+  const LineConfig = {
+    borderColor: 'rgba(0,0,0,0)'
+  }
+  LineHideControls.forEach((c) => {
+    fabric.Line.prototype.setControlVisible(c, false);
+  });
+  Object.keys(LineConfig).forEach(key => {
+    fabric.Line.prototype[key] = LineConfig[key];
+  });
 }
