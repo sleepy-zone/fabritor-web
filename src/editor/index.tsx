@@ -28,8 +28,8 @@ export default class Editor {
   public init() {
     this._initObject();
     this._initFabric();
-    this._initSketch();
     this._initEvents();
+    this._initSketch();
     this._initGuidelines();
     initHotKey(this.canvas);
   }

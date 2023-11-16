@@ -192,7 +192,8 @@ export default function initAligningGuidelines(canvas) {
     });
   
     canvas.on('before:render', function() {
-      canvas.clearContext(canvas.contextTop);
+      const ct = canvas.contextTop;
+      if (ct) canvas.clearContext(canvas.contextTop);
     });
   
     canvas.on('after:render', function() {
