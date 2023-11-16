@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import { Flex } from 'antd';
 import TextSetter from './TextSetter';
-import ImageSetter from './ImageSetter';
+// import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
 import { GloablStateContext } from '@/context';
 import { LineSetter } from './ShapeSetter';
+import { SKETCH_ID } from '@/utils/constants';
 
 import './index.scss';
 
@@ -15,6 +16,7 @@ export default function Toolbar () {
 
   const renderSetter = () => {
     if (!isReady) return null;
+    if (!object || object.id === SKETCH_ID) return <SketchSetter />;
     switch (objectType) {
       case 'textbox':
         return <TextSetter />;
