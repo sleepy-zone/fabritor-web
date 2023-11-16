@@ -16,7 +16,7 @@ export default function ShapePanel () {
         type: 'arrow-line'
       });
     } else {
-      drawLine(item.options || {});
+      line = drawLine(item.options || {});
     }
     setActiveObject(line);
   }

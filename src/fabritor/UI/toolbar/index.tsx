@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Layout } from 'antd';
+import { Flex } from 'antd';
 import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
@@ -8,13 +8,7 @@ import { LineSetter } from './ShapeSetter';
 
 import './index.scss';
 
-const { Sider } = Layout;
-
-const siderStyle: React.CSSProperties = {
-  backgroundColor: '#fff'
-};
-
-export default function Setter (props) {
+export default function Toolbar () {
   const { object, isReady } = useContext(GloablStateContext);
   const objectType = object?.get?.('type') || '';
   console.log('objectType', objectType);
@@ -24,8 +18,8 @@ export default function Setter (props) {
     switch (objectType) {
       case 'textbox':
         return <TextSetter />;
-      case 'image':
-        return <ImageSetter />;
+      // case 'image':
+      //   return <ImageSetter />;
       case 'line':
       case 'arrow-line':
         return <LineSetter />;  
@@ -35,11 +29,11 @@ export default function Setter (props) {
   }
 
   return (
-    <Sider
-      style={siderStyle}
-      width={340}
+    <Flex
+      className="fabritor-toolbar"
+      align="center"
     >
       {renderSetter()}
-    </Sider>
+    </Flex>
   )
 }

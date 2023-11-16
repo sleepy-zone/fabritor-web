@@ -12,7 +12,7 @@ export default function ColorSetter (props) {
       value={value}
       onChange={handleChange}
       format="hex"
-      showText
+      disabledAlpha
       presets={[
         {
           label: 'Recommended',
@@ -24,6 +24,10 @@ export default function ColorSetter (props) {
         }
       ]}
       {...rest}
-    />
+    >
+      <div className="fabritor-toolbar-setter-trigger">
+        <div style={{ width: 24, height: 24, backgroundColor: value, border: '1px solid #ccc', borderRadius: 4 }}></div>
+      </div>
+    </ColorPicker>
   )
 }

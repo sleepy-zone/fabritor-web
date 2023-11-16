@@ -1,5 +1,8 @@
-import { Layout } from 'antd';
+import { useContext } from 'react';
+import { Flex, Layout } from 'antd';
 import Export from './Export';
+import BaseInfo from './BaseInfo';
+import { GloablStateContext } from '@/context';
 
 const { Header} = Layout;
 
@@ -13,10 +16,17 @@ const headerStyle: React.CSSProperties = {
 };
 
 export default function () {
+  const { isReady } = useContext(GloablStateContext);
   return (
     <Header style={headerStyle}>
       <div>fabritor, A creative editor based on fabricjs.</div>
-      <Export />
+      {
+        isReady ?
+        <Flex gap={40} align="center">
+          <BaseInfo />
+          <Export />
+        </Flex> : null
+      }
     </Header>
   )
 }

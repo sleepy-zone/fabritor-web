@@ -2,20 +2,29 @@ import { useEffect, useRef, useState } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from './UI/header';
 import Panel from './UI/panel';
-import Setter from './UI/setter';
+import Toolbar from './UI/toolbar';
 import Editor from '@/editor';
 import { setGlobalEditor } from '@/utils/global';
 import { GloablStateContext } from '@/context';
+import ContextMenu from './components/ContextMenu';
+import { SKETCH_ID } from '@/utils/constants';
 
 import '../font.css';
-import { SKETCH_ID } from '@/utils/constants';
-import ContextMenu from './components/ContextMenu';
+
 
 const { Content } = Layout;
 
-const workspaceStyle = {
+const workspaceStyle: React.CSSProperties = {
   background: '#ddd',
   width: '100%',
+  height: '100%',
+  overflow: 'hidden',
+  flex: 1
+}
+
+const contentStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
   height: '100%'
 }
 
@@ -23,20 +32,18 @@ export default function Fabritor () {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const workspaceEl = useRef<HTMLDivElement>(null);
   const editorRef = useRef<Editor | null>();
-  const [activeObject, setActiveObject] = useState<fabric.Object | null>();
+  const [activeObject, setActiveObject] = useState<fabric.Object | null>(null);
   const [isReady, setReady] = useState(false);
   const contextMenuRef = useRef<any>(null);
 
   const clickHandler = (opt) => {
     const { target } = opt;
     if (!target) {
-      setActiveObject(null);
       contextMenuRef.current?.hide();
       return;
     }
-    setActiveObject(target);
 
-    if (opt.button === 3) {
+    if (opt.button === 3) { // 右键
       if (target.id !== SKETCH_ID) {
         editorRef.current?.canvas.setActiveObject(target);
       }
@@ -48,6 +55,15 @@ export default function Fabritor () {
     }
   }
 
+  const selectionHandler = (opt) => {
+    const { selected } = opt;
+    if (selected && selected.length === 1) {
+      setActiveObject(selected[0]);
+    } else {
+      setActiveObject(editorRef.current?.sketch);
+    }
+  }
+
   useEffect(() => {
     setTimeout(() => {
       const editor = new Editor({
@@ -56,7 +72,8 @@ export default function Fabritor () {
         sketchEventHandler: {
           clickHandler,
           cloneHandler: (opt) => { setActiveObject(opt.target) },
-          delHandler: () => { setActiveObject(null) }
+          delHandler: () => { setActiveObject(null) },
+          selectionHandler
         }
       });
   
@@ -87,14 +104,14 @@ export default function Fabritor () {
         <Header />
         <Layout>
           <Panel />
-          <Content>
+          <Content style={contentStyle}>
+            <Toolbar />
             <ContextMenu ref={contextMenuRef}>
-              <div style={workspaceStyle} ref={workspaceEl}>
+              <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
                 <canvas ref={canvasEl} />
               </div>
             </ContextMenu>
           </Content>
-          <Setter />
         </Layout>
       </Layout>
     </GloablStateContext.Provider>

@@ -4,7 +4,7 @@ import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';
 import AlignSetter from './AlignSetter';
-import ColorSetter from './ColorSetter';
+import ColorSetter from '@/fabritor/components/ColorSetter';
 import { loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 
@@ -60,52 +60,41 @@ export default function TextSetter () {
   }, [object]);
 
   return (
-    <div className="fabritor-setter-form">
-      <Form
-        name="fabritor-text-setter-form"
-        form={form}
-        onValuesChange={handleValuesChange}
+    <Form
+      form={form}
+      onValuesChange={handleValuesChange}
+      layout="inline"
+    >
+      <FormItem name="fontFamily">
+        <Select
+          options={[{ label: '系统默认', value: 'Times New Roman' }, ...FONT_PRESET_FAMILY_LIST]}
+        />
+      </FormItem>
+      <FormItem
+        label="字号"
+        name="fontSize"
       >
-        <FormItem
-          label="字体"
-          name="fontFamily"
-        >
-          <Select
-            options={[{ label: '系统默认', value: 'Times New Roman' }, ...FONT_PRESET_FAMILY_LIST]}
-          />
-        </FormItem>
-        <FormItem
-          label="字号"
-          name="fontSize"
-        >
-          <InputNumber />
-        </FormItem>
-        <FormItem
-          label="行高"
-          name="lineHeight"
-        >
-          <InputNumber precision={2} step={0.01}/>
-        </FormItem>
-        <FormItem
-          label="颜色"
-          name="fill"
-        >
-          <ColorSetter />
-        </FormItem>
-        <FormItem
-          label="对齐"
-          name="textAlign"
-        >
-          <AlignSetter />
-        </FormItem>
-        <FormItem
-          label="样式"
-          name="fontStyles"
-        >
-          <FontStyleSetter />
-        </FormItem>
-        {/*特效*/}
-      </Form>
-    </div>
+        <InputNumber />
+      </FormItem>
+      <FormItem
+        label="行高"
+        name="lineHeight"
+      >
+        <InputNumber precision={2} step={0.01}/>
+      </FormItem>
+      <FormItem
+        label="颜色"
+        name="fill"
+      >
+        <ColorSetter />
+      </FormItem>
+      <FormItem name="textAlign">
+        <AlignSetter />
+      </FormItem>
+      <FormItem name="fontStyles">
+        <FontStyleSetter />
+      </FormItem>
+      {/*特效*/}
+    </Form>
   )
 }

@@ -10,3 +10,13 @@ html, body {
 .fabritor-layout  .ant-tabs-left >.ant-tabs-nav .ant-tabs-tab {
   padding: 8px 18px;
 }
+
+.fabritor-toolbar-setter-trigger {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: rgba(64,87,109,.07);
+  }
+}

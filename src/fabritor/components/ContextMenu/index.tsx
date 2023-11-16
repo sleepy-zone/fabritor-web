@@ -11,7 +11,15 @@ const ContextMenu = (props, ref) => {
   const { object } = useContext(GloablStateContext);
 
   const renderMenuItems = () => {
-    if (!object) return;
+    if (!object || object.id === SKETCH_ID) {
+      return [
+        {
+          label: '粘贴',
+          key: 'paste',
+        }
+      ]
+    }
+
     const menuItems: MenuProps['items']  = [
       {
         label: '复制',
@@ -30,14 +38,6 @@ const ContextMenu = (props, ref) => {
         key: 'del',
       },
     ]
-    if (object.id === SKETCH_ID) {
-      return [
-        {
-          label: '粘贴',
-          key: 'paste',
-        }
-      ]
-    }
 
     if (object.type === 'activeSelection') {
       menuItems.push({
@@ -129,7 +129,11 @@ const ContextMenu = (props, ref) => {
   }));
 
   return (
-    <Dropdown menu={{ items: renderMenuItems(), onClick: handleClick }} trigger={['contextMenu']} open={open}>
+    <Dropdown
+      menu={{ items: renderMenuItems(), onClick: handleClick }} 
+      trigger={['contextMenu']}
+      open={open}
+    >
       {props.children}
     </Dropdown>
   )
