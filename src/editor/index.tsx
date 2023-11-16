@@ -154,10 +154,13 @@ export default class Editor {
       // @ts-ignore
       if (!target || target.id === SKETCH_ID) return;
       this.canvas.requestRenderAll();
-    }) 
+    });
+    this.canvas.on('mouse:up', sketchEventHandler?.mouseupHandler);
     this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
     this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
     this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
+
+    this.canvas.on('object:rotating', sketchEventHandler?.rotateHandler);
 
     this.canvas.on('selection:created', (opt) => { sketchEventHandler?.selectionHandler(opt); });
     this.canvas.on('selection:updated', (opt) => { sketchEventHandler?.selectionHandler(opt); });

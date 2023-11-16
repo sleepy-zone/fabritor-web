@@ -1,5 +1,5 @@
 import { Layout, Tabs, Flex } from 'antd';
-import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined } from '@ant-design/icons';
+import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import TemplatePanel from './TemplatePanel';
@@ -41,8 +41,15 @@ const OBJECT_TYPES = [
     label: '画笔',
     value: 'paint',
     icon: <BulbOutlined style={iconStyle} />
+  },
+  {
+    label: '应用',
+    value: 'app',
+    icon: <AppstoreOutlined style={iconStyle} />
   }
-]
+];
+
+// const PRESET_APPS = [];
 
 export default function Panel () {
   const renderPanel = (value) => {
@@ -58,7 +65,7 @@ export default function Panel () {
     if (value === 'shape') {
       return <ShapePanel />;
     }
-    return value;
+    return null;
   }
 
   const renderLabel = (item) => {

@@ -32,6 +32,7 @@ export default function Toolbar () {
     <Flex
       className="fabritor-toolbar"
       align="center"
+      wrap="nowrap"
     >
       {renderSetter()}
     </Flex>

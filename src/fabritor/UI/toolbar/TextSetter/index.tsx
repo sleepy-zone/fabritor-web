@@ -64,6 +64,7 @@ export default function TextSetter () {
       form={form}
       onValuesChange={handleValuesChange}
       layout="inline"
+      className="fabritor-toolbar-form-text"
     >
       <FormItem name="fontFamily">
         <Select

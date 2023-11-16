@@ -8,6 +8,7 @@ import { setGlobalEditor } from '@/utils/global';
 import { GloablStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
+import ToolTip from './components/ToolTip';
 
 import '../font.css';
 
@@ -35,6 +36,7 @@ export default function Fabritor () {
   const [activeObject, setActiveObject] = useState<fabric.Object | null>(null);
   const [isReady, setReady] = useState(false);
   const contextMenuRef = useRef<any>(null);
+  const rotateAngleTipRef = useRef<any>(null);
 
   const clickHandler = (opt) => {
     const { target } = opt;
@@ -60,8 +62,21 @@ export default function Fabritor () {
     if (selected && selected.length === 1) {
       setActiveObject(selected[0]);
     } else {
+      // @ts-ignore
       setActiveObject(editorRef.current?.sketch);
     }
+  }
+
+  const rotateHandler = (opt) => {
+    const { target, e } = opt;
+    rotateAngleTipRef.current.show({
+      left: e.pageX + 16,
+      top: e.pageY
+    }, `${Math.round(target.angle)}°`);
+  }
+
+  const mouseupHandler = () => {
+    rotateAngleTipRef.current.close();
   }
 
   useEffect(() => {
@@ -71,9 +86,11 @@ export default function Fabritor () {
         workspaceEl: workspaceEl.current,
         sketchEventHandler: {
           clickHandler,
+          mouseupHandler,
           cloneHandler: (opt) => { setActiveObject(opt.target) },
           delHandler: () => { setActiveObject(null) },
-          selectionHandler
+          selectionHandler,
+          rotateHandler
         }
       });
   
@@ -101,6 +118,7 @@ export default function Fabritor () {
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">
         <Spin spinning={!isReady} fullscreen />
+        <ToolTip ref={rotateAngleTipRef} />
         <Header />
         <Layout>
           <Panel />
