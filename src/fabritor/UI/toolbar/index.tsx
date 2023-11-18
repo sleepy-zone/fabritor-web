@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Flex } from 'antd';
 import TextSetter from './TextSetter';
-// import ImageSetter from './ImageSetter';
+import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
 import { GloablStateContext } from '@/context';
 import { LineSetter } from './ShapeSetter';
@@ -20,8 +20,8 @@ export default function Toolbar () {
     switch (objectType) {
       case 'textbox':
         return <TextSetter />;
-      // case 'image':
-      //   return <ImageSetter />;
+      case 'image':
+        return <ImageSetter />;
       case 'line':
       case 'arrow-line':
         return <LineSetter />;  

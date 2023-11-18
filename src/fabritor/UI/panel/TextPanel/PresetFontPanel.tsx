@@ -21,7 +21,7 @@ const PRESET_FONT_LIST = [
       fontWeight: 'bold',
       fontSize: 75,
       text: '添加副标题',
-      top: 200
+      top: 400
     }
   },
   {

@@ -1,6 +1,7 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
+
 export default function createRect (options) {
   const editor = getGlobalEditor();
   const { canvas } = editor;
@@ -13,6 +14,7 @@ export default function createRect (options) {
   canvas.requestRenderAll();
   return rect;
 }
+
 export const drawObjectBox = (target) => {
   const editor = getGlobalEditor();
   const { canvas } = editor;
