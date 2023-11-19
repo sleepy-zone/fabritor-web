@@ -20,12 +20,15 @@ const roundedCorners = (fabricObject, cornerRadius) => new fabric.Rect({
   top: -fabricObject.height / 2
 });
 
-const getObjectBorderType = (stroke, strokeDashArray) => {
+const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
   if (!stroke) {
     return 'none';
   }
   if (strokeDashArray?.length) {
-    return strokeDashArray.join(',');
+    let [d1, d2] = strokeDashArray;
+    d1 = d1 / (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
+    d2 = d2 / (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
+    return [d1, d2].join(',');
   }
   return 'line';
 }
@@ -37,7 +40,14 @@ export default function ImageSetter () {
   const handleImageReplace = (rp) => {
     const editor = getGlobalEditor();
     if (rp.img) {
-      object.setElement(rp.img);
+      object.set({
+        fill: new fabric.Pattern({
+          source: rp.img,
+          repeat: 'no-repeat'
+        }),
+        width: rp.img.width,
+        height: rp.img.height
+      });
       editor.canvas.requestRenderAll();
       object.setCoords();
     }
@@ -51,9 +61,6 @@ export default function ImageSetter () {
     } else {
       object.set('stroke', stroke);
       object.set('strokeWidth', strokeWidth);
-
-      // 边框位置 位于图片的内部，现在在边上一半
-      // 
   
       if (type !== 'line') {
         const dashArray = type.split(',');
@@ -64,6 +71,12 @@ export default function ImageSetter () {
         object.set('strokeDashArray', null);
       }
     }
+
+    if (borderRadius > 0) {
+      object.set('rx', borderRadius);
+      object.set('ry', borderRadius);
+    }
+    
     editor.canvas.requestRenderAll();
   }
 
@@ -77,7 +90,6 @@ export default function ImageSetter () {
       editor.canvas.requestRenderAll();
     }
     if (values.border) {
-      // object.set("clipPath", roundedCorners(object, 60))
       handleBorder(values.border);
     }
   }
@@ -86,7 +98,7 @@ export default function ImageSetter () {
     if (object) {
       form.setFieldsValue({
         border: {
-          type: getObjectBorderType(object.stroke, object.strokeDashArray),
+          type: getObjectBorderType(object.stroke, object.strokeWidth, object.strokeDashArray),
           stroke: object.stroke || '#000000',
           strokeWidth: object.strokeWidth || 1,
           borderRadius: 0

@@ -2,12 +2,15 @@ import { useContext } from 'react';
 import { GloablStateContext } from '@/context';
 import LocalImagePanel from './LocalImagePanel';
 import { createImage, createSvg } from '@/editor/image';
+import { createImageRect } from '@/editor/rect';
 
 export default function ImagePanel () {
   const { setActiveObject } = useContext(GloablStateContext);
 
   const addImage = async (options) => {
-    const img = await createImage(options);
+    const img = await createImageRect({
+      image: options.img
+    });
     setActiveObject(img);
   }
 

@@ -67,7 +67,7 @@ export default function BorderSetter (props) {
           <Space direction="vertical">
             <span>粗细</span>
             <Slider
-              min={0}
+              min={1}
               max={100}
               value={value?.strokeWidth}
               onChange={(v) => { handleChange(v, 'strokeWidth') }}

@@ -20,8 +20,10 @@ export default function Toolbar () {
     switch (objectType) {
       case 'textbox':
         return <TextSetter />;
-      case 'image':
-        return <ImageSetter />;
+      case 'rect':
+        if (object.sub_type === 'image') {
+          return <ImageSetter />;
+        }
       case 'line':
       case 'arrow-line':
         return <LineSetter />;  
