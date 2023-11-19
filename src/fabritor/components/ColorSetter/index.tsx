@@ -1,10 +1,21 @@
 import { ColorPicker } from 'antd';
+import { FontColorsOutlined } from '@ant-design/icons';
 
 export default function ColorSetter (props) {
-  const { value, onChange, ...rest } = props;
+  const { value, onChange, trigger, type, ...rest } = props;
 
   const handleChange = (v) => {
     onChange && onChange(v.toHexString())
+  }
+
+  const renderTrigger = () => {
+    if (trigger) return trigger;
+    if (type === 'fontColor') {
+      return <FontColorsOutlined style={{ fontSize: 20, color: value }} />
+    }
+    return (
+      <div style={{ width: 24, height: 24, backgroundColor: value, border: '1px solid #ccc', borderRadius: 4 }} />
+    )
   }
 
   return (
@@ -26,7 +37,7 @@ export default function ColorSetter (props) {
       {...rest}
     >
       <div className="fabritor-toolbar-setter-trigger">
-        <div style={{ width: 24, height: 24, backgroundColor: value, border: '1px solid #ccc', borderRadius: 4 }}></div>
+        {renderTrigger()}
       </div>
     </ColorPicker>
   )

@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { Form, InputNumber, Select } from 'antd';
+import { FontColorsOutlined } from '@ant-design/icons';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';
@@ -7,6 +8,7 @@ import AlignSetter from './AlignSetter';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import { loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
+import SpaceSetter from './SpaceSetter';
 
 const { Item: FormItem } = Form;
 
@@ -19,6 +21,11 @@ export default function TextSetter () {
     object.set('fontStyle', styles?.italic ? 'italic' : 'normal');
     object.set('underline', !!styles.underline);
     object.set('linethrough', !!styles.linethrough);
+  }
+
+  const handleFontSpace = (space) => {
+    object.set('lineHeight', space.lineHeight);
+    object.set('charSpacing', space.charSpacing);
   }
 
   const handleValuesChange = async (values) => {
@@ -34,6 +41,8 @@ export default function TextSetter () {
         } finally {
           object.set(key, values[key]);
         }
+      } else if (key === 'space') {
+        handleFontSpace(values[key]);
       } else {
         object.set(key, values[key]);
       }
@@ -49,7 +58,10 @@ export default function TextSetter () {
       fontSize: object.fontSize,
       fill: object.fill,
       textAlign: object.textAlign,
-      lineHeight: object.lineHeight,
+      space: {
+        lineHeight: object.lineHeight,
+        charSpacing: object.charSpacing
+      },
       fontStyles: {
         bold: object.fontWeight === 'bold',
         italic: object.fontStyle === 'italic',
@@ -69,25 +81,23 @@ export default function TextSetter () {
       <FormItem name="fontFamily">
         <Select
           options={[{ label: '系统默认', value: 'Times New Roman' }, ...FONT_PRESET_FAMILY_LIST]}
+          style={{ width: 140 }}
         />
       </FormItem>
       <FormItem
-        label="字号"
         name="fontSize"
       >
-        <InputNumber />
+        <InputNumber style={{ width: 66 }} min={1} />
       </FormItem>
       <FormItem
-        label="行高"
-        name="lineHeight"
+        name="space"
       >
-        <InputNumber precision={2} step={0.01}/>
+        <SpaceSetter />
       </FormItem>
       <FormItem
-        label="颜色"
         name="fill"
       >
-        <ColorSetter />
+        <ColorSetter type="fontColor" />
       </FormItem>
       <FormItem name="textAlign">
         <AlignSetter />
