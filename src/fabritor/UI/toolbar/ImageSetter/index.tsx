@@ -72,11 +72,9 @@ export default function ImageSetter () {
       }
     }
 
-    if (borderRadius > 0) {
-      object.set('rx', borderRadius);
-      object.set('ry', borderRadius);
-    }
-    
+    object.set('rx', borderRadius);
+    object.set('ry', borderRadius);
+
     editor.canvas.requestRenderAll();
   }
 
@@ -101,7 +99,7 @@ export default function ImageSetter () {
           type: getObjectBorderType(object.stroke, object.strokeWidth, object.strokeDashArray),
           stroke: object.stroke || '#000000',
           strokeWidth: object.strokeWidth || 1,
-          borderRadius: 0
+          borderRadius: object.rx || object.ry
         }
       });
     }

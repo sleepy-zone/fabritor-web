@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
 
 export default function LocalImagePanel (props) {
-  const { addImage, addSvg } = props;
+  const { addImage } = props;
   const localFileSelectorRef = useRef<any>();
 
   const handleClick = () => {
@@ -12,8 +12,8 @@ export default function LocalImagePanel (props) {
 
   const handleFileChange = (file) => {
     if (file.type === 'image/svg+xml') {
-      const url = URL.createObjectURL(file);
-      addSvg?.({ url });
+      // const url = URL.createObjectURL(file);
+      // addSvg?.({ url });
       return;
     }
     
@@ -36,7 +36,7 @@ export default function LocalImagePanel (props) {
         添加本地图片
       </Button>
 
-      <LocalFileSelector ref={localFileSelectorRef} onChange={handleFileChange} />
+      <LocalFileSelector accept="image/jpg,image/jpeg,image/png" ref={localFileSelectorRef} onChange={handleFileChange} />
     </div>
   );
 }

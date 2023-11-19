@@ -48,6 +48,7 @@ export const createImageRect = async (options) => {
 
   canvas.add(rect);
   canvas.requestRenderAll();
+  canvas.setActiveObject(rect);
   return rect;
 }
 

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { GloablStateContext } from '@/context';
 import LocalImagePanel from './LocalImagePanel';
-import { createImage, createSvg } from '@/editor/image';
+import { createSvg } from '@/editor/image';
 import { createImageRect } from '@/editor/rect';
 
 export default function ImagePanel () {
