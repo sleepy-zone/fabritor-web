@@ -11,7 +11,7 @@ export default function ColorSetter (props) {
   const renderTrigger = () => {
     if (trigger) return trigger;
     if (type === 'fontColor') {
-      return <FontColorsOutlined style={{ fontSize: 20, color: value }} />
+      return <FontColorsOutlined style={{ fontSize: 22, color: value }} />;
     }
     return (
       <div style={{ width: 24, height: 24, backgroundColor: value, border: '1px solid #ccc', borderRadius: 4 }} />

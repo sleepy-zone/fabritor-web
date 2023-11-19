@@ -40,7 +40,7 @@ export default function SpaceSetter (props) {
       trigger="click"
     >
       <span className="fabritor-toolbar-setter-trigger">
-        <LineHeightOutlined style={{ fontSize: 18 }} />
+        <LineHeightOutlined style={{ fontSize: 22 }} />
       </span>
     </Popover>
   )

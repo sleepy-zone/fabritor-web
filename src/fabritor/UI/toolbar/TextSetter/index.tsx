@@ -1,6 +1,5 @@
 import { useContext, useEffect } from 'react';
 import { Form, InputNumber, Select } from 'antd';
-import { FontColorsOutlined } from '@ant-design/icons';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';
@@ -9,6 +8,7 @@ import ColorSetter from '@/fabritor/components/ColorSetter';
 import { loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import SpaceSetter from './SpaceSetter';
+import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 
 const { Item: FormItem } = Form;
 
@@ -90,14 +90,14 @@ export default function TextSetter () {
         <InputNumber style={{ width: 66 }} min={1} />
       </FormItem>
       <FormItem
-        name="space"
-      >
-        <SpaceSetter />
-      </FormItem>
-      <FormItem
         name="fill"
       >
         <ColorSetter type="fontColor" />
+      </FormItem>
+      <FormItem
+        name="space"
+      >
+        <SpaceSetter />
       </FormItem>
       <FormItem name="textAlign">
         <AlignSetter />
@@ -105,7 +105,6 @@ export default function TextSetter () {
       <FormItem name="fontStyles">
         <FontStyleSetter />
       </FormItem>
-      {/*特效*/}
     </Form>
   )
 }
