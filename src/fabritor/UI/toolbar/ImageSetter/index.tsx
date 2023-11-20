@@ -1,24 +1,15 @@
 import { fabric } from 'fabric';
 import { useContext, useEffect } from 'react';
-import { Form, InputNumber, Select } from 'antd';
+import { Form } from 'antd';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 import ReplaceSetter from './ReplaceSetter';
 import { GloablStateContext } from '@/context';
 import FlipSetter from './FlipSetter';
 import { getGlobalEditor } from '@/utils/global';
-import ColorSetter from '@/fabritor/components/ColorSetter';
 import BorderSetter from './BorderSetter';
+import OpacitySetter from '@/fabritor/components/OpacitySetter';
 
 const { Item: FormItem } = Form;
-
-const roundedCorners = (fabricObject, cornerRadius) => new fabric.Rect({
-  width: fabricObject.width,
-  height: fabricObject.height,
-  rx: cornerRadius / fabricObject.scaleX,
-  ry: cornerRadius / fabricObject.scaleY,
-  left: -fabricObject.width / 2,
-  top: -fabricObject.height / 2
-});
 
 const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
   if (!stroke) {
@@ -90,6 +81,10 @@ export default function ImageSetter () {
     if (values.border) {
       handleBorder(values.border);
     }
+    if (values.opacity != null) {
+      object.set('opacity', values.opacity);
+      editor.canvas.requestRenderAll();
+    }
   }
 
   useEffect(() => {
@@ -100,7 +95,8 @@ export default function ImageSetter () {
           stroke: object.stroke || '#000000',
           strokeWidth: object.strokeWidth || 1,
           borderRadius: object.rx || object.ry
-        }
+        },
+        opacity: object.opacity
       });
     }
   }, [object]);
@@ -123,7 +119,10 @@ export default function ImageSetter () {
       <FormItem name="border">
         <BorderSetter />
       </FormItem>
-      {/* 边框、边框颜色、透明度、锁定、特效 */}
+      <ToolbarDivider />
+      <FormItem name="opacity">
+        <OpacitySetter />
+      </FormItem>
     </Form>
   )
 }

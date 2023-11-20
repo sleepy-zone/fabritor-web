@@ -77,7 +77,7 @@ export default function BorderSetter (props) {
             <span>圆角</span>
             <Slider
               min={0}
-              max={100}
+              max={200}
               value={value?.borderRadius}
               onChange={(v) => { handleChange(v, 'borderRadius') }}
             />
