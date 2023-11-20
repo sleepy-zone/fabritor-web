@@ -89,6 +89,7 @@ export const groupSelection = (canvas) => {
   }
   target.toGroup();
   canvas.requestRenderAll();
+  canvas.fire('fabritor:group');
 }
 
 export const ungroup = (canvas) => {
@@ -98,6 +99,7 @@ export const ungroup = (canvas) => {
   }
   target.toActiveSelection();
   canvas.requestRenderAll();
+  canvas.fire('fabritor:ungroup');
 }
 
 export const changeLayerLevel = (level, editor) => {

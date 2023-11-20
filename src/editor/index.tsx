@@ -156,8 +156,6 @@ export default class Editor {
       this.canvas.requestRenderAll();
     });
     this.canvas.on('mouse:up', sketchEventHandler?.mouseupHandler);
-    this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
-    this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
     this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
 
     this.canvas.on('object:rotating', sketchEventHandler?.rotateHandler);
@@ -165,6 +163,11 @@ export default class Editor {
     this.canvas.on('selection:created', (opt) => { sketchEventHandler?.selectionHandler(opt); });
     this.canvas.on('selection:updated', (opt) => { sketchEventHandler?.selectionHandler(opt); });
     this.canvas.on('selection:cleared', (opt) => { sketchEventHandler?.selectionHandler(opt); });
+
+    this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
+    this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
+    this.canvas.on('fabritor:group', sketchEventHandler?.groupHandler);
+    this.canvas.on('fabritor:ungroup', sketchEventHandler?.groupHandler);
   }
 
   private _scrollSketch (opt) {

@@ -1,3 +1,4 @@
+import { fabric } from 'fabric';
 import { useEffect, useRef, useState } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from './UI/header';
@@ -33,7 +34,7 @@ export default function Fabritor () {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const workspaceEl = useRef<HTMLDivElement>(null);
   const editorRef = useRef<Editor | null>();
-  const [activeObject, setActiveObject] = useState<fabric.Object | null>(null);
+  const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
   const contextMenuRef = useRef<any>(null);
   const rotateAngleTipRef = useRef<any>(null);
@@ -59,8 +60,9 @@ export default function Fabritor () {
 
   const selectionHandler = (opt) => {
     const { selected } = opt;
-    if (selected && selected.length === 1) {
-      setActiveObject(selected[0]);
+    if (selected && selected.length) {
+      const selection = editorRef.current?.canvas.getActiveObject();
+      setActiveObject(selection);
     } else {
       // @ts-ignore
       setActiveObject(editorRef.current?.sketch);
@@ -90,7 +92,8 @@ export default function Fabritor () {
           cloneHandler: (opt) => { setActiveObject(opt.target) },
           delHandler: () => { setActiveObject(null) },
           selectionHandler,
-          rotateHandler
+          rotateHandler,
+          groupHandler: () => { setActiveObject(editorRef.current?.canvas.getActiveObject()) }
         }
       });
   
