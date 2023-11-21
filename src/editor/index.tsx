@@ -256,6 +256,7 @@ export default class Editor {
     }, (o, obj) => {
       if (obj.id === SKETCH_ID) {
         this.sketch = obj;
+        this.setSketchSize({ width: obj.width, height: obj.height });
       }
     });
   }
