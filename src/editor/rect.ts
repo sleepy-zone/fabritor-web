@@ -3,14 +3,32 @@ import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 
 export default function createRect (options) {
+  const { width = 200, height = 200, left, top, ...rest } = options;
   const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { canvas, sketch } = editor;
   const rect = new fabric.Rect({
     id: uuid(),
-    ...options,
+    width,
+    height,
+    ...rest,
   });
+
+  if (left == null) {
+    // @ts-ignore
+    rect.set('left', sketch.width / 2 - rect.width / 2);
+  } else {
+    rect.set('left', left);
+  }
+  if (top == null) {
+    // @ts-ignore
+    rect.set('top', sketch.height / 2 - rect.height / 2);
+  } else {
+    rect.set('top', top);
+  }
+
   canvas.add(rect);
   canvas.requestRenderAll();
+  canvas.setActiveObject(rect);
   return rect;
 }
 

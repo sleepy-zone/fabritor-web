@@ -4,7 +4,7 @@ import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
 import { GloablStateContext } from '@/context';
-import { LineSetter } from './ShapeSetter';
+import { LineSetter, ShapeSetter } from './ShapeSetter';
 import CommonSetter from './CommonSetter';
 import { SKETCH_ID } from '@/utils/constants';
 
@@ -25,6 +25,7 @@ export default function Toolbar () {
         if (object.sub_type === 'image') {
           return <ImageSetter />;
         }
+        return <ShapeSetter />;
       case 'line':
       case 'arrow-line':
         return <LineSetter />;  

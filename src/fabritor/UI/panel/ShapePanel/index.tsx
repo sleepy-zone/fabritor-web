@@ -2,8 +2,10 @@ import { useContext } from 'react';
 import { Flex } from 'antd';
 import Title from '@/fabritor/components/Title';
 import LineTypeList from './line-type-list';
+import ShapeTypeList from './shape-type-list';
 import { drawLine } from '@/editor/line';
 import { GloablStateContext } from '@/context';
+import createRect from '@/editor/rect';
 
 export default function ShapePanel () {
   const { setActiveObject } = useContext(GloablStateContext);
@@ -19,6 +21,21 @@ export default function ShapePanel () {
       line = drawLine(item.options || {});
     }
     setActiveObject(line);
+  }
+
+  const addShape = (item) => {
+    let shape;
+    switch(item.key) {
+      case 'rect':
+        shape = createRect({});
+        break;
+      case 'rect-r':
+        shape = createRect({ rx: 20, ry: 20 });
+        break;
+      default:
+        break;
+    }
+    setActiveObject(shape);
   }
 
   return (
@@ -38,6 +55,19 @@ export default function ShapePanel () {
         }
       </Flex>
       <Title>形状</Title>
+      <Flex gap={10} wrap="wrap">
+        {
+          ShapeTypeList.map(item => (
+            <div
+              key={item.key}
+              onClick={() => { addShape(item) }}
+              className="fabritor-panel-shape-item"
+            >
+              {item.elem}
+            </div>
+          ))
+        }
+      </Flex>
     </div>
   )
 }
