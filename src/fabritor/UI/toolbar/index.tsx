@@ -5,6 +5,7 @@ import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
 import { GloablStateContext } from '@/context';
 import { LineSetter } from './ShapeSetter';
+import CommonSetter from './CommonSetter';
 import { SKETCH_ID } from '@/utils/constants';
 
 import './index.scss';
@@ -39,6 +40,7 @@ export default function Toolbar () {
       wrap="nowrap"
     >
       {renderSetter()}
+      <CommonSetter />
     </Flex>
   )
 }
