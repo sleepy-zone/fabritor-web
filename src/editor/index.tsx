@@ -17,11 +17,18 @@ export default class Editor {
   private _template;
   public sketch: fabric.Rect;
   private _resizeObserver: ResizeObserver | null;
+  private _pan;
 
   constructor (options) {
     const { template, ...rest } = options;
     this._options = rest;
     this._template = template;
+    this._pan = {
+      enable: false,
+      isDragging: false,
+      lastPosX: 0,
+      lastPosY: 0
+    }
     this.init();
   }
 
@@ -137,11 +144,38 @@ export default class Editor {
 
   private _initEvents () {
     const { sketchEventHandler } = this._options;
-    this.canvas.on('mouse:down', sketchEventHandler?.clickHandler);
+    this.canvas.on('mouse:down', (opt) => {
+      if (!this._pan.enable) {
+        sketchEventHandler?.clickHandler?.(opt);
+      }
+      const evt = opt.e;
+      if (this._pan.enable) {
+        this._pan = {
+          enable: true,
+          isDragging: true,
+          lastPosX: evt.clientX,
+          lastPosY: evt.clientY
+        }
+      }
+    });
+    this.canvas.on('mouse:move', (opt) => {
+      if (this._pan.enable && this._pan.isDragging) {
+        const { e } = opt;
+        const vpt = this.canvas.viewportTransform;
+        // @ts-ignore
+        vpt[4] += e.clientX - this._pan.lastPosX;
+        // @ts-ignore
+        vpt[5] += e.clientY - this._pan.lastPosY;
+        this.canvas.requestRenderAll();
+        this._pan.lastPosX = e.clientX;
+        this._pan.lastPosY = e.clientY;
+      }
+    });
     this.canvas.on('mouse:over', (opt) => {
       const { target } = opt;
       // @ts-ignore
       if (!target || target.id === SKETCH_ID) return;
+      if (this._pan.enable) return;
       drawObjectBox(target);
       // @ts-ignore
       const corner = target?.__corner;
@@ -155,7 +189,16 @@ export default class Editor {
       if (!target || target.id === SKETCH_ID) return;
       this.canvas.requestRenderAll();
     });
-    this.canvas.on('mouse:up', sketchEventHandler?.mouseupHandler);
+    this.canvas.on('mouse:up', (opt) => {
+      sketchEventHandler?.mouseupHandler?.(opt);
+      // on mouse up we want to recalculate new interaction
+      // for all objects, so we call setViewportTransform
+      if (this._pan.enable) {
+        // @ts-ignore
+        this.canvas.setViewportTransform(this.canvas.viewportTransform);
+        this._pan.isDragging = false;
+      }
+    });
     this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
 
     this.canvas.on('object:rotating', sketchEventHandler?.rotateHandler);
@@ -168,6 +211,34 @@ export default class Editor {
     this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
     this.canvas.on('fabritor:group', sketchEventHandler?.groupHandler);
     this.canvas.on('fabritor:ungroup', sketchEventHandler?.groupHandler);
+
+    this.canvas.on('mouse:dblclick', (opt) => {
+      const { target } = opt;
+      if (target?.type === 'group') {
+        const pointer = this.canvas.getPointer(opt.e, true);
+        // @ts-ignore
+        const obj = this.canvas._searchPossibleTargets(target.getObjects(), pointer);
+        if (obj) {
+          obj.set('hasControls', false);
+          this.canvas.discardActiveObject();
+          this.canvas.setActiveObject(obj);
+          this.canvas.requestRenderAll();
+          sketchEventHandler?.dblObjectHandler(obj, opt);
+        }
+      }
+    });
+  }
+
+  public switchEnablePan () {
+    this._pan.enable = !this._pan.enable;
+    this.canvas.discardActiveObject();
+    this.canvas.hoverCursor = this._pan.enable ? 'grab' : 'move';
+    this.canvas.getObjects().forEach((obj) => {
+      obj.set('selectable', false);
+    });
+    this.canvas.selection = !this._pan.enable;
+    this.canvas.requestRenderAll();
+    return this._pan.enable;
   }
 
   private _scrollSketch (opt) {

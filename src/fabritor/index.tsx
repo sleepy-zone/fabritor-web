@@ -93,7 +93,8 @@ export default function Fabritor () {
           delHandler: () => { setActiveObject(null) },
           selectionHandler,
           rotateHandler,
-          groupHandler: () => { setActiveObject(editorRef.current?.canvas.getActiveObject()) }
+          groupHandler: () => { setActiveObject(editorRef.current?.canvas.getActiveObject()) },
+          dblObjectHandler: (_t) => { setActiveObject(_t); }
         }
       });
   
