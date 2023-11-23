@@ -123,6 +123,7 @@ export default function ImageSetter () {
       <FormItem name="opacity">
         <OpacitySetter />
       </FormItem>
+      <ToolbarDivider />
     </Form>
   )
 }

@@ -7,6 +7,7 @@ export const initObjectPrototype = () => {
   });
 
   fabric.Textbox.prototype.padding = 4;
+  fabric.Textbox.prototype.paintFirst = 'stroke';
 
   const asConfig = {
     borderColor: '#cccddd',
