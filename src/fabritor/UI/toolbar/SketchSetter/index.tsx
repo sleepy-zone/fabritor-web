@@ -41,7 +41,7 @@ export default function SketchSetter() {
       className="fabritor-toolbar-form"
     >
       <FormItem name="fill">
-        <ColorSetter />
+        <ColorSetter type="sketch" />
       </FormItem>
       <ToolbarDivider />
       <FormItem name="size">

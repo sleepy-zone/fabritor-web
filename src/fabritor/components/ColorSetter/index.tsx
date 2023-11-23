@@ -1,5 +1,5 @@
 import { ColorPicker } from 'antd';
-import { FontColorsOutlined } from '@ant-design/icons';
+import { FontColorsOutlined, BgColorsOutlined } from '@ant-design/icons';
 
 export default function ColorSetter (props) {
   const { value, onChange, trigger, type, ...rest } = props;
@@ -11,7 +11,10 @@ export default function ColorSetter (props) {
   const renderTrigger = () => {
     if (trigger) return trigger;
     if (type === 'fontColor') {
-      return <FontColorsOutlined style={{ fontSize: 22, color: value }} />;
+      return <FontColorsOutlined style={{ fontSize: 22, color: value, border: value === '#ffffff' ? '1px solid #ccc' : ''  }} />;
+    }
+    if (type === 'sketch') {
+      return <BgColorsOutlined style={{ fontSize: 22, color: value, border: value === '#ffffff' ? '1px solid #ccc' : '' }} />
     }
     return (
       <div style={{ width: 24, height: 24, backgroundColor: value, border: '1px solid #ccc', borderRadius: 4 }} />
