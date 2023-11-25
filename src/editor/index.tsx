@@ -8,7 +8,6 @@ import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
 import { SKETCH_ID } from '@/utils/constants';
-import { drawObjectBox } from './rect';
 import createArrowLineClass from './arrow';
 
 export default class Editor {
@@ -175,8 +174,10 @@ export default class Editor {
       const { target } = opt;
       // @ts-ignore
       if (!target || target.id === SKETCH_ID) return;
+      if (target === this.canvas.getActiveObject()) return;
       if (this._pan.enable) return;
-      drawObjectBox(target);
+      // @ts-ignore
+      target._renderControls(this.canvas.contextTop, { hasControls: false });
       // @ts-ignore
       const corner = target?.__corner;
       if (corner) {
@@ -213,18 +214,14 @@ export default class Editor {
     this.canvas.on('fabritor:ungroup', sketchEventHandler?.groupHandler);
 
     this.canvas.on('mouse:dblclick', (opt) => {
-      const { target } = opt;
-      if (target?.type === 'group') {
-        const pointer = this.canvas.getPointer(opt.e, true);
-        // @ts-ignore
-        const obj = this.canvas._searchPossibleTargets(target.getObjects(), pointer);
-        if (obj) {
-          obj.set('hasControls', false);
-          this.canvas.discardActiveObject();
-          this.canvas.setActiveObject(obj);
-          this.canvas.requestRenderAll();
-          sketchEventHandler?.dblObjectHandler(obj, opt);
-        }
+      const { target, subTargets } = opt;
+      const subTarget = subTargets?.[0];
+      if (target?.type === 'group' && subTarget) {
+        subTarget.set('hasControls', false);
+        this.canvas.discardActiveObject();
+        this.canvas.setActiveObject(subTarget);
+        this.canvas.requestRenderAll();
+        sketchEventHandler?.dblObjectHandler?.(subTarget, opt);
       }
     });
   }
@@ -234,7 +231,9 @@ export default class Editor {
     this.canvas.discardActiveObject();
     this.canvas.hoverCursor = this._pan.enable ? 'grab' : 'move';
     this.canvas.getObjects().forEach((obj) => {
-      obj.set('selectable', false);
+      if (obj.id !== SKETCH_ID) {
+        obj.set('selectable', !this._pan.enable);
+      }
     });
     this.canvas.selection = !this._pan.enable;
     this.canvas.requestRenderAll();

@@ -17,7 +17,9 @@ export const initObjectPrototype = () => {
   }
   Object.keys(asConfig).forEach(key => {
     fabric.ActiveSelection.prototype[key] = asConfig[key];
+    fabric.Group.prototype[key] = asConfig[key];
   });
+  fabric.Group.prototype.subTargetCheck = true;
 
   const LineHideControls = ['mt', 'mb', 'bl', 'tl', 'tr', 'br'];
   const LineConfig = {

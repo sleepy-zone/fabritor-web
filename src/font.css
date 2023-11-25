@@ -4,3 +4,107 @@
     url("./assets/fonts/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.woff2") format("woff2");
   font-display: swap;
 }
+
+@font-face {
+  font-family: "SourceHanSans";
+  src: url("./assets/fonts/SourceHanSansCN-Regular.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SourceHanSerif";
+  src: url("./assets/fonts/SourceHanSerifCN-Regular.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "方正楷体";
+  src: url("./assets/fonts/方正楷体简体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "江西拙楷";
+  src: url("./assets/fonts/江西拙楷.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "包图小白体";
+  src: url("./assets/fonts/包图小白体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "沐瑶软笔手写体";
+  src: url("./assets/fonts/沐瑶软笔手写体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "站酷高端黑";
+  src: url("./assets/fonts/_站酷高端黑.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "手写杂字体";
+  src: url("./assets/fonts/手写杂字体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "胡晓波男神体";
+  src: url("./assets/fonts/胡晓波男神体.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "胡晓波骚包体";
+  src: url("./assets/fonts/胡晓波骚包体.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "沐瑶随心手写体";
+  src: url("./assets/fonts/沐瑶随心手写体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "清松手寫體";
+  src: url("./assets/fonts/清松手寫體2.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "站酷酷黑体";
+  src: url("./assets/fonts/站酷酷黑体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "站酷快乐体";
+  src: url("./assets/fonts/站酷快乐体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "站酷庆科黄油体";
+  src: url("./assets/fonts/站酷庆科黄油体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "站酷文艺体";
+  src: url("./assets/fonts/站酷文艺体.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "站酷小薇LOGO体";
+  src: url("./assets/fonts/站酷小薇LOGO体.otf") format("opentype");
+  font-display: swap;
+}
+
+

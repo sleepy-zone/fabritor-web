@@ -81,8 +81,8 @@ export default function TextSetter () {
     >
       <FormItem name="fontFamily">
         <Select
-          options={[{ label: '系统默认', value: 'Times New Roman' }, ...FONT_PRESET_FAMILY_LIST]}
-          style={{ width: 140 }}
+          options={FONT_PRESET_FAMILY_LIST}
+          style={{ width: 180 }}
         />
       </FormItem>
       <FormItem
