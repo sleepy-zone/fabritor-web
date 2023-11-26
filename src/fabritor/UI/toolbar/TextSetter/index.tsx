@@ -8,7 +8,6 @@ import ColorSetter from '@/fabritor/components/ColorSetter';
 import { loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import SpaceSetter from './SpaceSetter';
-import OpacitySetter from '@/fabritor/components/OpacitySetter';
 
 const { Item: FormItem } = Form;
 
@@ -67,8 +66,7 @@ export default function TextSetter () {
         italic: object.fontStyle === 'italic',
         underline: object.underline,
         linethrough: object.linethrough
-      },
-      opacity: object.opacity
+      }
     });
   }, [object]);
 
@@ -105,9 +103,6 @@ export default function TextSetter () {
       </FormItem>
       <FormItem name="fontStyles">
         <FontStyleSetter />
-      </FormItem>
-      <FormItem name="opacity">
-        <OpacitySetter />
       </FormItem>
     </Form>
   )

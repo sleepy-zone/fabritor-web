@@ -7,7 +7,6 @@ import { GloablStateContext } from '@/context';
 import FlipSetter from './FlipSetter';
 import { getGlobalEditor } from '@/utils/global';
 import BorderSetter from './BorderSetter';
-import OpacitySetter from '@/fabritor/components/OpacitySetter';
 
 const { Item: FormItem } = Form;
 
@@ -81,10 +80,6 @@ export default function ImageSetter () {
     if (values.border) {
       handleBorder(values.border);
     }
-    if (values.opacity != null) {
-      object.set('opacity', values.opacity);
-      editor.canvas.requestRenderAll();
-    }
   }
 
   useEffect(() => {
@@ -118,10 +113,6 @@ export default function ImageSetter () {
       <ToolbarDivider />
       <FormItem name="border">
         <BorderSetter />
-      </FormItem>
-      <ToolbarDivider />
-      <FormItem name="opacity">
-        <OpacitySetter />
       </FormItem>
       <ToolbarDivider />
     </Form>

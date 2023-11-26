@@ -4,7 +4,6 @@ import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import BorderSetter from '../ImageSetter/BorderSetter';
-import OpacitySetter from '@/fabritor/components/OpacitySetter';
 
 const { Item: FormItem } = Form;
 
@@ -59,10 +58,6 @@ export default function ShapeSetter () {
     if (values.border) {
       handleBorder(values.border);
     }
-    if (values.opacity != null) {
-      object.set('opacity', values.opacity);
-      editor.canvas.requestRenderAll();
-    }
   }
 
 
@@ -75,8 +70,7 @@ export default function ShapeSetter () {
           strokeWidth: object.strokeWidth || 1,
           borderRadius: object.rx || object.ry
         },
-        fill: object.fill,
-        opacity: object.opacity
+        fill: object.fill
       });
     }
   }, [object]);
@@ -92,9 +86,6 @@ export default function ShapeSetter () {
       </FormItem>
       <FormItem name="border">
         <BorderSetter />
-      </FormItem>
-      <FormItem name="opacity">
-        <OpacitySetter />
       </FormItem>
     </Form>
   )
