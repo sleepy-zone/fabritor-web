@@ -7,8 +7,10 @@ import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
-import { SKETCH_ID } from '@/utils/constants';
+import { SKETCH_ID, FABRITOR_CUSTOM_PROPS } from '@/utils/constants';
 import createArrowLineClass from './arrow';
+import FabricHistory from './history';
+import { createGroup } from './group';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -17,6 +19,7 @@ export default class Editor {
   public sketch: fabric.Rect;
   private _resizeObserver: ResizeObserver | null;
   private _pan;
+  private fhistory;
 
   constructor (options) {
     const { template, ...rest } = options;
@@ -37,7 +40,8 @@ export default class Editor {
     this._initEvents();
     this._initSketch();
     this._initGuidelines();
-    initHotKey(this.canvas);
+    this.fhistory = new FabricHistory(this);
+    initHotKey(this.canvas, this.fhistory);
   }
 
   private _initObject () {
@@ -217,13 +221,50 @@ export default class Editor {
       const { target, subTargets } = opt;
       const subTarget = subTargets?.[0];
       if (target?.type === 'group' && subTarget) {
-        subTarget.set('hasControls', false);
-        this.canvas.discardActiveObject();
-        this.canvas.setActiveObject(subTarget);
-        this.canvas.requestRenderAll();
-        sketchEventHandler?.dblObjectHandler?.(subTarget, opt);
+        if (subTarget.type === 'textbox') {
+          this._editTextInGroup(target, subTarget);
+        } else {
+          subTarget.set('hasControls', false);
+          this.canvas.discardActiveObject();
+          this.canvas.setActiveObject(subTarget);
+          this.canvas.requestRenderAll();
+          sketchEventHandler?.dblObjectHandler?.(subTarget, opt);
+        }
       }
     });
+  }
+
+  private _editTextInGroup (group, textbox) {
+    let items = group.getObjects();
+
+    textbox.on('editing:exited', () => {
+      for (let i = 0; i < items.length; i++) {
+        this.canvas.remove(items[i]);
+      }
+      const grp = createGroup({
+        items,
+        _templateConfig: group._templateConfig,
+      });
+      this.canvas.renderAll();
+      this.canvas.setActiveObject(grp);
+      this.canvas.fire('fabritor:group', { target: this.canvas.getActiveObject() });
+
+      textbox.off('editing:exited');
+    });
+
+    group._restoreObjectsState();
+    this.canvas.remove(group);
+    this.canvas.renderAll();
+    for (let i = 0; i < items.length; i++) {
+      items[i].selectable = false;
+      items[i].set('hasControls', false);
+      this.canvas.add(items[i]);
+    }
+    this.canvas.renderAll();
+
+    this.canvas.setActiveObject(textbox);
+    textbox.enterEditing();
+    textbox.selectAll();
   }
 
   public switchEnablePan () {
@@ -238,6 +279,10 @@ export default class Editor {
     this.canvas.selection = !this._pan.enable;
     this.canvas.requestRenderAll();
     return this._pan.enable;
+  }
+
+  public fireCustomModifiedEvent (data: any = null) {
+    this.canvas.fire('fabritor:object:modified', data);
   }
 
   private _scrollSketch (opt) {
@@ -299,7 +344,7 @@ export default class Editor {
   }
 
   public export2Json () {
-    const json = this.canvas.toJSON(['id', 'fabritor_desc', 'selectable', 'hasControls']);
+    const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
     return `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(json, null, 2)
     )}`;

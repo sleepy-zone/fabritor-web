@@ -33,7 +33,7 @@ export default function TemplatePanel () {
       <Button type="primary" block onClick={startLoad} size="large">
         加载本地模板
       </Button>
-      <Title>模板库</Title>
+      <Title>选择一个模板开始</Title>
       <LocalFileSelector ref={localFileSelectorRef} accept="application/json" onChange={handleFileChange} />
     </div>
   )

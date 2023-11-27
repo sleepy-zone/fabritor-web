@@ -80,6 +80,7 @@ export default function ImageSetter () {
     if (values.border) {
       handleBorder(values.border);
     }
+    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {

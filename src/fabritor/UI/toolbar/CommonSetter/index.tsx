@@ -24,6 +24,7 @@ export default function CommonSetter () {
     });
     editor.canvas.requestRenderAll();
     setLock(!lock);
+    editor.fireCustomModifiedEvent();
   }
 
   const handleOpacity = (v) => {
@@ -31,6 +32,7 @@ export default function CommonSetter () {
     object.set('opacity', v);
     setOpacity(v);
     editor.canvas.requestRenderAll();
+    editor.fireCustomModifiedEvent();
   }
 
   const enablePan = () => {

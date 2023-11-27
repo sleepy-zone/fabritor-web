@@ -29,8 +29,7 @@ export default function LineSetter () {
     form.setFieldsValue({
       stroke: object.stroke,
       strokeWidth: object.strokeWidth,
-      round: object.strokeLineCap === 'round',
-      opacity: object.opacity
+      round: object.strokeLineCap === 'round'
     });
   }, [object]);
 
@@ -57,13 +56,7 @@ export default function LineSetter () {
         label="粗细"
         name="strokeWidth"
       >
-        <InputNumber min={1} max={50} />
-      </FormItem>
-      <FormItem
-        label="透明度"
-        name="opacity"
-      >
-        <InputNumber step={0.01} min={0} max={1} />
+        <InputNumber min={1} max={50} style={{ width: 60 }} />
       </FormItem>
     </Form>
   )

@@ -49,6 +49,8 @@ export default function TextSetter () {
    
     const editor = getGlobalEditor();
     editor.canvas.requestRenderAll();
+
+    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {
