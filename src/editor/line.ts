@@ -15,11 +15,8 @@ export const drawLine = (options) => {
     top = (sketch.height || 0) / 2 - strokeWidth / 2;
   }
 
-  // @ts-ignore
-  const LineClass = type === 'arrow-line' ? fabric.ArrowLine : fabric.Line;
-
   const points: number[] = [left, top, left + width, top];
-  const line = new LineClass(points, {
+  const line = new fabric.Line(points, {
     stroke: '#000000',
     strokeWidth,
     id: uuid(),

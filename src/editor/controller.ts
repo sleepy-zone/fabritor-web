@@ -4,6 +4,8 @@ import { fabric } from 'fabric';
 import { ROTATE_SVG, ROTATE_CURSOR, COPY_SVG, DEL_SVG } from '@/assets/icon';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 
+const controlsUtils = fabric.controlsUtils;
+
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
 
@@ -221,8 +223,8 @@ export const handleMouseOverCorner = (corner, target) => {
 export const renderLineController = () => {
   fabric.Line.prototype.controls.ml.render = renderVertexIcon;
   fabric.Line.prototype.controls.mr.render = renderVertexIcon;
-  // fabric.Line.prototype.controls.ml.cursorStyleHandler = () => 'crosshair';
-  // fabric.Line.prototype.controls.mr.cursorStyleHandler = () => 'crosshair';
+  fabric.Line.prototype.controls.ml.actionHandler = controlsUtils.changeWidth;
+  fabric.Line.prototype.controls.mr.actionHandler = controlsUtils.changeWidth;
 }
 
 export default function initControl () {

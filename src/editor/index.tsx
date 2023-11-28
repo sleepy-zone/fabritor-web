@@ -8,7 +8,6 @@ import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
 import { SKETCH_ID, FABRITOR_CUSTOM_PROPS } from '@/utils/constants';
-import createArrowLineClass from './arrow';
 import FabricHistory from './history';
 import { createGroup } from './group';
 
@@ -47,7 +46,6 @@ export default class Editor {
   private _initObject () {
     initControl();
     initObjectPrototype();
-    createArrowLineClass();
   }
 
   private _initFabric () {

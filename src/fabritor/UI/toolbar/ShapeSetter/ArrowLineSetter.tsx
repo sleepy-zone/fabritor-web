@@ -26,29 +26,37 @@ export default function LineSetter () {
 
   const handleStrokeConfig = (strokeConfig) => {
     if (!strokeConfig) return;
+    const { line, arrow } = object;
     const { strokeWidth = 1, round = false, type = 'line' } = strokeConfig;
 
-    object.set('strokeWidth', strokeWidth);
+    line.set('strokeWidth', strokeWidth);
+    // arrow.set('strokeWidth', strokeWidth);
+    arrow.scaleX = arrow.scaleY = 1 + strokeWidth / 5; // simple calc
 
-    object.set('strokeLineCap', round ? 'round' : 'butt');
+    line.set('strokeLineCap', round ? 'round' : 'butt');
 
     if (type !== 'line') {
       const dashArray = type.split(',');
       dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-      dashArray[1] = dashArray[1] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth * 2);
-      object.set('strokeDashArray', dashArray);
+      dashArray[1] = dashArray[1] * (strokeWidth / 2 > 1 ? strokeWidth : strokeWidth * 2);
+      line.set('strokeDashArray', dashArray);
     } else {
-      object.set('strokeDashArray', null);
+      line.set('strokeDashArray', null);
     }
   }
 
   const handleValuesChange = (values) => {
     const keys = Object.keys(values);
+    const { line, arrow } = object;
     if (!keys?.length) return;
     for (let key of keys) {
       switch (key) {
         case 'stroke':
-          object.set('stroke', values[key]);
+          line.set('stroke', values[key]);
+          arrow.set({
+            fill: values[key],
+            stroke: values[key]
+          });
           break;
         case 'strokeConfig':
           handleStrokeConfig(values[key]);
@@ -57,20 +65,25 @@ export default function LineSetter () {
           break;
       }
     }
+   
+    object.addWithUpdate();
 
     const editor = getGlobalEditor();
     editor.canvas.requestRenderAll();
   }
 
   useEffect(() => {
-    form.setFieldsValue({
-      stroke: object.stroke,
-      strokeConfig: {
-        type: getObjectBorderType(object.stroke, object.strokeWidth, object.strokeDashArray),
-        strokeWidth: object.strokeWidth,
-        round: object.strokeLineCap === 'round'
-      }
-    });
+    const { line } = object;
+    if (line) {
+      form.setFieldsValue({
+        stroke: line.stroke,
+        strokeConfig: {
+          type: getObjectBorderType(line.stroke, line.strokeWidth, line.strokeDashArray),
+          strokeWidth: line.strokeWidth,
+          round: line.strokeLineCap === 'round'
+        }
+      });
+    }
   }, [object]);
 
   return (

@@ -49,7 +49,7 @@ const ContextMenu = (props, ref) => {
       });
     }
 
-    if (object.type === 'group') {
+    if (object.type === 'group' && !object.sub_type) {
       menuItems.push({
         type: 'divider',
       });

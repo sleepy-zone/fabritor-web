@@ -4,7 +4,7 @@ import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
 import { GloablStateContext } from '@/context';
-import { LineSetter, ShapeSetter } from './ShapeSetter';
+import { LineSetter, ShapeSetter, ArrowLineSetter } from './ShapeSetter';
 import CommonSetter from './CommonSetter';
 import { SKETCH_ID } from '@/utils/constants';
 
@@ -13,7 +13,7 @@ import './index.scss';
 export default function Toolbar () {
   const { object, isReady } = useContext(GloablStateContext);
   const objectType = object?.get?.('type') || '';
-  console.log('objectType', objectType);
+  console.log('objectType', objectType, object);
 
   const renderSetter = () => {
     if (!isReady) return null;
@@ -27,8 +27,11 @@ export default function Toolbar () {
         }
         return <ShapeSetter />;
       case 'line':
-      case 'arrow-line':
-        return <LineSetter />;  
+        return <LineSetter />;
+      case 'group':
+        if (object.sub_type === 'arrowline') {
+          return <ArrowLineSetter />
+        }
       default:
         return <SketchSetter />;
     }

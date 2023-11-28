@@ -1,43 +1,69 @@
 import { fabric } from 'fabric';
+import { getGlobalEditor } from '@/utils/global';
+import { uuid } from '@/utils';
 
-export default function createArrowLineClass () {
-  // @ts-ignore arrow-line
-  fabric.ArrowLine = fabric.util.createClass(fabric.Line, {
-    type: 'arrow-line',
+export const drawArrowLine = async (options) => {
+  const { svg, left, top, subType, ...rest  } = options || {};
+  const editor = getGlobalEditor();
+  const { canvas, sketch } = editor;
 
-    initialize (element, options = {}) {
-      this.callSuper('initialize', element, options);
-    },
+  return new Promise((resolve) => {
+    fabric.loadSVGFromString(svg, (objects, o) => {
+      const pg = fabric.util.groupSVGElements(objects, o);
 
-    _render (ctx) {
-      this.ctx = ctx;
-      this.callSuper('_render', ctx);
-      let p = this.calcLinePoints();
-      let xDiff = this.x2 - this.x1;
-      let yDiff = this.y2 - this.y1;
-      let angle = Math.atan2(yDiff, xDiff);
-      this.drawArrow(angle, p.x2, p.y2);
-    },
+      const line = objects.find(item => item.type === 'line');
+      line?.set({
+        strokeUniform: true,
+        originY: 'center',
+        top: 0,
+        strokeWidth: 2
+      });
 
-    drawArrow (angle, xPos, yPos) {
-      this.ctx.save();
-      this.ctx.translate(xPos, yPos);
-      this.ctx.rotate(angle);
-      this.ctx.beginPath();
-      // Move 5px in front of line to start the arrow so it does not have the square line end showing in front (0,0)
-      this.ctx.moveTo(10, 0);
-      this.ctx.lineTo(-15, 15);
-      this.ctx.lineTo(-15, -15);
-      this.ctx.closePath();
-      this.ctx.fillStyle = this.stroke;
-      this.ctx.fill();
-      this.ctx.restore();
-    }
+      const arrow = objects.find(item => item.type === 'path');
+      arrow?.set({
+        originY: 'center',
+        top: 0
+      });
+
+      pg.set({
+        id: uuid(),
+        sub_type: subType,
+        line,
+        arrow,
+        subTargetCheck: false,
+        ...rest
+      });
+      
+
+      pg.setControlVisible('mt', false);
+      pg.setControlVisible('mb', false);
+      // pg.setControlVisible('ml', false);
+      // pg.setControlVisible('mr', false);
+      pg.setControlVisible('tl', false);
+      pg.setControlVisible('tr', false);
+      pg.setControlVisible('bl', false);
+      pg.setControlVisible('br', false);
+
+      if (left == null) {
+        // @ts-ignore
+        pg.set('left', sketch.width / 2 - pg.width / 2);
+      } else {
+        pg.set('left', left);
+      }
+      if (top == null) {
+        // @ts-ignore
+        pg.set('top', sketch.height / 2 - pg.height / 2);
+      } else {
+        pg.set('top', top);
+      }
+
+      pg.addWithUpdate();
+
+      canvas.add(pg);
+      canvas.setActiveObject(pg);
+      canvas.requestRenderAll();
+
+      resolve(pg);
+    });
   });
-
-  // @ts-ignore arrow-line
-  fabric.ArrowLine.fromObject = function(object, callback) {
-    // @ts-ignore arrow-line
-    callback && callback(new fabric.ArrowLine([object.x1, object.y1, object.x2, object.y2], object));
-  };
 }
