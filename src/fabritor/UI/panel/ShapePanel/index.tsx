@@ -7,6 +7,7 @@ import { drawLine } from '@/editor/line';
 import { GloablStateContext } from '@/context';
 import createRect from '@/editor/rect';
 import { drawArrowLine } from '@/editor/arrow';
+import createShape from '@/editor/shape';
 
 export default function ShapePanel () {
   const { setActiveObject } = useContext(GloablStateContext);
@@ -25,12 +26,11 @@ export default function ShapePanel () {
     let shape;
     switch(item.key) {
       case 'rect':
-        shape = createRect({});
-        break;
       case 'rect-r':
-        shape = createRect({ rx: 20, ry: 20 });
+        shape = createRect(item.options);
         break;
       default:
+        shape = createShape(item.shape, item.options);
         break;
     }
     setActiveObject(shape);
