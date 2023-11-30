@@ -18,9 +18,14 @@ export const drawLine = (options) => {
 
   setObject2Center(line, options, editor);
 
-  // line.on('scaling', (opt) => {
-  //   console.log(opt);
-  // });
+  line.setControlVisible('mt', false);
+  line.setControlVisible('mb', false);
+  // line.setControlVisible('ml', false);
+  // line.setControlVisible('mr', false);
+  line.setControlVisible('tl', false);
+  line.setControlVisible('tr', false);
+  line.setControlVisible('bl', false);
+  line.setControlVisible('br', false);
 
   canvas.add(line);
   canvas.setActiveObject(line);

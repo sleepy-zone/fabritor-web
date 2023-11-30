@@ -4,6 +4,7 @@ import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import TemplatePanel from './TemplatePanel';
 import ShapePanel from './ShapePanel';
+import PaintPanel from './PaintPanel';
 
 import './index.scss';
 
@@ -49,9 +50,8 @@ const OBJECT_TYPES = [
   }
 ];
 
-// const PRESET_APPS = [];
-
 export default function Panel () {
+
   const renderPanel = (value) => {
     if (value === 'template') {
       return <TemplatePanel />;
@@ -64,6 +64,9 @@ export default function Panel () {
     }
     if (value === 'shape') {
       return <ShapePanel />;
+    }
+    if (value === 'paint') {
+      return <PaintPanel />;
     }
     return null;
   }
@@ -87,6 +90,7 @@ export default function Panel () {
         tabPosition="left"
         style={{ height: '100%' }}
         size="small"
+        destroyInactiveTabPane
         items={
           OBJECT_TYPES.map((item) => {
             return {

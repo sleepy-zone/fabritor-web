@@ -20,15 +20,4 @@ export const initObjectPrototype = () => {
     fabric.Group.prototype[key] = asConfig[key];
   });
   fabric.Group.prototype.subTargetCheck = true;
-
-  const LineHideControls = ['mt', 'mb', 'bl', 'tl', 'tr', 'br'];
-  const LineConfig = {
-    borderColor: 'rgba(0,0,0,0)'
-  }
-  LineHideControls.forEach((c) => {
-    fabric.Path.prototype.setControlVisible(c, false);
-  });
-  Object.keys(LineConfig).forEach(key => {
-    fabric.Path.prototype[key] = LineConfig[key];
-  });
 }
