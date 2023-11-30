@@ -6,19 +6,13 @@ import ShapeTypeList from './shape-type-list';
 import { drawLine } from '@/editor/line';
 import { GloablStateContext } from '@/context';
 import createRect from '@/editor/rect';
-import { drawArrowLine } from '@/editor/arrow';
 import createShape from '@/editor/shape';
 
 export default function ShapePanel () {
   const { setActiveObject } = useContext(GloablStateContext);
 
   const addLine = async (item) => {
-    let line;
-    if (item.key.startsWith('arrow')) {
-      line = await drawArrowLine({ svg: item.svg, ...item.options });
-    } else {
-      line = drawLine(item.options || {});
-    }
+    const line = drawLine(item.options || {});
     setActiveObject(line);
   }
 
@@ -61,7 +55,7 @@ export default function ShapePanel () {
               onClick={() => { addShape(item) }}
               className="fabritor-panel-shape-item"
             >
-              {item.elem}
+              <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 56, height: 56 }} />
             </div>
           ))
         }

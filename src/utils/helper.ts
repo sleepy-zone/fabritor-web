@@ -128,3 +128,16 @@ export const changeLayerLevel = (level, editor) => {
   editor.sketch.sendToBack();
   editor.canvas.requestRenderAll();
 }
+
+export const setObject2Center = (object, options, editor) => {
+  let { left = null, top = null } = options || {};
+  const { sketch } = editor;
+
+  if (left == null) {
+    left = (sketch.width || 0) / 2 - object.width / 2;
+  }
+  if (top == null) {
+    top = (sketch.height || 0) / 2 - object.height / 2;
+  }
+  object.set({ left, top });
+}

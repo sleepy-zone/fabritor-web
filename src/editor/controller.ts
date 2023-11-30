@@ -4,8 +4,6 @@ import { fabric } from 'fabric';
 import { ROTATE_SVG, ROTATE_CURSOR, COPY_SVG, DEL_SVG } from '@/assets/icon';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 
-const controlsUtils = fabric.controlsUtils;
-
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
 
@@ -41,7 +39,7 @@ const renderTBIcon = (ctx, left, top, styleOverride, fabricObject) => {
   renderSizeIcon(ctx, left, top, styleOverride, fabricObject, 'TB');
 }
 
-const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) => {
+export const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) => {
   const size = 12;
   ctx.save();
   ctx.fillStyle = '#ffffff';
@@ -220,16 +218,8 @@ export const handleMouseOverCorner = (corner, target) => {
   // console.log(corner, target);
 }
 
-export const renderLineController = () => {
-  fabric.Line.prototype.controls.ml.render = renderVertexIcon;
-  fabric.Line.prototype.controls.mr.render = renderVertexIcon;
-  fabric.Line.prototype.controls.ml.actionHandler = controlsUtils.changeWidth;
-  fabric.Line.prototype.controls.mr.actionHandler = controlsUtils.changeWidth;
-}
-
 export default function initControl () {
   renderController();
   renderRotateController();
   renderToolBarController();
-  renderLineController();
 }

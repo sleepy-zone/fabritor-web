@@ -4,7 +4,7 @@ import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
 import SketchSetter from './SketchSetter';
 import { GloablStateContext } from '@/context';
-import { LineSetter, ShapeSetter, ArrowLineSetter } from './ShapeSetter';
+import { LineSetter, ShapeSetter } from './ShapeSetter';
 import CommonSetter from './CommonSetter';
 import { SKETCH_ID } from '@/utils/constants';
 
@@ -26,12 +26,18 @@ export default function Toolbar () {
           return <ImageSetter />;
         }
         return <ShapeSetter />;
+      case 'circle':
+      case 'triangle':
+      case 'polygon':
+      case 'ellipse':  
+        return <ShapeSetter />;
       case 'line':
         return <LineSetter />;
-      case 'group':
-        if (object.sub_type === 'arrowline') {
-          return <ArrowLineSetter />
+      case 'path':
+        if (object.sub_type === 'line') {
+          return <LineSetter />
         }
+      case 'group':
       default:
         return <SketchSetter />;
     }

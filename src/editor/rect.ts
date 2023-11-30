@@ -1,11 +1,12 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
+import { setObject2Center } from '@/utils/helper';
 
 export default function createRect (options) {
-  const { width = 200, height = 200, left, top, ...rest } = options;
+  const { width = 200, height = 200, left, top, ...rest } = options || {};
   const editor = getGlobalEditor();
-  const { canvas, sketch } = editor;
+  const { canvas } = editor;
   const rect = new fabric.Rect({
     id: uuid(),
     width,
@@ -13,18 +14,7 @@ export default function createRect (options) {
     ...rest,
   });
 
-  if (left == null) {
-    // @ts-ignore
-    rect.set('left', sketch.width / 2 - rect.width / 2);
-  } else {
-    rect.set('left', left);
-  }
-  if (top == null) {
-    // @ts-ignore
-    rect.set('top', sketch.height / 2 - rect.height / 2);
-  } else {
-    rect.set('top', top);
-  }
+  setObject2Center(rect, options, editor);
 
   canvas.add(rect);
   canvas.requestRenderAll();
@@ -34,7 +24,7 @@ export default function createRect (options) {
 
 export const createImageRect = async (options) => {
   const editor = getGlobalEditor();
-  const { canvas, sketch } = editor;
+  const { canvas } = editor;
   const { image, left, top, ...rest } = options;
   const rect = new fabric.Rect({
     id: uuid(),
@@ -51,18 +41,7 @@ export const createImageRect = async (options) => {
     height: image.height
   });
 
-  if (left == null) {
-    // @ts-ignore
-    rect.set('left', sketch.width / 2 - rect.width / 2);
-  } else {
-    rect.set('left', left);
-  }
-  if (top == null) {
-    // @ts-ignore
-    rect.set('top', sketch.height / 2 - rect.height / 2);
-  } else {
-    rect.set('top', top);
-  }
+  setObject2Center(rect, options, editor);
 
   canvas.add(rect);
   canvas.requestRenderAll();

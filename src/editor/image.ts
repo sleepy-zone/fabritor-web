@@ -1,6 +1,7 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
+import { setObject2Center } from '@/utils/helper';
 
 export const loadImageFromUrl = async (url) => {
   return new Promise<fabric.Image>((resolve) => {
@@ -22,7 +23,7 @@ export const loadSvgFromUrl = async (url) => {
 export const createImage = async (options) => {
   const { url, left, top, ...rest } = options || {};
   const editor = getGlobalEditor();
-  const { canvas, sketch } = editor;
+  const { canvas } = editor;
 
   let img!: fabric.Image;
   if (options.url) {
@@ -37,18 +38,7 @@ export const createImage = async (options) => {
     id: uuid()
   });
 
-  if (left == null) {
-    // @ts-ignore
-    img.set('left', sketch.width / 2 - img.getScaledWidth() / 2);
-  } else {
-    img.set('left', left);
-  }
-  if (top == null) {
-    // @ts-ignore
-    img.set('top', sketch.height / 2 - img.getScaledHeight() / 2);
-  } else {
-    img.set('top', top);
-  }
+  setObject2Center(img, options, editor);
 
   canvas.add(img);
   canvas.setActiveObject(img);
@@ -60,7 +50,7 @@ export const createImage = async (options) => {
 export const createSvg = async (options) => {
   const { url, left, top, ...rest } = options || {};
   const editor = getGlobalEditor();
-  const { canvas, sketch } = editor;
+  const { canvas } = editor;
 
   const svg: fabric.Group = await loadSvgFromUrl(url);
 
@@ -69,18 +59,7 @@ export const createSvg = async (options) => {
     id: uuid()
   });
 
-  if (left == null) {
-    // @ts-ignore
-    svg.set('left', sketch.width / 2 - svg.width / 2);
-  } else {
-    svg.set('left', left);
-  }
-  if (top == null) {
-    // @ts-ignore
-    svg.set('top', sketch.height / 2 - svg.height / 2);
-  } else {
-    svg.set('top', top);
-  }
+  setObject2Center(svg, options, editor);
 
   canvas.add(svg);
   canvas.setActiveObject(svg);

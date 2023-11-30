@@ -26,9 +26,9 @@ export const initObjectPrototype = () => {
     borderColor: 'rgba(0,0,0,0)'
   }
   LineHideControls.forEach((c) => {
-    fabric.Line.prototype.setControlVisible(c, false);
+    fabric.Path.prototype.setControlVisible(c, false);
   });
   Object.keys(LineConfig).forEach(key => {
-    fabric.Line.prototype[key] = LineConfig[key];
+    fabric.Path.prototype[key] = LineConfig[key];
   });
 }

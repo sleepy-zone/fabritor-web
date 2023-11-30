@@ -1,27 +1,26 @@
+import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
+import { setObject2Center } from '@/utils/helper';
 
 export default function createShape (ShapeClass, options) {
-  const { left, top, points, ...rest } = options;
+  const { left, top, points, ...rest } = options || {};
   const editor = getGlobalEditor();
-  const { canvas, sketch } = editor;
-  const object = new ShapeClass({
-    id: uuid(),
-    ...rest,
-  });
+  const { canvas } = editor;
+  let object;
+  if (ShapeClass === fabric.Polygon) {
+    object = new fabric.Polygon(points, {
+      id: uuid(),
+      ...rest,
+    });
+  } else {
+    object = new ShapeClass({
+      id: uuid(),
+      ...rest,
+    });
+  }
 
-  if (left == null) {
-    // @ts-ignore
-    object.set('left', sketch.width / 2 - object.width / 2);
-  } else {
-    object.set('left', left);
-  }
-  if (top == null) {
-    // @ts-ignore
-    object.set('top', sketch.height / 2 - object.height / 2);
-  } else {
-    object.set('top', top);
-  }
+  setObject2Center(object, options, editor);
 
   canvas.add(object);
   canvas.requestRenderAll();

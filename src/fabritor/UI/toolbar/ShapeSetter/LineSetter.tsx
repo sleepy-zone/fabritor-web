@@ -31,6 +31,7 @@ export default function LineSetter () {
     object.set('strokeWidth', strokeWidth);
 
     object.set('strokeLineCap', round ? 'round' : 'butt');
+    // object.set('strokeLineJoin', round ? 'round' : 'miter');
 
     if (type !== 'line') {
       const dashArray = type.split(',');
@@ -57,6 +58,8 @@ export default function LineSetter () {
           break;
       }
     }
+
+    object.setCoords();
 
     const editor = getGlobalEditor();
     editor.canvas.requestRenderAll();

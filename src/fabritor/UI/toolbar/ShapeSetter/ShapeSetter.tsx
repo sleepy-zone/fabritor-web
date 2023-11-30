@@ -43,9 +43,14 @@ export default function ShapeSetter () {
       }
     }
 
-    object.set('rx', borderRadius);
-    object.set('ry', borderRadius);
+    if (object.type === 'rect') {
+      object.set('rx', borderRadius);
+      object.set('ry', borderRadius);
+    } else {
+      object.set('strokeLineJoin', borderRadius > 0 ? 'round' : 'miter');
+    }
 
+    object.setCoords();
     editor.canvas.requestRenderAll();
   }
 
@@ -68,7 +73,7 @@ export default function ShapeSetter () {
           type: getObjectBorderType(object.stroke, object.strokeWidth, object.strokeDashArray),
           stroke: object.stroke || '#000000',
           strokeWidth: object.strokeWidth || 1,
-          borderRadius: object.rx || object.ry
+          borderRadius: object.rx || object.ry || (object.strokeLineJoin === 'round' ? 100 : 0)
         },
         fill: object.fill
       });
