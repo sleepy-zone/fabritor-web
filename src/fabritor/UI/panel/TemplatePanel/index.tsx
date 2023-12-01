@@ -7,7 +7,7 @@ import Title from '@/fabritor/components/Title';
 
 export default function TemplatePanel () {
   const localFileSelectorRef = useRef<any>(null);
-  const { setReady, setActiveObject } = useContext(GloablStateContext);
+  const { setReady } = useContext(GloablStateContext);
 
   const startLoad = () => {
     localFileSelectorRef.current?.start?.();
@@ -17,12 +17,12 @@ export default function TemplatePanel () {
     setReady(false);
     const editor = getGlobalEditor();
     const reader = new FileReader();
+    editor.canvas.discardActiveObject();
     reader.onload = (async (evt) => {
       const json = evt.target?.result as string;
       if (json) {
         await editor.loadFromJSON(json);
         setReady(true);
-        setActiveObject(null);
       }
     });
     reader.readAsText(file);

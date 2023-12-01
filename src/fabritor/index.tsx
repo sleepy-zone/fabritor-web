@@ -89,12 +89,9 @@ export default function Fabritor () {
         sketchEventHandler: {
           clickHandler,
           mouseupHandler,
-          cloneHandler: (opt) => { setActiveObject(opt.target) },
-          delHandler: () => { setActiveObject(null) },
           selectionHandler,
           rotateHandler,
-          groupHandler: () => { setActiveObject(editorRef.current?.canvas.getActiveObject()) },
-          dblObjectHandler: (_t) => { setActiveObject(_t); }
+          groupHandler: () => { setActiveObject(editorRef.current?.canvas.getActiveObject()) }
         }
       });
   
@@ -115,7 +112,6 @@ export default function Fabritor () {
     <GloablStateContext.Provider
       value={{
         object: activeObject,
-        setActiveObject,
         isReady,
         setReady
       }}

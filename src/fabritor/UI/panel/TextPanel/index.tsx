@@ -1,15 +1,10 @@
-import { useContext } from 'react';
 import { Button } from 'antd';
-import { GloablStateContext } from '@/context';
 import PresetFontPanel from './PresetFontPanel';
 import { createTextbox } from '@/editor/textbox';
 
 export default function TextPanel () {
-  const { setActiveObject } = useContext(GloablStateContext);
-
   const handleAddText = async (options) => {
-    const textbox = await createTextbox(options);
-    setActiveObject(textbox);
+    await createTextbox(options);
   }
 
   return (

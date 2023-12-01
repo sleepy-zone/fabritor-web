@@ -1,33 +1,26 @@
-import { useContext } from 'react';
 import { Flex } from 'antd';
 import Title from '@/fabritor/components/Title';
 import LineTypeList from './line-type-list';
 import ShapeTypeList from './shape-type-list';
 import { drawLine } from '@/editor/line';
-import { GloablStateContext } from '@/context';
 import createRect from '@/editor/rect';
 import createShape from '@/editor/shape';
 
 export default function ShapePanel () {
-  const { setActiveObject } = useContext(GloablStateContext);
-
-  const addLine = async (item) => {
-    const line = drawLine(item.options || {});
-    setActiveObject(line);
+  const addLine = (item) => {
+    drawLine(item.options || {});
   }
 
   const addShape = (item) => {
-    let shape;
     switch(item.key) {
       case 'rect':
       case 'rect-r':
-        shape = createRect(item.options);
+        createRect(item.options);
         break;
       default:
-        shape = createShape(item.shape, item.options);
+        createShape(item.shape, item.options);
         break;
     }
-    setActiveObject(shape);
   }
 
   return (

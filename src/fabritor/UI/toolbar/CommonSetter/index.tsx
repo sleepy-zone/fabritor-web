@@ -11,7 +11,7 @@ import { DRAG_ICON } from '@/assets/icon';
 const { Item: FormItem } = Form;
 
 export default function CommonSetter () {
-  const { object, setActiveObject } = useContext(GloablStateContext);
+  const { object } = useContext(GloablStateContext);
   const [lock, setLock] = useState(false);
   const [opacity, setOpacity] = useState(1);
   const [panEnable, setPanEnable] = useState(false);
@@ -40,9 +40,6 @@ export default function CommonSetter () {
     const editor = getGlobalEditor();
     const enable = editor.switchEnablePan();
     setPanEnable(enable);
-    if (enable) {
-      setActiveObject(null);
-    }
   }
 
   useEffect(() => {
