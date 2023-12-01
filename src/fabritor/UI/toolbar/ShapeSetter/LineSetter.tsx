@@ -63,6 +63,7 @@ export default function LineSetter () {
 
     const editor = getGlobalEditor();
     editor.canvas.requestRenderAll();
+    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {

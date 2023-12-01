@@ -23,6 +23,7 @@ export default function TemplatePanel () {
       if (json) {
         await editor.loadFromJSON(json);
         setReady(true);
+        editor.fhistory.clear();
       }
     });
     reader.readAsText(file);

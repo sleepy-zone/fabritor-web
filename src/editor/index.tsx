@@ -18,7 +18,7 @@ export default class Editor {
   public sketch: fabric.Rect;
   private _resizeObserver: ResizeObserver | null;
   private _pan;
-  private fhistory;
+  public fhistory;
 
   constructor (options) {
     const { template, ...rest } = options;

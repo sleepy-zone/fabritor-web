@@ -21,6 +21,7 @@ export default function SketchSetter() {
         canvas.requestRenderAll();
       }
     });
+    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {

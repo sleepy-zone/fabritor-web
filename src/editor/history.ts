@@ -1,5 +1,5 @@
 import fabric from 'fabric';
-import { FABRITOR_CUSTOM_PROPS } from '@/utils/constants';
+import { FABRITOR_CUSTOM_PROPS, SKETCH_ID } from '@/utils/constants';
 import Editor from '.';
 // https://github.com/alimozdemir/fabric-history/blob/master/src/index.js
 
@@ -47,7 +47,12 @@ export default class FabricHistory {
 
   private _historyEvents () {
     return {
-      'object:added': this._historySaveAction.bind(this),
+      'object:added': (opt) => {  
+        const { target } = opt;
+        if (target?.id !== SKETCH_ID) {
+          this._historySaveAction();
+        }
+      },
       'object:removed': this._historySaveAction.bind(this),
       'object:modified': this._historySaveAction.bind(this),
       'object:skewing': this._historySaveAction.bind(this),
@@ -87,5 +92,11 @@ export default class FabricHistory {
       this.historyProcessing = false;
       this.canvas.fire('fabritor:history:redo');
     }
+  }
+
+  public clear () {
+    this.historyRedo = [];
+    this.historyUndo = [];
+    this.historyProcessing = false;
   }
 }
