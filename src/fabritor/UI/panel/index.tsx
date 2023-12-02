@@ -83,7 +83,7 @@ export default function Panel () {
   return (
     <Sider
       style={siderStyle}
-      width={360}
+      width={420}
     >
       <Tabs
         defaultActiveKey='template'

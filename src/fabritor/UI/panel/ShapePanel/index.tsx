@@ -26,7 +26,7 @@ export default function ShapePanel () {
   return (
     <div className="fabritor-panel-text-wrapper">
       <Title>线条</Title>
-      <Flex gap={10} wrap="wrap">
+      <Flex gap={10} wrap="wrap" justify="space-around">
         {
           LineTypeList.map(item => (
             <div
@@ -34,13 +34,13 @@ export default function ShapePanel () {
               onClick={() => { addLine(item) }}
               className="fabritor-panel-shape-item"
             >
-              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 56, height: 56 }} />
+              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 64, height: 64 }} />
             </div>
           ))
         }
       </Flex>
       <Title>形状</Title>
-      <Flex gap={10} wrap="wrap">
+      <Flex gap={10} wrap="wrap" justify="space-around">
         {
           ShapeTypeList.map(item => (
             <div
@@ -48,7 +48,7 @@ export default function ShapePanel () {
               onClick={() => { addShape(item) }}
               className="fabritor-panel-shape-item"
             >
-              <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 56, height: 56 }} />
+              <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 64, height: 64 }} />
             </div>
           ))
         }

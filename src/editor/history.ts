@@ -49,12 +49,17 @@ export default class FabricHistory {
     return {
       'object:added': (opt) => {  
         const { target } = opt;
-        if (target?.id !== SKETCH_ID) {
+        if (target && target.id !== SKETCH_ID) {
           this._historySaveAction();
         }
       },
       'object:removed': this._historySaveAction.bind(this),
-      'object:modified': this._historySaveAction.bind(this),
+      'object:modified': (opt) => {
+        const { target } = opt;
+        if (target && target.id !== SKETCH_ID) {
+          this._historySaveAction();
+        }
+      },
       'object:skewing': this._historySaveAction.bind(this),
       'fabritor:object:modified': this._historySaveAction.bind(this),
     };

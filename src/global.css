@@ -11,6 +11,10 @@ html, body {
   padding: 8px 18px;
 }
 
+.ant-tabs-content-holder {
+  overflow: auto !important;
+}
+
 .fabritor-toolbar-setter-trigger {
   display: flex;
   align-items: center;
