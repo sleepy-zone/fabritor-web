@@ -8,6 +8,7 @@ import ColorSetter from '@/fabritor/components/ColorSetter';
 import { loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import SpaceSetter from './SpaceSetter';
+import BorderSetter from './BorderSetter';
 
 const { Item: FormItem } = Form;
 
@@ -27,6 +28,11 @@ export default function TextSetter () {
     object.set('charSpacing', space.charSpacing);
   }
 
+  const handleTextStroke = (border) => {
+    object.set('stroke', border.stroke);
+    object.set('strokeWidth', border.strokeWidth);
+  }
+
   const handleValuesChange = async (values) => {
     const keys = Object.keys(values);
     if (!keys?.length) return;
@@ -42,6 +48,8 @@ export default function TextSetter () {
         }
       } else if (key === 'space') {
         handleFontSpace(values[key]);
+      } else if (key === 'border') {
+        handleTextStroke(values[key]);
       } else {
         object.set(key, values[key]);
       }
@@ -68,6 +76,10 @@ export default function TextSetter () {
         italic: object.fontStyle === 'italic',
         underline: object.underline,
         linethrough: object.linethrough
+      },
+      border: {
+        stroke: object.stroke,
+        strokeWidth: object.strokeWidth
       }
     });
   }, [object]);
@@ -82,7 +94,7 @@ export default function TextSetter () {
       <FormItem name="fontFamily">
         <Select
           options={FONT_PRESET_FAMILY_LIST}
-          style={{ width: 180 }}
+          style={{ width: 160 }}
         />
       </FormItem>
       <FormItem
@@ -105,6 +117,9 @@ export default function TextSetter () {
       </FormItem>
       <FormItem name="fontStyles">
         <FontStyleSetter />
+      </FormItem>
+      <FormItem name="border">
+        <BorderSetter />
       </FormItem>
     </Form>
   )
