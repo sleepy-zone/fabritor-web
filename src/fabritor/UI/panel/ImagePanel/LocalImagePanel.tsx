@@ -32,7 +32,7 @@ export default function LocalImagePanel (props) {
 
   return (
     <div>
-      <Button type="primary" block size="large" onClick={handleClick}>
+      <Button type="primary" size="large" onClick={handleClick}>
         添加本地图片
       </Button>
 

@@ -7,6 +7,8 @@ export const loadImageFromUrl = async (url) => {
   return new Promise<fabric.Image>((resolve) => {
     fabric.Image.fromURL(url, (img) => {
       resolve(img);
+    }, {
+      crossOrigin: 'anonymous'
     });
   });
 }

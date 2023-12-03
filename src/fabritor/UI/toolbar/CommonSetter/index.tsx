@@ -45,6 +45,7 @@ export default function CommonSetter () {
   useEffect(() => {
     if (object) {
       setLock(object?.lockMovementX);
+      setOpacity(object?.opacity);
     }
   }, [object]);
 

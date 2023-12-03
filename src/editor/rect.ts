@@ -3,6 +3,16 @@ import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import { setObject2Center } from '@/utils/helper';
 
+const loadImageFromUrl = (url) => {
+  return new Promise((resolve) => {
+    fabric.util.loadImage(url, (img) => {
+      resolve(img);
+    }, {
+      crossOrigin: 'anonymous'
+    });
+  });
+}
+
 export default function createRect (options) {
   const { width = 200, height = 200, left, top, ...rest } = options || {};
   const editor = getGlobalEditor();
@@ -25,13 +35,16 @@ export default function createRect (options) {
 export const createImageRect = async (options) => {
   const editor = getGlobalEditor();
   const { canvas } = editor;
-  const { image, left, top, ...rest } = options;
+  let { image, url, left, top, ...rest } = options;
   const rect = new fabric.Rect({
     id: uuid(),
     sub_type: 'image',
     ...rest,
   });
 
+  if (!image) {
+    image = await loadImageFromUrl(url);
+  }
   rect.set({
     fill: new fabric.Pattern({
       source: image,

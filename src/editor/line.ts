@@ -25,7 +25,7 @@ export const drawLine = (options) => {
   line.setControlVisible('tl', false);
   line.setControlVisible('tr', false);
   line.setControlVisible('bl', false);
-  line.setControlVisible('br', false);
+  // line.setControlVisible('br', false);
 
   canvas.add(line);
   canvas.setActiveObject(line);

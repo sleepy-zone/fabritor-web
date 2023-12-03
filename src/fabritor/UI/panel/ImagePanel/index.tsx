@@ -1,11 +1,14 @@
 import LocalImagePanel from './LocalImagePanel';
 import { createSvg } from '@/editor/image';
 import { createImageRect } from '@/editor/rect';
+import RemoteImagePanel from './RemoteImagePanel';
+import { Flex } from 'antd';
 
 export default function ImagePanel () {
   const addImage = async (options) => {
     await createImageRect({
-      image: options.img
+      image: options.img,
+      url: options.url
     });
   }
 
@@ -15,7 +18,10 @@ export default function ImagePanel () {
 
   return (
     <div className="fabritor-panel-text-wrapper">
-      <LocalImagePanel addImage={addImage} addSvg={addSvg} />
+      <Flex gap={10} justify="space-around">
+        <LocalImagePanel addImage={addImage} addSvg={addSvg} />
+        <RemoteImagePanel addImage={addImage} />
+      </Flex>
     </div>
   )
 }
