@@ -93,6 +93,26 @@ export const FONT_PRESET_FAMILY_LIST = [
     label: <span style={{ fontFamily: '站酷小薇LOGO体', fontSize: 16 }}>站酷小薇LOGO体</span>, 
     value: '站酷小薇LOGO体' 
   },
+  { 
+    label: <span style={{ fontFamily: '霞鹜新晰黑', fontSize: 16 }}>霞鹜新晰黑</span>, 
+    value: '霞鹜新晰黑' 
+  },
+  { 
+    label: <span style={{ fontFamily: '霞鹜尚智黑', fontSize: 16 }}>霞鹜尚智黑</span>, 
+    value: '霞鹜尚智黑' 
+  },
+  { 
+    label: <span style={{ fontFamily: '霞鹜文楷', fontSize: 16 }}>霞鹜文楷</span>, 
+    value: '霞鹜文楷' 
+  },
+  { 
+    label: <span style={{ fontFamily: '小赖字体', fontSize: 16 }}>小赖字体</span>, 
+    value: '小赖字体' 
+  },
+  { 
+    label: <span style={{ fontFamily: '悠哉字体', fontSize: 16 }}>悠哉字体</span>, 
+    value: '悠哉字体' 
+  },
 ]
 
 export const SKETCH_ID = 'fabritor-sketch';

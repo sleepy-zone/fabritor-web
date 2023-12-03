@@ -12,6 +12,30 @@
 }
 
 @font-face {
+  font-family: "霞鹜新晰黑";
+  src: url("./assets/fonts/LXGWNeoXiHei.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "霞鹜尚智黑";
+  src: url("./assets/fonts/LXGWFasmartGothic.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "霞鹜文楷";
+  src: url("./assets/fonts/LXGWWenKai-Regular.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "小赖字体";
+  src: url("./assets/fonts/XiaolaiSC-Regular.ttf");
+  font-display: swap;
+}
+
+@font-face {
   font-family: "SourceHanSerif";
   src: url("./assets/fonts/SourceHanSerifCN-Regular.ttf");
   font-display: swap;
@@ -26,6 +50,12 @@
 @font-face {
   font-family: "江西拙楷";
   src: url("./assets/fonts/江西拙楷.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "悠哉字体";
+  src: url("./assets/fonts/Yozai-Regular.ttf");
   font-display: swap;
 }
 
