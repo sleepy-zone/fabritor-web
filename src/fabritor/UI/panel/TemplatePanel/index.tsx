@@ -22,9 +22,8 @@ export default function TemplatePanel () {
     reader.onload = (async (evt) => {
       const json = evt.target?.result as string;
       if (json) {
-        await editor.loadFromJSON(json);
+        await editor.loadFromJSON(json, true);
         setReady(true);
-        editor.fhistory.clear();
       }
     });
     reader.readAsText(file);
@@ -33,9 +32,8 @@ export default function TemplatePanel () {
   const handleLoadTemplate = async (item) => {
     const editor = getGlobalEditor();
     setReady(false);
-    await editor.loadFromJSON(item.template);
+    await editor.loadFromJSON(item.template, true);
     setReady(true);
-    editor.fhistory.clear();
   }
 
   return (

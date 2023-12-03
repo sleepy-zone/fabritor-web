@@ -348,8 +348,9 @@ export default class Editor {
     )}`;
   }
 
-  public async loadFromJSON (json) {
+  public async loadFromJSON (json, addHistory = false) {
     if (!json) return;
+    this.fhistory.historyProcessing = true;
     if (typeof json === 'string') {
       try {
         json = JSON.parse(json);
@@ -364,13 +365,20 @@ export default class Editor {
         await loadFont(item.fontFamily);
       }
     }
-    this.canvas.loadFromJSON(json, () => {
-      this.canvas.requestRenderAll();
-    }, (o, obj) => {
-      if (obj.id === SKETCH_ID) {
-        this.sketch = obj;
-        this.setSketchSize({ width: obj.width, height: obj.height });
-      }
+    return new Promise((resolve) => {
+      this.canvas.loadFromJSON(json, () => {
+        this.canvas.requestRenderAll();
+        this.fhistory.historyProcessing = false;
+        if (addHistory) {
+          this.fhistory._historySaveAction();
+        }
+        resolve(true);
+      }, (o, obj) => {
+        if (obj.id === SKETCH_ID) {
+          this.sketch = obj;
+          this.setSketchSize({ width: obj.width, height: obj.height });
+        }
+      });
     });
   }
 }

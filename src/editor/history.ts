@@ -7,7 +7,7 @@ export default class FabricHistory {
   private historyUndo: string[];
   private historyRedo: string[];
   private currentState: string;
-  private historyProcessing: boolean;
+  public historyProcessing: boolean;
   private canvas: fabric.Canvas;
   private editor: Editor;
 
@@ -33,12 +33,14 @@ export default class FabricHistory {
     }
   }
 
-  private _historySaveAction () {
+  public _historySaveAction () {
     if (this.historyProcessing) return;
     const json = this.currentState;
     this.historyUndo.push(json);
     this._checkHistoryUndoLength();
     this.currentState = this._getJSON();
+
+    console.log(this.historyUndo)
   }
 
   private _getJSON () {
