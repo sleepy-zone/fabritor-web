@@ -10,6 +10,7 @@ import initHotKey from './hotkey';
 import { SKETCH_ID, FABRITOR_CUSTOM_PROPS } from '@/utils/constants';
 import FabricHistory from './history';
 import { createGroup } from './group';
+import createCustomClass from './shapes/FLine';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -35,7 +36,7 @@ export default class Editor {
 
   public init() {
     this._initObject();
-    this._initFabric();
+    this._initCanvas();
     this._initEvents();
     this._initSketch();
     this._initGuidelines();
@@ -44,11 +45,12 @@ export default class Editor {
   }
 
   private _initObject () {
+    createCustomClass();
     initControl();
     initObjectPrototype();
   }
 
-  private _initFabric () {
+  private _initCanvas () {
     const { canvasEl, workspaceEl } = this._options;
     this.canvas = new fabric.Canvas(canvasEl, {
       selection: true,

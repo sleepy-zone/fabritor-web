@@ -9,10 +9,9 @@ export const drawLine = (options) => {
   const editor = getGlobalEditor();
   const { canvas } = editor;
 
-  const line = new fabric.Path(path, {
+  const line = new fabric.FLine(path, {
     stroke: '#000000',
     id: uuid(),
-    sub_type: 'line',
     ...rest
   });
 
@@ -25,7 +24,7 @@ export const drawLine = (options) => {
   line.setControlVisible('tl', false);
   line.setControlVisible('tr', false);
   line.setControlVisible('bl', false);
-  // line.setControlVisible('br', false);
+  line.setControlVisible('br', false);
 
   canvas.add(line);
   canvas.setActiveObject(line);

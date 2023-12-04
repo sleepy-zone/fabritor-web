@@ -32,11 +32,9 @@ export default function Toolbar () {
       case 'ellipse':  
         return <ShapeSetter />;
       case 'line':
+      case 'f-line':
         return <LineSetter />;
       case 'path':
-        if (object.sub_type === 'line') {
-          return <LineSetter />
-        }
       case 'group':
       default:
         return <SketchSetter />;
