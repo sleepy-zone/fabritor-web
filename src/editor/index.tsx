@@ -350,7 +350,6 @@ export default class Editor {
 
   public async loadFromJSON (json, addHistory = false) {
     if (!json) return;
-    this.fhistory.historyProcessing = true;
     if (typeof json === 'string') {
       try {
         json = JSON.parse(json);
@@ -365,6 +364,7 @@ export default class Editor {
         await loadFont(item.fontFamily);
       }
     }
+    this.fhistory.historyProcessing = true;
     return new Promise((resolve) => {
       this.canvas.loadFromJSON(json, () => {
         this.canvas.requestRenderAll();

@@ -39,8 +39,6 @@ export default class FabricHistory {
     this.historyUndo.push(json);
     this._checkHistoryUndoLength();
     this.currentState = this._getJSON();
-
-    console.log(this.historyUndo)
   }
 
   private _getJSON () {

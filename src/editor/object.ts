@@ -2,6 +2,7 @@ import { fabric } from 'fabric';
 import { OBJECT_DEFAULT_CONFIG } from '@/utils/constants';
 
 export const initObjectPrototype = () => {
+  // Text global config
   Object.keys(OBJECT_DEFAULT_CONFIG).forEach(key => {
     fabric.Object.prototype[key] = OBJECT_DEFAULT_CONFIG[key];
   });
@@ -9,6 +10,7 @@ export const initObjectPrototype = () => {
   fabric.Textbox.prototype.padding = 4;
   fabric.Textbox.prototype.paintFirst = 'stroke';
 
+   // Selection/Group global config
   const asConfig = {
     borderColor: '#cccddd',
     borderDashArray: [7, 10],

@@ -3,6 +3,7 @@
 import { fabric } from 'fabric';
 import { ROTATE_SVG, ROTATE_CURSOR, COPY_SVG, DEL_SVG } from '@/assets/icon';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
+import { initRectControl } from './rect';
 
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
@@ -222,4 +223,5 @@ export default function initControl () {
   renderController();
   renderRotateController();
   renderToolBarController();
+  initRectControl();
 }
