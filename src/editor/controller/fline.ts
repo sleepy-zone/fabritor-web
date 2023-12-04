@@ -4,9 +4,13 @@ import { fabric } from 'fabric';
 const controlsUtils = fabric.controlsUtils;
 
 const changeEnd = (eventData, transform, x, y) => {
-  const { target } = transform;
-  const path = target.path;
-  target._setPath([...path, [ 'L', eventData.x - x, 0 ]]);
+  const { target, ex } = transform;
+  const { path, left, top } = target;
+  console.log(path[1][1], x, ex);
+  path[1][1] += x - ex;
+  target._setPath(path);
+  target.set({ left, top });
+  
   return true;
 }
 

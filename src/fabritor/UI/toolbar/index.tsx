@@ -36,6 +36,7 @@ export default function Toolbar () {
         return <LineSetter />;
       case 'path':
       case 'group':
+        return null;
       default:
         return <SketchSetter />;
     }
