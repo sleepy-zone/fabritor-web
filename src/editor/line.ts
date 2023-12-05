@@ -12,6 +12,7 @@ export const drawLine = (options) => {
   const line = new fabric.FLine({
     stroke: '#000000',
     id: uuid(),
+    // strokeLineCap: 'square',
     ...rest
   });
 

@@ -10,7 +10,7 @@ import initHotKey from './hotkey';
 import { SKETCH_ID, FABRITOR_CUSTOM_PROPS } from '@/utils/constants';
 import FabricHistory from './history';
 import { createGroup } from './group';
-import createCustomClass from './shapes/FLine';
+import createCustomClass from './shapes';
 
 export default class Editor {
   public canvas: fabric.Canvas;

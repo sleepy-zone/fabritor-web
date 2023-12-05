@@ -56,7 +56,7 @@ export default function StrokeSetter (props) {
             <span>粗细</span>
             <Slider
               min={1}
-              max={100}
+              max={30}
               value={value?.strokeWidth}
               onChange={(v) => { handleChange(v, 'strokeWidth') }}
             />

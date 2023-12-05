@@ -17,8 +17,8 @@ export default function LineSetter () {
     }
     if (strokeDashArray?.length) {
       let [d1, d2] = strokeDashArray;
-      d1 = d1 / (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-      d2 = d2 / (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth * 2);
+      d1 = d1 / strokeWidth;
+      d2 = d2 / strokeWidth;
       return [d1, d2].join(',');
     }
     return 'line';
@@ -28,15 +28,13 @@ export default function LineSetter () {
     if (!strokeConfig) return;
     const { strokeWidth = 1, round = false, type = 'line' } = strokeConfig;
 
-    object.set('strokeWidth', strokeWidth);
-
-    object.set('strokeLineCap', round ? 'round' : 'butt');
-    // object.set('strokeLineJoin', round ? 'round' : 'miter');
+    object.setStrokeWidth(strokeWidth);
+    object.set('strokeLineCap', round ? 'round' : 'square');
 
     if (type !== 'line') {
       const dashArray = type.split(',');
-      dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-      dashArray[1] = dashArray[1] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth * 2);
+      dashArray[0] = dashArray[0] * strokeWidth;
+      dashArray[1] = dashArray[1] * strokeWidth;
       object.set('strokeDashArray', dashArray);
     } else {
       object.set('strokeDashArray', null);
