@@ -1,15 +1,16 @@
 import { fabric } from 'fabric';
-
-// @ts-ignore fabric controlsUtils
-const controlsUtils = fabric.controlsUtils;
+import { getLocalPoint } from '@/utils/helper';
 
 const changeEnd = (eventData, transform, x, y) => {
-  const { target, ex } = transform;
-  const { path, left, top } = target;
-  console.log(path[1][1], x, ex);
-  path[1][1] += x - ex;
-  target._setPath(path);
-  target.set({ left, top });
+  const { target, originX, originY } = transform;
+  let { left, top, width } = target;
+  const localPoint = getLocalPoint(transform, originX, originY, x, y);
+  if (localPoint.x < 0) {
+    left += (localPoint.x + width);
+  } 
+  target.setEndX(Math.abs(localPoint.x));
+  target.set({ left, top, dirty: true });
+  target.setCoords();
   
   return true;
 }
@@ -25,11 +26,14 @@ export const initFLineControl = () => {
     flineControls.bl = objectControls.bl;
     flineControls.mt = objectControls.mt;
     flineControls.mb = objectControls.mb;
+    flineControls.mtr = objectControls.mtr;
+    flineControls.copy = objectControls.copy;
+    flineControls.del = objectControls.del;
 
     flineControls.ml = new fabric.Control({
       x: -0.5,
       y: 0,
-      actionHandler: controlsUtils.changeWidth,
+      actionHandler: changeEnd,
       cursorStyleHandler: objectControls.ml.cursorStyleHandler,
       actionName: 'resizing',
       render: objectControls.bl.render

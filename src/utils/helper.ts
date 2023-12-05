@@ -1,3 +1,4 @@
+import { fabric } from 'fabric';
 import { FABRITOR_CUSTOM_PROPS } from './constants';
 
 export const calcCanvasZoomLevel = (
@@ -140,4 +141,37 @@ export const setObject2Center = (object, options, editor) => {
     top = (sketch.height || 0) / 2 - object.height / 2;
   }
   object.set({ left, top });
+}
+
+/**
+   * Transforms a point described by x and y in a distance from the top left corner of the object
+   * bounding box.
+   * @param {Object} transform
+   * @param {String} originX
+   * @param {String} originY
+   * @param {number} x
+   * @param {number} y
+   * @return {Fabric.Point} the normalized point
+   */
+export const getLocalPoint = (transform, originX, originY, x, y) => {
+  var target = transform.target,
+      control = target.controls[transform.corner],
+      zoom = target.canvas.getZoom(),
+      padding = target.padding / zoom,
+      localPoint = target.toLocalPoint(new fabric.Point(x, y), originX, originY);
+  if (localPoint.x >= padding) {
+    localPoint.x -= padding;
+  }
+  if (localPoint.x <= -padding) {
+    localPoint.x += padding;
+  }
+  if (localPoint.y >= padding) {
+    localPoint.y -= padding;
+  }
+  if (localPoint.y <= padding) {
+    localPoint.y += padding;
+  }
+  localPoint.x -= control.offsetX;
+  localPoint.y -= control.offsetY;
+  return localPoint;
 }

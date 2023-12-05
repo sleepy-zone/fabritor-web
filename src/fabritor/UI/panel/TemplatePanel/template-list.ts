@@ -9,6 +9,6 @@ export default [
     key: 'post',
     template: require('@/assets/templates/post.json'),
     desc: '社群福利',
-    preview: 'https://xiuxiu-pro.meitudata.com/posters/b816efa463e592d909947355c50c1ae8.png'
+    preview: require('@/assets/templates/post.png')
   }
 ]

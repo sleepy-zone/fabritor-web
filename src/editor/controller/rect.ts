@@ -14,6 +14,9 @@ export const initRectControl = () => {
     rectControls.bl = objectControls.bl;
     rectControls.mt = objectControls.mt;
     rectControls.mb = objectControls.mb;
+    rectControls.mtr = objectControls.mtr;
+    rectControls.copy = objectControls.copy;
+    rectControls.del = objectControls.del;
 
     rectControls.ml = new fabric.Control({
       x: -0.5,

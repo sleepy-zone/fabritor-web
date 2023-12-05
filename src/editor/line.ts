@@ -4,12 +4,12 @@ import { uuid } from '@/utils';
 import { setObject2Center } from '@/utils/helper';
 
 export const drawLine = (options) => {
-  let { path, left, top, ...rest } = options || {};
+  let { left, top, ...rest } = options || {};
 
   const editor = getGlobalEditor();
   const { canvas } = editor;
 
-  const line = new fabric.FLine(path, {
+  const line = new fabric.FLine({
     stroke: '#000000',
     id: uuid(),
     ...rest
