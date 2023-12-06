@@ -7,7 +7,10 @@ export const createFLineClass = () => {
 
     initialize (options) {
       const { start, end, arrow = [], left, top } = options;
-      this.setOptions(options);
+      this.setOptions({
+        arrowDelta: 15,
+        ...options
+      });
       this._setPath([['M', ...start], ['L', ...end], ...arrow]);
       this.set({ left, top });
     },
