@@ -6,12 +6,10 @@ export const createFLineClass = () => {
     type: 'f-line',
 
     initialize (options) {
-      const { start, end, min, max, arrow = [], middleIndex, ...rest } = options;
-      this.setOptions(rest);
-      this.max = max;
-      this.min = min;
-      this.middleIndex = middleIndex;
+      const { start, end, arrow = [], left, top } = options;
+      this.setOptions(options);
       this._setPath([['M', ...start], ['L', ...end], ...arrow]);
+      this.set({ left, top });
     },
 
     setStartX (startX) {
@@ -29,7 +27,7 @@ export const createFLineClass = () => {
           if (index === this.middleIndex) {
             item[1] = endX;
           } else {
-            item[1] = endX - 15;
+            item[1] = endX - this.arrowDelta;
           }
         });
       }
@@ -37,20 +35,21 @@ export const createFLineClass = () => {
     },
 
     setStrokeWidth (w) {
-      const left = this.left;
-      const top = this.top;
-      const path = this.path; 
+      const { left, top, path, strokeWidth } = this;
       const arrow = path.slice(2);
+      const delta = w - strokeWidth;
       this.set('strokeWidth', w);
-      // if (arrow && arrow.length) {
-      //   arrow.forEach((item, index) => {
-      //     if (index !== this.middleIndex) {
-      //       item[1] -= w;
-      //     }
-      //   });
-      // }
-      // this.set({ left, top });
-      // this._setPath([path[0], path[1], ...arrow]);
+      if (arrow && arrow.length) {
+        arrow.forEach((item, index) => {
+          if (index !== this.middleIndex) {
+            item[1] -= delta;
+            item[2] > 0 ? item[2] += delta : item[2] -= delta;
+          }
+        });
+        this.arrowDelta = arrow[this.middleIndex][1] - arrow[0][1];
+      }
+      this._setPath([path[0], path[1], ...arrow]);
+      this.set({ left, top });
     },
 
     setStrokeDashArray (dashArray) {
@@ -58,6 +57,13 @@ export const createFLineClass = () => {
     }
   }); 
 
-  fabric.FLine.fromObject = fabric.Path.fromObject;
+  fabric.FLine.fromObject = (object, callback) => {
+    const options = {...object};
+    const path = object.path;
+    options.arrow = path.slice(2);
+    options.start = path[0].slice(1);
+    options.end = path[1].slice(1);
+    fabric.Object._fromObject('FLine', options, callback);
+  }
   fabric.FLine.ATTRIBUTE_NAMES = fabric.Path.ATTRIBUTE_NAMES;
 }

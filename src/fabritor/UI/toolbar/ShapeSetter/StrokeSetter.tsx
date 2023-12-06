@@ -20,7 +20,7 @@ const BORDER_TYPES = [
 ]
 
 export default function StrokeSetter (props) {
-  const { value, onChange } = props;
+  const { value, onChange, borderTypesDisabled } = props;
 
   const handleChange = (v, key) => {
     onChange && onChange({
@@ -36,6 +36,7 @@ export default function StrokeSetter (props) {
           <Radio.Group
             value={value?.type}
             onChange={(v) => { handleChange(v.target.value, 'type') }}
+            disabled={borderTypesDisabled}
           >
             {
               BORDER_TYPES.map(item => (
@@ -56,7 +57,7 @@ export default function StrokeSetter (props) {
             <span>粗细</span>
             <Slider
               min={1}
-              max={30}
+              max={100}
               value={value?.strokeWidth}
               onChange={(v) => { handleChange(v, 'strokeWidth') }}
             />

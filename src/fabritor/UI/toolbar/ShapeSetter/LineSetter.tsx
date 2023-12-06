@@ -29,7 +29,7 @@ export default function LineSetter () {
     const { strokeWidth = 1, round = false, type = 'line' } = strokeConfig;
 
     object.setStrokeWidth(strokeWidth);
-    object.set('strokeLineCap', round ? 'round' : 'square');
+    object.set('strokeLineCap', round ? 'round' : 'butt');
 
     if (type !== 'line') {
       const dashArray = type.split(',');
@@ -89,7 +89,7 @@ export default function LineSetter () {
       <FormItem
         name="strokeConfig"
       >
-        <StrokeSetter />
+        <StrokeSetter borderTypesDisabled={object?.sub_type === 'arrow'} />
       </FormItem>
     </Form>
   )

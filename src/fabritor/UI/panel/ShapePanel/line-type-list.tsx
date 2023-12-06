@@ -41,7 +41,10 @@ export default [
       strokeWidth: 4,
       stroke: '#000000',
       fill: '#000000',
-      middleIndex: 2
+      strokeLineJoin: 'round',
+      strokeLineCap: 'round',
+      middleIndex: 2,
+      sub_type: 'arrow'
     }
   },
   {
@@ -60,7 +63,9 @@ export default [
       stroke: '#000000',
       fill: '#00000000',
       strokeLineJoin: 'round',
-      middleIndex: 1
+      strokeLineCap: 'round',
+      middleIndex: 1,
+      sub_type: 'arrow'
     }
   },
 ]
