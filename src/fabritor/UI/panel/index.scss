@@ -7,7 +7,22 @@
   cursor: pointer;
 }
 
+.fabritor-panel-template-wrapper {
+  padding: 16px;
+}
 .fabritor-panel-template-wrapper .ant-card .ant-card-body {
   padding: 14px;
   font-size: 12px;
+}
+
+.fabritor-panel-layer-item {
+  background: rgba(53, 71, 90, 0.2);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  &:hover {
+    border:  2px solid rgba(255,34,34,.5) !important;
+  }
 }

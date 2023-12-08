@@ -2,11 +2,12 @@ import { Layout, Tabs, Flex } from 'antd';
 import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
-import TemplatePanel from './TemplatePanel';
 import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
+import DesignPanel from './DesignPanel';
 
 import './index.scss';
+import { useState } from 'react';
 
 const { Sider } = Layout;
 
@@ -19,8 +20,8 @@ const iconStyle = { fontSize: 18, marginRight: 0 };
 
 const OBJECT_TYPES = [
   {
-    label: '模板',
-    value: 'template',
+    label: '设计',
+    value: 'design',
     icon: <AlertOutlined style={iconStyle} />
   },
   {
@@ -51,10 +52,11 @@ const OBJECT_TYPES = [
 ];
 
 export default function Panel () {
+  const [designDefaultKey, setDesignDefaultKey] = useState('template');
 
   const renderPanel = (value) => {
-    if (value === 'template') {
-      return <TemplatePanel />;
+    if (value === 'design') {
+      return <DesignPanel defaultKey={designDefaultKey} />;
     }
     if (value === 'text') {
       return <TextPanel />;
@@ -91,6 +93,7 @@ export default function Panel () {
         style={{ height: '100%' }}
         size="small"
         destroyInactiveTabPane
+        onChange={() => { setDesignDefaultKey('layers') }}
         items={
           OBJECT_TYPES.map((item) => {
             return {
