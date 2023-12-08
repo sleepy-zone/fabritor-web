@@ -30,6 +30,7 @@ export default function SpaceSetter (props) {
             <Slider
               min={-200}
               max={800}
+              step={1}
               value={value?.charSpacing}
               onChange={(v) => { handleChange(v, 'charSpacing') }}
             />

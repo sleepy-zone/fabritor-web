@@ -2,10 +2,16 @@ import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import { setObject2Center } from '@/utils/helper';
+import { message } from 'antd';
 
 export const loadImageFromUrl = async (url) => {
-  return new Promise<fabric.Image>((resolve) => {
+  return new Promise<fabric.Image>((resolve, reject) => {
     fabric.Image.fromURL(url, (img) => {
+      if (!img) {
+        message.error('加载远程图片失败');
+        reject();
+        return;
+      }
       resolve(img);
     }, {
       crossOrigin: 'anonymous'
@@ -29,11 +35,15 @@ export const createImage = async (options) => {
 
   let img!: fabric.Image;
   if (options.url) {
-    img = await loadImageFromUrl(url);
+    try {
+      img = await loadImageFromUrl(url);
+    } catch(e) { console.log(e); }
   }
   if (options.img) {
     img = new fabric.Image(options.img);
   }
+  
+  if (!img) return;
 
   img.set({
     ...rest,

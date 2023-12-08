@@ -92,8 +92,8 @@ export default class Editor {
     this.sketch = sketch;
 
     this._initResizeObserver();
-
     this._adjustSketch2Canvas();
+    this._saveJson2Local();
   }
 
   public setSketchSize (size) {
@@ -341,6 +341,16 @@ export default class Editor {
       } as any
     });
     return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  }
+
+  private _saveJson2Local () {
+    // save every second
+    setInterval(() => {
+      try {
+        const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
+        localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+      } catch(e) {  console.log(e) }
+    }, 1000);
   }
 
   public export2Json () {
