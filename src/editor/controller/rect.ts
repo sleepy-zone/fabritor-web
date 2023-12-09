@@ -35,5 +35,7 @@ export const initRectControl = () => {
       actionName: 'resizing',
       render: objectControls.mr.render
     });
+
+    // TODO: change height
   }
 }

@@ -1,7 +1,7 @@
 import { fabric } from 'fabric';
 import { message } from 'antd';
 import { calcCanvasZoomLevel } from '@/utils/helper';
-import initControl, { handleMouseOverCorner } from './controller';
+import initControl, { handleMouseOutCorner, handleMouseOverCorner } from './controller';
 import { initObjectPrototype } from './object';
 import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
@@ -176,22 +176,24 @@ export default class Editor {
     });
     this.canvas.on('mouse:over', (opt) => {
       const { target } = opt;
-      // @ts-ignore
-      if (!target || target.id === SKETCH_ID) return;
-      if (target === this.canvas.getActiveObject()) return;
       if (this._pan.enable) return;
-      // @ts-ignore
-      target._renderControls(this.canvas.contextTop, { hasControls: false });
-      // @ts-ignore
+
       const corner = target?.__corner;
       if (corner) {
         handleMouseOverCorner(corner, opt.target);
       }
+
+      if (!target || target.id === SKETCH_ID) return;
+      if (target === this.canvas.getActiveObject()) return;
+
+      // @ts-ignore
+      target._renderControls(this.canvas.contextTop, { hasControls: false });
     });
     this.canvas.on('mouse:out', (opt) => {
       const { target } = opt;
       // @ts-ignore
       if (!target || target.id === SKETCH_ID) return;
+      handleMouseOutCorner(target);
       this.canvas.requestRenderAll();
     });
     this.canvas.on('mouse:up', (opt) => {

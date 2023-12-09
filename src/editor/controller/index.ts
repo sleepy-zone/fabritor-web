@@ -1,19 +1,25 @@
 // cursor css https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor
 
 import { fabric } from 'fabric';
-import { ROTATE_SVG, ROTATE_CURSOR, COPY_SVG, DEL_SVG } from '@/assets/icon';
+import { ROTATE_SVG, ROTATE_SVG_ACTIVE, ROTATE_CURSOR, COPY_SVG, DEL_SVG, COPY_SVG_ACTIVE, DEL_SVG_ACTIVE } from '@/assets/icon';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 import { initRectControl } from './rect';
 import { initFLineControl } from './fline';
 
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
+const ROTATE_IMG_ACTIVE = document.createElement('img');
+ROTATE_IMG_ACTIVE.src = ROTATE_SVG_ACTIVE;
 
 const COPY_IMG = document.createElement('img');
 COPY_IMG.src = COPY_SVG;
+const COPY_IMG_ACTIVE = document.createElement('img');
+COPY_IMG_ACTIVE.src = COPY_SVG_ACTIVE;
 
 const DEL_IMG = document.createElement('img');
 DEL_IMG.src = DEL_SVG;
+const DEL_IMG_ACTIVE = document.createElement('img');
+DEL_IMG_ACTIVE.src = DEL_SVG_ACTIVE;
 
 const renderSizeIcon = (ctx, left, top, styleOverride, fabricObject, TBorLR) => {
   const xSize = TBorLR === 'TB' ? 20 : 6;
@@ -58,7 +64,7 @@ export const renderVertexIcon = (ctx, left, top, styleOverride, fabricObject) =>
 
 function renderSvgIcon(icon) {
   return function renderIcon(ctx, left, top, styleOverride, fabricObject) {
-    const size = 24;
+    const size = 28;
     ctx.save();
     ctx.translate(left, top);
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
@@ -217,7 +223,23 @@ export const renderToolBarController = () => {
 
 // TODO handle corner mouse over
 export const handleMouseOverCorner = (corner, target) => {
-  // console.log(corner, target);
+  if (corner === 'mtr') {
+    target.controls[corner].render = renderSvgIcon(ROTATE_IMG_ACTIVE);
+  }
+  if (corner === 'copy') {
+    target.controls[corner].render = renderSvgIcon(COPY_IMG_ACTIVE);
+  }
+  if (corner === 'del') {
+    target.controls[corner].render = renderSvgIcon(DEL_IMG_ACTIVE);
+  }
+  target.canvas.requestRenderAll();
+}
+
+export const handleMouseOutCorner = (target) => {
+  if (!target) return;
+  target.controls.mtr.render = renderSvgIcon(ROTATE_IMG);
+  target.controls.copy.render = renderSvgIcon(COPY_IMG);
+  target.controls.del.render = renderSvgIcon(DEL_IMG);
 }
 
 export default function initControl () {
