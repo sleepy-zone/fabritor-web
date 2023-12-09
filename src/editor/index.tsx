@@ -345,6 +345,7 @@ export default class Editor {
 
   private _saveJson2Local () {
     // save every second
+    // TODO: object change event trigger
     setInterval(() => {
       try {
         const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);

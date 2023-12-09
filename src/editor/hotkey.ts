@@ -27,4 +27,28 @@ export default function initHotKey (canvas, fhistory) {
     event.preventDefault();
     fhistory.redo();
   });
+
+  hotkeys('up, right, down, left', (event, handler) => {
+    const activeObject = canvas.getActiveObject();
+    if (!activeObject) return;
+    if (activeObject.type === 'textbox' && activeObject.isEditing) return;
+    event.preventDefault();
+    switch (handler.key) {
+      case 'up':
+        activeObject.set('top', activeObject.top - 1);
+        break;
+      case 'right':
+        activeObject.set('left', activeObject.left + 1);
+        break;
+      case 'down':
+        activeObject.set('top', activeObject.top + 1);
+        break;
+      case 'left':
+        activeObject.set('left', activeObject.left - 1);
+        break;
+      default:
+        break;
+    }
+    canvas.requestRenderAll();
+  });
 }
