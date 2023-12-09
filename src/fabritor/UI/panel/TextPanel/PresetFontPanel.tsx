@@ -3,10 +3,10 @@ import Title from '@/fabritor/components/Title';
 
 const PRESET_FONT_LIST = [
   {
-    label: <div style={{ fontSize: 30, fontFamily: '包图小白体', fontWeight: 'bold' }}>添加标题</div>,
+    label: <div style={{ fontSize: 30, fontFamily: '胡晓波男神体', fontWeight: 'bold' }}>添加标题</div>,
     key: 'title',
     config: {
-      fontFamily: '包图小白体',
+      fontFamily: '胡晓波男神体',
       fontWeight: 'bold',
       fontSize: 120,
       text: '添加标题',
@@ -19,7 +19,7 @@ const PRESET_FONT_LIST = [
     config: {
       fontFamily: 'AlibabaPuHuiTi',
       fontWeight: 'bold',
-      fontSize: 90,
+      fontSize: 100,
       text: '添加副标题',
       top: 400
     }
@@ -29,7 +29,7 @@ const PRESET_FONT_LIST = [
     key: 'content',
     config: {
       fontFamily: 'SourceHanSerif',
-      fontSize: 75,
+      fontSize: 80,
       text: '添加一段正文'
     }
   }
