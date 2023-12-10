@@ -22,10 +22,6 @@ export default function Toolbar () {
       case 'textbox':
         return <TextSetter />;
       case 'rect':
-        if (object.sub_type === 'image') {
-          return <ImageSetter />;
-        }
-        return <ShapeSetter />;
       case 'circle':
       case 'triangle':
       case 'polygon':
@@ -34,6 +30,8 @@ export default function Toolbar () {
       case 'line':
       case 'f-line':
         return <LineSetter />;
+      case 'f-image':
+        return <ImageSetter />;
       case 'path':
       case 'group':
         return null;

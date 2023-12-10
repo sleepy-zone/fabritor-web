@@ -240,8 +240,7 @@ export default class Editor {
       if (!target || target.id === SKETCH_ID) return;
       const scaledWidth = target.getScaledWidth();
       const scaledHeight = target.getScaledHeight();
-      console.log(scaledWidth, scaledHeight);
-      if (target.type !== 'f-line') {
+      if (target.type !== 'f-line' && target.type !== 'f-image') {
         if (target.type !== 'textbox') {
           target.setControlVisible('mt', scaledWidth >= 100);
           target.setControlVisible('mb', scaledWidth >= 100);

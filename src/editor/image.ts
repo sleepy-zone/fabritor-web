@@ -79,3 +79,28 @@ export const createSvg = async (options) => {
 
   return svg;
 }
+
+export const createFImage = async (options) => {
+  const { left, top, ...rest } = options || {};
+  const editor = getGlobalEditor();
+  const { canvas } = editor;
+
+  const img = new fabric.FImage({
+    ...rest,
+    id: uuid(),
+    afterInit: () => {
+      setObject2Center(img, { left, top }, editor);
+    }
+  });
+
+  img.setControlVisible('mt', false);
+  img.setControlVisible('mb', false);
+  img.setControlVisible('ml', false);
+  img.setControlVisible('mr', false);
+
+  canvas.add(img);
+  canvas.setActiveObject(img);
+  canvas.requestRenderAll();
+
+  return img;
+}
