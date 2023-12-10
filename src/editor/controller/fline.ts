@@ -5,7 +5,6 @@ const changeEnd = (eventData, transform, x, y) => {
   const { target, originX, originY } = transform;
   let { left, top, width } = target;
   const localPoint = getLocalPoint(transform, originX, originY, x, y);
-  console.log(localPoint)
   if (localPoint.x < 0) {
     left += (localPoint.x + width);
   } 

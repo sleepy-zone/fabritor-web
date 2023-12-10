@@ -234,6 +234,23 @@ export default class Editor {
         }
       }
     });
+
+    this.canvas.on('object:modified', (opt) => {
+      const { target } = opt;
+      if (!target || target.id === SKETCH_ID) return;
+      const scaledWidth = target.getScaledWidth();
+      const scaledHeight = target.getScaledHeight();
+      console.log(scaledWidth, scaledHeight);
+      if (target.type !== 'f-line') {
+        if (target.type !== 'textbox') {
+          target.setControlVisible('mt', scaledWidth >= 100);
+          target.setControlVisible('mb', scaledWidth >= 100);
+        }
+        target.setControlVisible('ml', scaledHeight >= 100);
+        target.setControlVisible('mr', scaledHeight >= 100);
+        this.canvas.requestRenderAll();
+      }
+    });
   }
 
   private _editTextInGroup (group, textbox) {
