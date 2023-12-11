@@ -26,3 +26,10 @@
     border:  2px solid rgba(255,34,34,.5) !important;
   }
 }
+
+.fabritor-sider {
+  .ant-layout-sider-children {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -87,12 +87,13 @@ export default function Panel () {
     <Sider
       style={siderStyle}
       width={420}
+      className="fabritor-sider"
     >
       <Header />
       <Tabs
         defaultActiveKey='template'
         tabPosition="left"
-        style={{ height: '100%' }}
+        style={{ flex: 1 }}
         size="small"
         destroyInactiveTabPane
         onChange={() => { setDesignDefaultKey('layers') }}
