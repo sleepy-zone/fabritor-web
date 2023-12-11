@@ -142,6 +142,7 @@ export const changeLayerLevel = (level, editor, target) => {
   }
   editor.sketch.sendToBack();
   editor.canvas.requestRenderAll();
+  editor.fireCustomModifiedEvent();
 }
 
 export const setObject2Center = (object, options, editor) => {
