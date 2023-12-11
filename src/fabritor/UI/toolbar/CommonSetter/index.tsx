@@ -7,11 +7,13 @@ import { SKETCH_ID } from '@/utils/constants';
 import { getGlobalEditor } from '@/utils/global';
 import OpacitySetter from '@/fabritor/components/OpacitySetter';
 import { DRAG_ICON } from '@/assets/icon';
+import BaseInfo from '../../header/BaseInfo';
+import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 
 const { Item: FormItem } = Form;
 
 export default function CommonSetter () {
-  const { object } = useContext(GloablStateContext);
+  const { object, isReady } = useContext(GloablStateContext);
   const [lock, setLock] = useState(false);
   const [opacity, setOpacity] = useState(1);
   const [panEnable, setPanEnable] = useState(false);
@@ -50,37 +52,51 @@ export default function CommonSetter () {
   }, [object]);
 
   return (
-    <Form
-      layout="inline"
-      className="fabritor-toolbar-form-text"
-    >
-      {
-        object && object.id !== SKETCH_ID ?
+    <>
+      <Form
+        layout="inline"
+        className="fabritor-toolbar-form-text"
+      >
+        {
+          object && object.id !== SKETCH_ID ?
+          <FormItem>
+            <span className="fabritor-toolbar-setter-trigger" onClick={handleLock}>
+              {
+                lock ? 
+                <UnlockOutlined style={{ fontSize: 22 }} /> :
+                <LockOutlined style={{ fontSize: 22 }} />
+              }
+            </span>
+          </FormItem> : null
+        }
+        {
+          object && object.id !== SKETCH_ID ?
+          <FormItem>
+            <OpacitySetter value={opacity} onChange={handleOpacity} />
+          </FormItem> : null
+        }
+      </Form>
+      <Form
+        layout="inline"
+        className="fabritor-toolbar-form-text"
+        style={{ marginLeft: 'auto' }}
+      >
         <FormItem>
-          <span className="fabritor-toolbar-setter-trigger" onClick={handleLock}>
+          <span className="fabritor-toolbar-setter-trigger" onClick={enablePan}>
             {
-              lock ? 
-               <UnlockOutlined style={{ fontSize: 22 }} /> :
-               <LockOutlined style={{ fontSize: 22 }} />
+              panEnable? 
+              <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
+              <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
             }
           </span>
-        </FormItem> : null
-      }
-      {
-        object && object.id !== SKETCH_ID ?
-        <FormItem>
-          <OpacitySetter value={opacity} onChange={handleOpacity} />
-        </FormItem> : null
-      }
-      <FormItem>
-        <span className="fabritor-toolbar-setter-trigger" onClick={enablePan}>
-          {
-            panEnable? 
-            <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
-            <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
-          }
-        </span>
-      </FormItem>
-    </Form>
+        </FormItem>
+        {
+          isReady ?
+          <FormItem>
+            <BaseInfo />
+          </FormItem> : null
+        }
+      </Form>
+    </>
   )
 }

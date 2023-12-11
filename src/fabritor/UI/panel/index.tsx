@@ -5,6 +5,7 @@ import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
+import Header from '../header';
 
 import './index.scss';
 import { useState } from 'react';
@@ -87,6 +88,7 @@ export default function Panel () {
       style={siderStyle}
       width={420}
     >
+      <Header />
       <Tabs
         defaultActiveKey='template'
         tabPosition="left"

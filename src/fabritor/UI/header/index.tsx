@@ -1,14 +1,10 @@
-import { useContext } from 'react';
 import { Flex, Layout } from 'antd';
-import Export from './Export';
-import BaseInfo from './BaseInfo';
-import { GloablStateContext } from '@/context';
 import { LOGO_ICON } from '@/assets/icon';
 
 const { Header} = Layout;
 
 const headerStyle: React.CSSProperties = {
-  padding: '0 30px',
+  padding: '0 16px',
   height: 50,
   backgroundColor: '#fff',
   display: 'flex',
@@ -18,20 +14,12 @@ const headerStyle: React.CSSProperties = {
 };
 
 export default function () {
-  const { isReady } = useContext(GloablStateContext);
   return (
     <Header style={headerStyle}>
       <Flex align="center" gap={12}>
         <img src={LOGO_ICON} />
         <span style={{ fontWeight: 'bold', fontSize: 16 }}>fabritor, A creative editor based on fabricjs.</span>
       </Flex>
-      {
-        isReady ?
-        <Flex gap={40} align="center">
-          <BaseInfo />
-          <Export />
-        </Flex> : null
-      }
     </Header>
   )
 }

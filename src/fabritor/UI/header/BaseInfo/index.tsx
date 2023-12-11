@@ -24,8 +24,6 @@ export default function BaseInfo () {
     setDesc(sketch.fabritor_desc);
   }, []);
 
-  if (!desc) return null;
-
   return (
     <Title
       level={5}
@@ -34,7 +32,7 @@ export default function BaseInfo () {
       }}
       style={{ margin: 0, fontSize: 16 }}
     >
-      {desc}
+      {desc || ''}
     </Title>
   )
 }

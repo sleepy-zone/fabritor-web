@@ -1,4 +1,4 @@
-import { Button, Dropdown } from 'antd';
+import { FloatButton, Dropdown } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { getGlobalEditor } from '@/utils/global';
@@ -54,10 +54,7 @@ export default function Export () {
       arrow={{ pointAtCenter: true }}
       placement="bottom"
     >
-      <Button>
-        <ExportOutlined />
-        导出
-      </Button>
+      <FloatButton type="primary" icon={<ExportOutlined />}/>
     </Dropdown>
   )
 }
