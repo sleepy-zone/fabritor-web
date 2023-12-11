@@ -20,33 +20,18 @@ export default function Layer () {
     for (let i = length - 1; i >= 0; i--) {
       let object = objects[i];
       if (object && object.id !== SKETCH_ID) {
+        if (!object.__cover) {
+          object.__cover = object.toDataURL();
+        }
+
         _layers.push({
-          cover: object.toDataURL(),
+          cover: object.__cover,
           group: object.type === 'group',
           object
         });
       }
     }
     setLayers(_layers);
-  }
-
-  const handleLayerChange = () => {
-    const editor = getGlobalEditor();
-    const co = editor.canvas.getActiveObject();
-    const index = layers.findIndex(item => item.object === co);
-    if (index === -1) {
-      getCanvasLayers(editor.canvas.getObjects());
-      return;
-    }
-    if (co) {
-      const _layers: any = [...layers];
-      _layers.splice(index, 1, {
-        cover: co.toDataURL({}),
-        group: co.type === 'group',
-        object: co
-      });
-      setLayers(_layers);
-    }
   }
 
   const handleItemClick = (item) => {
@@ -67,22 +52,22 @@ export default function Layer () {
       initCanvasLayers();
 
       canvas.on({
-        'object:added': handleLayerChange,
-        'object:removed': handleLayerChange,
-        'object:modified': handleLayerChange,
-        'object:skewing': handleLayerChange,
-        'fabritor:object:modified': handleLayerChange
+        'object:added': initCanvasLayers,
+        'object:removed': initCanvasLayers,
+        'object:modified': initCanvasLayers,
+        'object:skewing': initCanvasLayers,
+        'fabritor:object:modified': initCanvasLayers
       });
     }
 
     return () => {
       if (canvas) {
         canvas.off({
-          'object:added': handleLayerChange,
-          'object:removed':handleLayerChange,
-          'object:modified': handleLayerChange,
-          'object:skewing': handleLayerChange,
-          'fabritor:object:modified': handleLayerChange
+          'object:added': initCanvasLayers,
+          'object:removed':initCanvasLayers,
+          'object:modified': initCanvasLayers,
+          'object:skewing': initCanvasLayers,
+          'fabritor:object:modified': initCanvasLayers
         });
       }
     }
