@@ -28,8 +28,20 @@
 }
 
 .fabritor-sider {
+  position: relative;
   .ant-layout-sider-children {
     display: flex;
     flex-direction: column;
+  }
+
+  .fabritor-setter-panel {
+    position: absolute;
+    left: 64px;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    z-index: 99;
+    background-color: #fff;
   }
 }

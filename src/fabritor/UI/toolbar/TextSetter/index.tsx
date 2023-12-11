@@ -9,11 +9,13 @@ import { loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import SpaceSetter from './SpaceSetter';
 import BorderSetter from './BorderSetter';
+import { FunctionOutlined } from '@ant-design/icons';
+import FontSizeSetter from './FontSize';
 
 const { Item: FormItem } = Form;
 
 export default function TextSetter () {
-  const { object } = useContext(GloablStateContext);
+  const { object, setFxType } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleFontStyles = (styles) => {
@@ -100,7 +102,7 @@ export default function TextSetter () {
       <FormItem
         name="fontSize"
       >
-        <InputNumber style={{ width: 66 }} min={1} />
+        <FontSizeSetter />
       </FormItem>
       <FormItem
         name="fill"
@@ -118,8 +120,13 @@ export default function TextSetter () {
       <FormItem name="fontStyles">
         <FontStyleSetter />
       </FormItem>
-      <FormItem name="border">
-        <BorderSetter />
+      <FormItem>
+        <span
+          className="fabritor-toolbar-setter-trigger"
+          onClick={() => { setFxType('text'); }}
+        >
+          <FunctionOutlined style={{ fontSize: 22 }} />
+        </span>
       </FormItem>
     </Form>
   )

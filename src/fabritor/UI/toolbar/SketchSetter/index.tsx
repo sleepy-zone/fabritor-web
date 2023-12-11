@@ -48,7 +48,6 @@ export default function SketchSetter() {
       <FormItem name="size">
         <SizeSetter />
       </FormItem>
-      <ToolbarDivider />
     </Form>
   );
 }

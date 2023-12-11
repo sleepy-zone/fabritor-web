@@ -1,4 +1,5 @@
 import { Layout, Tabs, Flex } from 'antd';
+import { useContext, useEffect } from 'react';
 import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
@@ -6,6 +7,8 @@ import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
 import Header from '../header';
+import TextFx from './TextFx';
+import { GloablStateContext } from '@/context';
 
 import './index.scss';
 import { useState } from 'react';
@@ -53,6 +56,8 @@ const OBJECT_TYPES = [
 ];
 
 export default function Panel () {
+  const { fxType, setFxType } = useContext(GloablStateContext);
+  const [activeKey, setActiveKey] = useState('design');
   const [designDefaultKey, setDesignDefaultKey] = useState('template');
 
   const renderPanel = (value) => {
@@ -83,6 +88,18 @@ export default function Panel () {
     )
   }
 
+  const handleTabChange = (k) => {
+    setDesignDefaultKey('layers');
+    setActiveKey(k);
+    setFxType('');
+  }
+
+  useEffect(() => {
+    if (fxType) {
+      setActiveKey('');
+    }
+  }, [fxType]);
+
   return (
     <Sider
       style={siderStyle}
@@ -91,12 +108,12 @@ export default function Panel () {
     >
       <Header />
       <Tabs
-        defaultActiveKey='template'
+        activeKey={activeKey}
         tabPosition="left"
         style={{ flex: 1, overflow: 'auto' }}
         size="small"
         destroyInactiveTabPane
-        onChange={() => { setDesignDefaultKey('layers') }}
+        onChange={handleTabChange}
         items={
           OBJECT_TYPES.map((item) => {
             return {
@@ -107,6 +124,9 @@ export default function Panel () {
           })
         }
       />
+      {
+        fxType === 'text' ? <TextFx /> : null
+      }
     </Sider>
   )
 }

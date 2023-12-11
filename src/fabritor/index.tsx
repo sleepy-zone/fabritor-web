@@ -36,6 +36,7 @@ export default function Fabritor () {
   const editorRef = useRef<Editor | null>();
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
+  const [fxType, setFxType] = useState('');
   const contextMenuRef = useRef<any>(null);
   const rotateAngleTipRef = useRef<any>(null);
 
@@ -113,7 +114,9 @@ export default function Fabritor () {
       value={{
         object: activeObject,
         isReady,
-        setReady
+        setReady,
+        fxType,
+        setFxType
       }}
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">
