@@ -93,7 +93,7 @@ export default function Panel () {
       <Tabs
         defaultActiveKey='template'
         tabPosition="left"
-        style={{ flex: 1 }}
+        style={{ flex: 1, overflow: 'auto' }}
         size="small"
         destroyInactiveTabPane
         onChange={() => { setDesignDefaultKey('layers') }}

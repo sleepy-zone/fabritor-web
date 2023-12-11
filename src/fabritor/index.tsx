@@ -124,7 +124,7 @@ export default function Fabritor () {
           <Panel />
           <Content style={contentStyle}>
             <Toolbar />
-            <ContextMenu ref={contextMenuRef}>
+            <ContextMenu ref={contextMenuRef} object={activeObject}>
               <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
                 <canvas ref={canvasEl} />
               </div>

@@ -1,14 +1,13 @@
-import { useContext, useImperativeHandle, forwardRef, useState } from 'react';
+import { useImperativeHandle, forwardRef, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
-import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import { copyObject, pasteObject, removeObject, groupSelection, ungroup, changeLayerLevel } from '@/utils/helper';
 import { getGlobalEditor } from '@/utils/global';
 
 const ContextMenu = (props, ref) => {
   const [open, setOpen] = useState(false);
-  const { object } = useContext(GloablStateContext);
+  const { object, noCareOpen } = props;
 
   const renderMenuItems = () => {
     if (!object || object.id === SKETCH_ID) {
@@ -107,16 +106,16 @@ const ContextMenu = (props, ref) => {
         removeObject(object, editor.canvas);
         break;
       case 'group':
-        groupSelection(editor.canvas);
+        groupSelection(editor.canvas, object);
         break;
       case 'ungroup':
-        ungroup(editor.canvas);
+        ungroup(editor.canvas, object);
         break;
       case 'layer-up':
       case 'layer-top':
       case 'layer-down':
       case 'layer-bottom':
-        changeLayerLevel(key, editor);
+        changeLayerLevel(key, editor, object);
       default:
         break; 
     }
@@ -132,7 +131,7 @@ const ContextMenu = (props, ref) => {
     <Dropdown
       menu={{ items: renderMenuItems(), onClick: handleClick }} 
       trigger={['contextMenu']}
-      open={open}
+      open={noCareOpen ? undefined : open}
     >
       {props.children}
     </Dropdown>

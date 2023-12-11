@@ -4,6 +4,7 @@ import { useEffect, useContext, useState } from 'react';
 import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import { GroupOutlined } from '@ant-design/icons';
+import ContextMenu from '@/fabritor/components/ContextMenu';
 
 export default function Layer () {
   const { isReady, object: activeObject } = useContext(GloablStateContext);
@@ -11,8 +12,14 @@ export default function Layer () {
 
   const getCanvasLayers = (objects) => {
     const _layers: any = [];
-    for (let object of objects) {
-      if (object.id !== SKETCH_ID) {
+    const length = objects.length;
+    if (!length) {
+      setLayers([]);
+      return;
+    }
+    for (let i = length - 1; i >= 0; i--) {
+      let object = objects[i];
+      if (object && object.id !== SKETCH_ID) {
         _layers.push({
           cover: object.toDataURL(),
           group: object.type === 'group',
@@ -85,23 +92,25 @@ export default function Layer () {
     <div className="fabritor-panel-template-wrapper" style={{ paddingTop: 0 }}>
       <List
         dataSource={layers}
-        renderItem={(item) => (
-          <List.Item
-            className="fabritor-panel-layer-item"
-            style={{
-              border: activeObject === item.object ? ' 2px solid #ff2222' : '2px solid transparent',
-              padding: '10px 16px'
-            }}
-            onClick={() => { handleItemClick(item) }}
-          >
-            <Flex justify="space-between" align="center" style={{ width: '100%', height: 40 }}>
-              <img src={item.cover} style={{ maxWidth: 200, maxHeight: 34 }} />
-              {
-                item.group ?
-                <GroupOutlined style={{ fontSize: 18, color: 'rgba(17, 23, 29, 0.6)' }} /> : null
-              }
-            </Flex>
-          </List.Item>
+        renderItem={(item: any) => (
+          <ContextMenu object={item.object} noCareOpen>
+            <List.Item
+              className="fabritor-panel-layer-item"
+              style={{
+                border: activeObject === item.object ? ' 2px solid #ff2222' : '2px solid transparent',
+                padding: '10px 16px'
+              }}
+              onClick={() => { handleItemClick(item) }}
+            >
+              <Flex justify="space-between" align="center" style={{ width: '100%', height: 40 }}>
+                <img src={item.cover} style={{ maxWidth: 200, maxHeight: 34 }} />
+                {
+                  item.group ?
+                  <GroupOutlined style={{ fontSize: 18, color: 'rgba(17, 23, 29, 0.6)' }} /> : null
+                }
+              </Flex>
+            </List.Item>
+          </ContextMenu>
         )}
       />
     </div>

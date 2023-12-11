@@ -85,8 +85,10 @@ export const removeObject = (target, canvas) => {
   return true;
 }
 
-export const groupSelection = (canvas) => {
-  const target = canvas.getActiveObject();
+export const groupSelection = (canvas, target) => {
+  if (!target) {
+    target = canvas.getActiveObject();
+  }
   if (!target || target.type !== 'activeSelection') {
     return;
   }
@@ -95,18 +97,30 @@ export const groupSelection = (canvas) => {
   canvas.fire('fabritor:group');
 }
 
-export const ungroup = (canvas) => {
-  const target = canvas.getActiveObject();
+export const ungroup = (canvas, target) => {
+  if (!target) {
+    target = canvas.getActiveObject();
+  }
   if (!target || target.type !== 'group') {
     return;
   }
+  target.getObjects().forEach((obj) => {
+    obj.set({
+      lockMovementX: false,
+      lockMovementY: false,
+      hasControls: true,
+      selectable: true
+    });
+  });
   target.toActiveSelection();
   canvas.requestRenderAll();
   canvas.fire('fabritor:ungroup');
 }
 
-export const changeLayerLevel = (level, editor) => {
-  const target = editor.canvas.getActiveObject();
+export const changeLayerLevel = (level, editor, target) => {
+  if (!target) {
+    target = editor.canvas.getActiveObject();
+  }
   if (!target || target.type === 'activeSelection') {
     return;
   }
