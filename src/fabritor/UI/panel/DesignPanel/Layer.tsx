@@ -11,17 +11,23 @@ export default function Layer () {
   const [layers, setLayers] = useState([]);
 
   const getCanvasLayers = (objects) => {
+    const editor = getGlobalEditor();
     const _layers: any = [];
     const length = objects.length;
     if (!length) {
       setLayers([]);
       return;
     }
+    const activeObject = editor.canvas.getActiveObject();
     for (let i = length - 1; i >= 0; i--) {
       let object = objects[i];
       if (object && object.id !== SKETCH_ID) {
-        if (!object.__cover) {
+        if (activeObject === object) {
           object.__cover = object.toDataURL();
+        } else {
+          if (!object.__cover) {
+            object.__cover = object.toDataURL();
+          }
         }
 
         _layers.push({
