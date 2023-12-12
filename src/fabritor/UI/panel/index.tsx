@@ -9,6 +9,7 @@ import DesignPanel from './DesignPanel';
 import Header from '../header';
 import TextFx from './TextFx';
 import { GloablStateContext } from '@/context';
+import AppPanel from './AppPanel';
 
 import './index.scss';
 import { useState } from 'react';
@@ -75,6 +76,9 @@ export default function Panel () {
     }
     if (value === 'paint') {
       return <PaintPanel />;
+    }
+    if (value === 'app') {
+      return <AppPanel />;
     }
     return null;
   }
