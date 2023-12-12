@@ -52,7 +52,13 @@ export default function TextSetter () {
       } else if (key === 'border') {
         handleTextStroke(values[key]);
       } else {
-        object.set(key, values[key]);
+        const selectedText = object.getSelectedText();
+        if (selectedText && key === 'fill') {
+          object.setSelectionStyles({ fill: values[key] });
+        } else {
+          object.set('styles', {});
+          object.set(key, values[key]);
+        }
       }
     }
    

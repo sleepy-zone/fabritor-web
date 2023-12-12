@@ -84,6 +84,7 @@ export default function TextFx () {
         </Flex>
         <Title>阴影</Title>
         <TextShadow value={fxValue?.shadow} onChange={(v) => handleFxValueChange(v, 'shadow')} />
+        {/* <Title>形状</Title> */}
       </div>
     </div>
   )
