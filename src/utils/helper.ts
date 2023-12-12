@@ -1,6 +1,9 @@
 import { fabric } from 'fabric';
 import { FABRITOR_CUSTOM_PROPS } from './constants';
 
+// @ts-ignore fabric controlsUtils
+const controlsUtils = fabric.controlsUtils;
+
 export const calcCanvasZoomLevel = (
   containerSize,
   sketchSize
@@ -190,3 +193,19 @@ export const getLocalPoint = (transform, originX, originY, x, y) => {
   localPoint.y -= control.offsetY;
   return localPoint;
 }
+
+function isTransformCentered(transform) {
+  return transform.originX === 'center' && transform.originY === 'center';
+}
+
+const _changeHeight = (eventData, transform, x, y) => {
+  const target = transform.target, localPoint = getLocalPoint(transform, transform.originX, transform.originY, x, y),
+      strokePadding = target.strokeWidth / (target.strokeUniform ? target.scaleX : 1),
+      multiplier = isTransformCentered(transform) ? 2 : 1,
+      oldHeight = target.height,
+      newHeight = Math.abs(localPoint.y * multiplier / target.scaleY) - strokePadding;
+  target.set('height', Math.max(newHeight, 0));
+  return oldHeight !== newHeight;
+}
+
+export const changeHeight = controlsUtils.wrapWithFireEvent('resizing', controlsUtils.wrapWithFixedAnchor(_changeHeight));
