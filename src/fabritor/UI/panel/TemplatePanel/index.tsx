@@ -42,7 +42,7 @@ export default function TemplatePanel (props) {
   }
 
   return (
-    <div className="fabritor-panel-template-wrapper">
+    <div className="fabritor-panel-template-wrapper" style={{ paddingTop: 0 }}>
       <Button type="primary" block onClick={startLoad} size="large">
         加载本地模板
       </Button>
