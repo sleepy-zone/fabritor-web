@@ -8,7 +8,6 @@ import ColorSetter from '@/fabritor/components/ColorSetter';
 import { loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import SpaceSetter from './SpaceSetter';
-import BorderSetter from './BorderSetter';
 import { FunctionOutlined } from '@ant-design/icons';
 import FontSizeSetter from './FontSize';
 

@@ -97,6 +97,8 @@ export default function Panel () {
   useEffect(() => {
     if (fxType) {
       setActiveKey('');
+    } else {
+      setActiveKey(activeKey || 'design');
     }
   }, [fxType]);
 

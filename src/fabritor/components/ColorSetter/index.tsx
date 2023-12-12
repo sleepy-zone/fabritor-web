@@ -26,7 +26,6 @@ export default function ColorSetter (props) {
       value={value}
       onChange={handleChange}
       format="hex"
-      disabledAlpha
       presets={[
         {
           label: 'Recommended',
