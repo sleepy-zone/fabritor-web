@@ -26,6 +26,9 @@ export default function PaintPanel () {
       editor.canvas.freeDrawingBrush.width = options.width;
       penForm.setFieldValue('width', options.width);
     }
+    if (options.strokeLineCap) {
+      editor.canvas.freeDrawingBrush.strokeLineCap = options.strokeLineCap;
+    }
     if (options.shadow) {
       editor.canvas.freeDrawingBrush.shadow = new fabric.Shadow({
         blur: options.shadow.width,
@@ -99,7 +102,7 @@ export default function PaintPanel () {
   }, []);
 
   return (
-    <div className="fabritor-panel-text-wrapper">
+    <div className="fabritor-panel-wrapper">
       <Title>画笔类型</Title>
       <Flex wrap="wrap" justify="space-around">
         {

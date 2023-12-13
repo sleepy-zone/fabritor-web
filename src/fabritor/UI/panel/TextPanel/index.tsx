@@ -8,7 +8,7 @@ export default function TextPanel () {
   }
 
   return (
-    <div className="fabritor-panel-text-wrapper">
+    <div className="fabritor-panel-wrapper">
       <Button type="primary" block onClick={() => { handleAddText({}) }} size="large">
         添加文本框
       </Button>

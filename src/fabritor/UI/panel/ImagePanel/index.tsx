@@ -15,7 +15,7 @@ export default function ImagePanel () {
   }
 
   return (
-    <div className="fabritor-panel-text-wrapper">
+    <div className="fabritor-panel-wrapper">
       <Flex gap={10} justify="space-around">
         <LocalImagePanel addImage={addImage} addSvg={addSvg} />
         <RemoteImagePanel addImage={addImage} />

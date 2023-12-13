@@ -20,7 +20,7 @@ export default function DesignPanel (props) {
   ];
 
   return (
-    <div className="fabritor-panel-text-wrapper" style={{ padding: 0 }}>
+    <div className="fabritor-panel-wrapper" style={{ padding: 0 }}>
       <Tabs
         activeKey={activeKey}
         onChange={setActiveKey}

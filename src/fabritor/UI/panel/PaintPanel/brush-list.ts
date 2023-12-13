@@ -5,7 +5,8 @@ export default [
       title: '铅笔',
       options: {
         color: '#1296db',
-        width: 4
+        width: 4,
+        strokeLineCap: 'round',
       }
     },
     {
@@ -14,7 +15,8 @@ export default [
       title: '马克笔',
       options: {
         color: '#FF0000',
-        width: 36
+        width: 36,
+        strokeLineCap: 'square',
       }
     }
   ]

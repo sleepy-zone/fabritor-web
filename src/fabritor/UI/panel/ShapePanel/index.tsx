@@ -24,7 +24,7 @@ export default function ShapePanel () {
   }
 
   return (
-    <div className="fabritor-panel-text-wrapper">
+    <div className="fabritor-panel-wrapper">
       <Title>线条</Title>
       <Flex gap={10} wrap="wrap" justify="space-around">
         {
