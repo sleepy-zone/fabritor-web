@@ -2,6 +2,7 @@ import { Flex, Card } from 'antd';
 import { QrcodeOutlined, SmileOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import QRCodePanel from './QRCode';
+import EmojiPanel from './Emoji';
 
 const APP_LIST = [
   {
@@ -54,6 +55,9 @@ export default function AppPanel () {
   const renderApp = () => {
     if (app === 'qrcode') {
       return <QRCodePanel back={back2List} />;
+    }
+    if (app === 'emoji') {
+      return <EmojiPanel back={back2List} />
     }
     return null;
   }

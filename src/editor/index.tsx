@@ -245,8 +245,8 @@ export default class Editor {
           target.setControlVisible('mt', scaledWidth >= 100);
           target.setControlVisible('mb', scaledWidth >= 100);
         }
-        target.setControlVisible('ml', scaledHeight >= 100);
-        target.setControlVisible('mr', scaledHeight >= 100);
+        target.setControlVisible('ml', scaledHeight >= 40);
+        target.setControlVisible('mr', scaledHeight >= 40);
         this.canvas.requestRenderAll();
       }
     });
