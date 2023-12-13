@@ -32,6 +32,18 @@ const PRESET_FONT_LIST = [
       fontSize: 80,
       text: '添加一段正文'
     }
+  },
+  {
+    label: <div style={{ fontSize: 26, fontFamily: '霞鹜文楷', color: '#ffffff' , WebkitTextStroke: '1px rgb(255, 87, 87)' }}>文字边框</div>,
+    key: 'content',
+    config: {
+      fontFamily: '霞鹜文楷',
+      fontSize: 100,
+      text: '霞鹜文楷',
+      fill: '#ffffff',
+      stroke: '#ff5757',
+      strokeWidth: 12
+    }
   }
 ]
 

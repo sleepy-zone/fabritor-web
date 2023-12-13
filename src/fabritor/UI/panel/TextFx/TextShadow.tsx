@@ -1,45 +1,46 @@
-import { Flex, Space, Slider } from 'antd';
+import { Slider, Form, Switch } from 'antd';
 import ColorSetter from '@/fabritor/components/ColorSetter';
+import { useEffect } from 'react';
+
+const { Item: FormItem } = Form;
 
 export default function TextShadow (props) {
+  const [form] = Form.useForm();
   const { value, onChange } = props;
 
-  const handleChange = (v, key) => {
+  const handleChange = (v) => {
     onChange && onChange({
       ...value,
-      [key]: v
+      ...v
     });
   }
 
+  useEffect(() => {
+    if (value) {
+      form.setFieldsValue(value);
+    }
+  }, [value]);
+
   return (
-    <Flex vertical gap={8}>
-      <Flex justify="space-between" align="center">
-        <span>颜色</span>
-        <ColorSetter
-          value={value?.color}
-          onChange={(v) => { handleChange(v, 'color') }}
-        />
-      </Flex>
-      <Space direction="vertical">
-        <span>模糊</span>
+    <Form form={form} onValuesChange={handleChange}>
+      <FormItem label="启用" name="enable" valuePropName="checked">
+        <Switch />
+      </FormItem>
+      <FormItem label="颜色" name="color">
+        <ColorSetter />
+      </FormItem>
+      <FormItem label="模糊" name="blur">
         <Slider
           min={0}
           max={100}
-          style={{ width: '100%' }}
-          value={value?.blur}
-          onChange={(v) => { handleChange(v, 'blur') }}
         />
-      </Space>
-      <Space direction="vertical">
-        <span>偏移量</span>
+      </FormItem>
+      <FormItem label="偏移" name="offset">
         <Slider
           min={-180}
           max={180}
-          style={{ width: '100%' }}
-          value={value?.offset}
-          onChange={(v) => { handleChange(v, 'offset') }}
         />
-      </Space>
-    </Flex>
+      </FormItem>
+    </Form>
   )
 }
