@@ -1,5 +1,7 @@
 import { Flex, Card } from 'antd';
 import { QrcodeOutlined, SmileOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import QRCodePanel from './QRCode';
 
 const APP_LIST = [
   {
@@ -15,12 +17,21 @@ const APP_LIST = [
 ];
 
 export default function AppPanel () {
-  return (
-    <div className="fabritor-panel-text-wrapper">
+  const [app, setApp] = useState('');
+  
+  const handleAppClick = (item) => {
+    setApp(item.key);
+  }
+
+  const back2List = () => { setApp(''); }
+
+  const renderAppList = () => {
+    return (
       <Flex
         wrap="wrap"
         gap={12}
         justify="space-around"
+        style={{ padding: '16px 16px 16px 0', marginLeft: -8 }}
       >
         {
           APP_LIST.map(item => (
@@ -30,12 +41,28 @@ export default function AppPanel () {
               key={item.key}
               cover={item.icon}
               bodyStyle={{ padding: 12 }}
+              onClick={() => { handleAppClick(item) }}
             >
               <Card.Meta description={item.title} style={{ textAlign: 'center' }} />
             </Card>
           ))
         }
       </Flex>
+    )
+  }
+
+  const renderApp = () => {
+    if (app === 'qrcode') {
+      return <QRCodePanel back={back2List} />;
+    }
+    return null;
+  }
+
+  return (
+    <div>
+      {
+        app ? renderApp() : renderAppList()
+      }
     </div>
   )
 }
