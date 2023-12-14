@@ -12,6 +12,7 @@ export const OBJECT_DEFAULT_CONFIG = {
   transparentCorners: false,
   padding: 0,
   centeredScaling: false,
+  strokeUniform: true
 }
 
 export const TEXTBOX_DEFAULT_CONFIG = {

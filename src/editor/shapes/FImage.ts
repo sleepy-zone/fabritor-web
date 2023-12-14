@@ -33,7 +33,6 @@ export const createFImageClass = () => {
 
       this.setOptions(rest);
       loadImage(imageSource).then((img: HTMLImageElement) => {
-        console.log(img)
         this.set({
           fill: new fabric.Pattern({
             source: img,

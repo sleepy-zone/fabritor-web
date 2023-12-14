@@ -1,15 +1,16 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useEffect, useState } from 'react';
 import { Button, Flex, Card } from 'antd';
 import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
 import { getGlobalEditor } from '@/utils/global';
 import { GloablStateContext } from '@/context';
 import Title from '@/fabritor/components/Title';
-import templateList from './template-list';
+import getTemplateList, { getTemplate } from './template-list';
 
 export default function TemplatePanel (props) {
   const { onLoadTpl } = props;
   const localFileSelectorRef = useRef<any>(null);
   const { isReady, setReady } = useContext(GloablStateContext);
+  const [templateList, setTemplateList] = useState([]);
 
   const startLoad = () => {
     localFileSelectorRef.current?.start?.();
@@ -36,10 +37,19 @@ export default function TemplatePanel (props) {
     if (!isReady) return;
     const editor = getGlobalEditor();
     setReady(false);
-    await editor.loadFromJSON(item.template, true);
+    const json = await getTemplate(item.url);
+    await editor.loadFromJSON(json, true);
     onLoadTpl();
     setReady(true);
   }
+
+  useEffect(() => {
+    getTemplateList().then((res) => {
+      setTemplateList(res);
+    }).catch(() => {
+      setTemplateList([]);
+    });
+  }, []);
 
   return (
     <div className="fabritor-panel-template-wrapper" style={{ paddingTop: 0 }}>
@@ -53,15 +63,15 @@ export default function TemplatePanel (props) {
             <Card
               hoverable
               style={{ width: 140 }}
-              key={item.key}
+              key={item.url}
               cover={
                 <img
-                  src={item.preview} 
+                  src={item.cover} 
                 />
               }
               onClick={() => { handleLoadTemplate(item) }}
             >
-              <Card.Meta description={item.desc} />
+              <Card.Meta description={item.title} />
             </Card>
           ))
         }
