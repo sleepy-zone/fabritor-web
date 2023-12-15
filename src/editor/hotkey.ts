@@ -49,6 +49,9 @@ export default function initHotKey (canvas, fhistory) {
       default:
         break;
     }
+    if (activeObject.group) {
+      activeObject.addWithUpdate();
+    }
     canvas.requestRenderAll();
   });
 }
