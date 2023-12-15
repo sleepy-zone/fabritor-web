@@ -10,7 +10,8 @@ export default function TemplatePanel (props) {
   const { onLoadTpl } = props;
   const localFileSelectorRef = useRef<any>(null);
   const { isReady, setReady } = useContext(GloablStateContext);
-  const [templateList, setTemplateList] = useState([]);
+  const [leftList, setLeftList] = useState([]);
+  const [rightList, setRightList] = useState([]);
 
   const startLoad = () => {
     localFileSelectorRef.current?.start?.();
@@ -45,10 +46,10 @@ export default function TemplatePanel (props) {
 
   useEffect(() => {
     getTemplateList().then((res) => {
-      setTemplateList(res);
-    }).catch(() => {
-      setTemplateList([]);
-    });
+      const length = Math.ceil(res.length / 2);
+      setLeftList(res.slice(0, length));
+      setRightList(res.slice(length));
+    }).catch(() => {});
   }, []);
 
   return (
@@ -58,8 +59,9 @@ export default function TemplatePanel (props) {
       </Button>
       <Title>选择一个模板开始</Title>
       <Flex gap={10} wrap="wrap" justify="space-around">
+        <Flex vertical gap={10}>
         {
-          templateList.map(item => (
+          leftList.map(item => (
             <Card
               hoverable
               style={{ width: 140 }}
@@ -75,6 +77,26 @@ export default function TemplatePanel (props) {
             </Card>
           ))
         }
+        </Flex>
+        <Flex vertical gap={10}>
+        {
+          rightList.map(item => (
+            <Card
+              hoverable
+              style={{ width: 140 }}
+              key={item.url}
+              cover={
+                <img
+                  src={item.cover} 
+                />
+              }
+              onClick={() => { handleLoadTemplate(item) }}
+            >
+              <Card.Meta description={item.title} />
+            </Card>
+          ))
+        }
+        </Flex>
       </Flex>
       <LocalFileSelector ref={localFileSelectorRef} accept="application/json" onChange={handleFileChange} />
     </div>
