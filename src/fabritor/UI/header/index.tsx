@@ -16,9 +16,9 @@ const headerStyle: React.CSSProperties = {
 export default function () {
   return (
     <Header style={headerStyle}>
-      <Flex align="center" gap={12}>
+      <Flex align="center" gap={5}>
         <img src={LOGO_ICON} />
-        <span style={{ fontWeight: 'bold', fontSize: 16 }}>fabritor, A creative editor based on fabricjs.</span>
+        <span style={{ fontWeight: 'bold', fontSize: 15 }}>fabritor, A creative editor based on fabricjs.</span>
       </Flex>
     </Header>
   )
