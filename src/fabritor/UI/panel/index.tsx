@@ -1,6 +1,6 @@
-import { Layout, Tabs, Flex } from 'antd';
+import { Layout, Tabs, Flex, FloatButton } from 'antd';
 import { useContext, useEffect } from 'react';
-import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
@@ -17,6 +17,7 @@ import { useState } from 'react';
 const { Sider } = Layout;
 
 const siderStyle: React.CSSProperties = {
+  position: 'relative',
   backgroundColor: '#fff',
   borderRight: '1px solid #e8e8e8'
 };
@@ -133,6 +134,12 @@ export default function Panel () {
       {
         fxType === 'text' ? <TextFx /> : null
       }
+      <FloatButton
+        icon={<GithubFilled />}
+        style={{ left: 10, bottom: 14 }}
+        href="https://github.com/sleepy-zone/fabritor-web"
+        target="_blank"
+      />
     </Sider>
   )
 }
