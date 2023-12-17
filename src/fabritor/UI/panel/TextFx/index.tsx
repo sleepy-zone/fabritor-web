@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import { fabric } from 'fabric';
 import { Slider, Form } from 'antd';
 import Title from '@/fabritor/components/Title';
 import ColorSetter from '@/fabritor/components/ColorSetter';
@@ -6,7 +7,7 @@ import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
 import TextShadow from './TextShadow';
 import TextPath from './TextPath';
-import { drawTextPath } from '@/editor/line';
+import { drawTextPath } from '@/editor/textbox';
 
 const { Item: FormItem } = Form;
 
@@ -39,16 +40,12 @@ export default function TextFx () {
         }
       } else if (key === 'path') {
         if (v.enable) {
-          const _path = drawTextPath(object, v.offset);
-          object.set({
-            path: _path
-          });
+          drawTextPath(object, v.offset);
         } else {
           object.set({
-            path: null
+            path: undefined
           });
         }
-        object.setCoords();
       } else {
         object.set(key, v);
       }
