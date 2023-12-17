@@ -5,8 +5,18 @@ import ColorSetter from '@/fabritor/components/ColorSetter';
 import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
 import TextShadow from './TextShadow';
+import TextPath from './TextPath';
+import { drawTextPath } from '@/editor/line';
 
 const { Item: FormItem } = Form;
+
+const getPathOffset = (textbox) => {
+  if (!textbox.path) {
+    return Math.floor(textbox.width / 2);
+  }
+  const path = textbox.path.path;
+  return path[1][2];
+}
 
 export default function TextFx () {
   const [form] = Form.useForm();
@@ -27,6 +37,18 @@ export default function TextFx () {
         } else {
           object.shadow = null;
         }
+      } else if (key === 'path') {
+        if (v.enable) {
+          const _path = drawTextPath(object, v.offset);
+          object.set({
+            path: _path
+          });
+        } else {
+          object.set({
+            path: null
+          });
+        }
+        object.setCoords();
       } else {
         object.set(key, v);
       }
@@ -45,6 +67,10 @@ export default function TextFx () {
         color: object.shadow?.color || object.stroke,
         blur: object.shadow?.blur || 0,
         offset: object.shadow?.offsetX || 0
+      },
+      path: {
+        enable: !!object.path,
+        offset: getPathOffset(object)
       }
     });
   }
@@ -78,7 +104,10 @@ export default function TextFx () {
         <FormItem name="shadow">
           <TextShadow />
         </FormItem>
-        {/* <Title>形状</Title> */}
+        <Title>波浪型文字</Title>
+        <FormItem name="path">
+          <TextPath max={Math.floor(object.width / 2)} />
+        </FormItem>
       </Form>
     </div>
   )

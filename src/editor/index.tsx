@@ -260,8 +260,7 @@ export default class Editor {
         this.canvas.remove(items[i]);
       }
       const grp = createGroup({
-        items,
-        _templateConfig: group._templateConfig,
+        items
       });
       this.canvas.renderAll();
       this.canvas.setActiveObject(grp);

@@ -31,3 +31,15 @@ export const drawLine = (options) => {
   canvas.requestRenderAll();
   return line;
 }
+
+export const drawTextPath = (textbox, offset) => {
+  const width = textbox.width;
+  const pathStr = `M 0 0 Q ${width / 2} ${offset} ${width} 0`;
+  const path = new fabric.Path(pathStr, {
+    visible: false,
+    stroke: '#000000',
+    fill: '#00000000'
+  });
+
+  return path;
+}
