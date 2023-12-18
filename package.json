@@ -8,6 +8,7 @@
     "@emoji-mart/react": "^1.1.1",
     "@ice/runtime": "^1.2.7",
     "antd": "^5.11.0",
+    "cropperjs": "^1.6.1",
     "emoji-mart": "^5.5.2",
     "fabric": "^5.3.0",
     "fontfaceobserver": "^2.3.0",
