@@ -5,7 +5,7 @@ const { Item: FormItem } = Form;
 
 export default function TextPath (props) {
   const [form] = Form.useForm();
-  const { value, onChange, max } = props;
+  const { value, onChange } = props;
 
   const handleChange = (v) => {
     onChange && onChange({
@@ -27,8 +27,8 @@ export default function TextPath (props) {
       </FormItem>
       <FormItem label="偏移" name="offset">
         <Slider
-          min={-1 * max}
-          max={max}
+          min={-100}
+          max={100}
         />
       </FormItem>
     </Form>

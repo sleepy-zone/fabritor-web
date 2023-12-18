@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import { fabric } from 'fabric';
 import { Slider, Form } from 'antd';
 import Title from '@/fabritor/components/Title';
 import ColorSetter from '@/fabritor/components/ColorSetter';
@@ -7,17 +6,9 @@ import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
 import TextShadow from './TextShadow';
 import TextPath from './TextPath';
-import { drawTextPath } from '@/editor/textbox';
+import { drawTextPath, getPathOffset, removeTextPath } from '@/editor/textbox';
 
 const { Item: FormItem } = Form;
-
-const getPathOffset = (textbox) => {
-  if (!textbox.path) {
-    return Math.floor(textbox.width / 2);
-  }
-  const path = textbox.path.path;
-  return path[1][2];
-}
 
 export default function TextFx () {
   const [form] = Form.useForm();
@@ -42,9 +33,7 @@ export default function TextFx () {
         if (v.enable) {
           drawTextPath(object, v.offset);
         } else {
-          object.set({
-            path: undefined
-          });
+          removeTextPath(object);
         }
       } else {
         object.set(key, v);
@@ -73,7 +62,7 @@ export default function TextFx () {
   }
 
   useEffect(() => {
-    if (!object || object.type !== 'textbox') {
+    if (!object || (object.type !== 'textbox' && object.type !== 'f-text')) {
       setFxType('');
     } else {
       initObjectFx();
@@ -103,7 +92,7 @@ export default function TextFx () {
         </FormItem>
         <Title>波浪型文字</Title>
         <FormItem name="path">
-          <TextPath max={Math.floor(object.width / 2)} />
+          <TextPath />
         </FormItem>
       </Form>
     </div>

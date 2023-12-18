@@ -223,7 +223,7 @@ export default class Editor {
       const { target, subTargets } = opt;
       const subTarget = subTargets?.[0];
       if (target?.type === 'group' && subTarget) {
-        if (subTarget.type === 'textbox') {
+        if (subTarget.type === 'f-text') {
           this._editTextInGroup(target, subTarget);
         } else {
           subTarget.set('hasControls', false);
@@ -241,7 +241,7 @@ export default class Editor {
       const scaledWidth = target.getScaledWidth();
       const scaledHeight = target.getScaledHeight();
       if (target.type !== 'f-line' && target.type !== 'f-image') {
-        if (target.type !== 'textbox') {
+        if (target.type !== 'f-text') {
           target.setControlVisible('mt', scaledWidth >= 100);
           target.setControlVisible('mb', scaledWidth >= 100);
         }
@@ -390,7 +390,7 @@ export default class Editor {
     }
     const { objects } = json;
     for (let item of objects) {
-      if (item.type === 'textbox') {
+      if (item.type === 'f-text') {
         await loadFont(item.fontFamily);
       }
     }

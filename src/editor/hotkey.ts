@@ -31,7 +31,7 @@ export default function initHotKey (canvas, fhistory) {
   hotkeys('up, right, down, left', (event, handler) => {
     const activeObject = canvas.getActiveObject();
     if (!activeObject) return;
-    if (activeObject.type === 'textbox' && activeObject.isEditing) return;
+    if (activeObject.type === 'f-text' && activeObject.isEditing) return;
     event.preventDefault();
     switch (handler.key) {
       case 'up':
