@@ -32,6 +32,7 @@ export default function Toolbar () {
       case 'f-line':
         return <LineSetter />;
       case 'f-image':
+      case 'image':
         return <ImageSetter />;
       case 'path':
       case 'group':

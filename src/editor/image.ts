@@ -4,19 +4,22 @@ import { getGlobalEditor } from '@/utils/global';
 import { setObject2Center } from '@/utils/helper';
 import { message } from 'antd';
 
-export const loadImageFromUrl = async (url) => {
-  return new Promise<fabric.Image>((resolve, reject) => {
-    fabric.Image.fromURL(url, (img) => {
-      if (!img) {
-        message.error('加载远程图片失败');
-        reject();
-        return;
-      }
-      resolve(img);
-    }, {
-      crossOrigin: 'anonymous'
+export const loadImage = async (imageSource) => {
+  if (typeof imageSource === 'string') {
+    return new Promise<fabric.Image>((resolve, reject) => {
+      fabric.Image.fromURL(imageSource, (img) => {
+        if (!img) {
+          message.error('加载远程图片失败');
+          reject();
+          return;
+        }
+        resolve(img);
+      }, {
+        crossOrigin: 'anonymous'
+      });
     });
-  });
+  }
+  return Promise.resolve(new fabric.Image(imageSource));
 }
 
 export const loadSvgFromUrl = async (url) => {
@@ -28,25 +31,33 @@ export const loadSvgFromUrl = async (url) => {
   });
 }
 
+export const createClipRect = (object, options = {}) => {
+  const width = object.getScaledWidth();
+  const height = object.getScaledHeight();
+  return new fabric.Rect({
+    left: -width / 2,
+    top: -height / 2,
+    width,
+    height,
+    ...options
+  });
+}
+
 export const createImage = async (options) => {
-  const { url, left, top, ...rest } = options || {};
+  const { imageSource, left, top, ...rest } = options || {};
   const editor = getGlobalEditor();
   const { canvas } = editor;
 
   let img!: fabric.Image;
-  if (options.url) {
-    try {
-      img = await loadImageFromUrl(url);
-    } catch(e) { console.log(e); }
-  }
-  if (options.img) {
-    img = new fabric.Image(options.img);
-  }
+  try {
+    img = await loadImage(imageSource);
+  } catch(e) { console.log(e); }
   
   if (!img) return;
 
   img.set({
     ...rest,
+    paintFirst: 'fill',
     id: uuid()
   });
 
@@ -78,29 +89,4 @@ export const createSvg = async (options) => {
   canvas.requestRenderAll();
 
   return svg;
-}
-
-export const createFImage = async (options) => {
-  const { left, top, ...rest } = options || {};
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
-
-  const img = new fabric.FImage({
-    ...rest,
-    id: uuid(),
-    afterInit: () => {
-      setObject2Center(img, { left, top }, editor);
-    }
-  });
-
-  img.setControlVisible('mt', false);
-  img.setControlVisible('mb', false);
-  img.setControlVisible('ml', false);
-  img.setControlVisible('mr', false);
-
-  canvas.add(img);
-  canvas.setActiveObject(img);
-  canvas.requestRenderAll();
-
-  return img;
 }

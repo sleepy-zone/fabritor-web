@@ -2,7 +2,7 @@ import { Button, Form, Input, InputNumber, QRCode, Radio, Switch, Collapse, Flex
 import AppSubPanel from './AppSubPanel';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import { useEffect, useRef, useState } from 'react';
-import { createFImage } from '@/editor/image';
+import { createImage } from '@/editor/image';
 
 const { Item: FormItem } = Form;
 
@@ -26,7 +26,7 @@ export default function QRCodePanel (props) {
     if (!canvas) return;
     const img = new Image();
     img.onload = () => {
-      createFImage({
+      createImage({
         imageSource: img
       });
     }

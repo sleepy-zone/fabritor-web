@@ -1,11 +1,11 @@
 import LocalImagePanel from './LocalImagePanel';
-import { createSvg, createFImage } from '@/editor/image';
+import { createSvg, createImage } from '@/editor/image';
 import RemoteImagePanel from './RemoteImagePanel';
 import { Flex } from 'antd';
 
 export default function ImagePanel () {
   const addImage = async (options) => {
-    await createFImage({
+    await createImage({
       imageSource: options.img || options.url
     });
   }
