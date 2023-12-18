@@ -29,6 +29,7 @@ export default function ShapeSetter () {
     const { type, stroke = '#000', strokeWidth, borderRadius } = border || {};
     if (type === 'none') {
       object.set('stroke', null);
+      object.set('strokeWidth', 1);
     } else {
       object.set('stroke', stroke);
       object.set('strokeWidth', strokeWidth);
