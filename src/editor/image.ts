@@ -9,7 +9,7 @@ export const loadImage = async (imageSource) => {
     return new Promise<fabric.Image>((resolve, reject) => {
       fabric.Image.fromURL(imageSource, (img) => {
         if (!img) {
-          message.error('加载远程图片失败');
+          message.error('加载图片失败');
           reject();
           return;
         }
@@ -68,6 +68,30 @@ export const createImage = async (options) => {
   canvas.requestRenderAll();
 
   return img;
+}
+
+export const createFImage = async (options) => {
+  const { imageSource } = options || {};
+  const editor = getGlobalEditor();
+  const { canvas } = editor;
+
+  let img!: fabric.Image;
+  try {
+    img = await loadImage(imageSource);
+  } catch(e) { console.log(e); }
+  
+  if (!img) return;
+
+  const fimg = new fabric.FImage({
+    image: img,
+    id: uuid()
+  });
+
+  setObject2Center(fimg, options, editor);
+
+  canvas.add(fimg);
+  canvas.setActiveObject(fimg);
+  canvas.requestRenderAll();
 }
 
 export const createSvg = async (options) => {

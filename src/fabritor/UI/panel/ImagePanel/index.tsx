@@ -1,5 +1,5 @@
 import LocalImagePanel from './LocalImagePanel';
-import { createSvg, createImage } from '@/editor/image';
+import { createSvg, createImage, createFImage } from '@/editor/image';
 import RemoteImagePanel from './RemoteImagePanel';
 import { Button, Flex } from 'antd';
 import Title from '@/fabritor/components/Title';
@@ -12,9 +12,9 @@ export default function ImagePanel () {
   const [illustrations, setIllustrations] = useState([]);
   const [vectors, setVectors] = useState([]);
 
-  const addImage = async (options) => {
-    await createImage({
-      imageSource: options.img || options.url
+  const addImage = async (url) => {
+    await createFImage({
+      imageSource: url
     });
   }
 
@@ -39,11 +39,11 @@ export default function ImagePanel () {
     )
   }
 
-  useEffect(() => {
-    fetchPhotos('photo').then(setPhotos);
-    fetchPhotos('illustration').then(setIllustrations);
-    fetchPhotos('vector').then(setVectors);
-  }, []);
+  // useEffect(() => {
+  //   fetchPhotos('photo').then(setPhotos);
+  //   fetchPhotos('illustration').then(setIllustrations);
+  //   fetchPhotos('vector').then(setVectors);
+  // }, []);
 
   return (
     <div className="fabritor-panel-wrapper">

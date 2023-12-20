@@ -41,7 +41,7 @@ const OBJECT_TYPES = [
     icon: <PictureOutlined style={iconStyle} />
   },
   {
-    label: '形状',
+    label: '素材',
     value: 'shape',
     icon: <BorderOutlined style={iconStyle} />
   },

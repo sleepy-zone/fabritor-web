@@ -7,7 +7,6 @@ import FlipSetter from './FlipSetter';
 import { getGlobalEditor } from '@/utils/global';
 import BorderSetter from './BorderSetter';
 import ClipSetter from './Clip';
-import { createClipRect } from '@/editor/image';
 
 const { Item: FormItem } = Form;
 
@@ -18,20 +17,24 @@ export default function ImageSetter () {
   const handleImageReplace = (base64) => {
     const editor = getGlobalEditor();
     if (base64) {
-      object.set('pattern', null);
       object.setSrc(base64, () => {
         editor.canvas.requestRenderAll();
-        object.setCoords();
       });
     }
   }
 
   const handleBorder = (border) => {
     const editor = getGlobalEditor();
-    const { borderRadius } = border || {};
-
-    const c = createClipRect(object, { rx: borderRadius, ry: borderRadius });
-    object.set('clipPath', c);
+    const { type, stroke = '#000000', strokeWidth, borderRadius } = border || {};
+    if (type === 'none') {
+      object.setBorder({ stroke: null });
+    } else {
+      object.setBorder({
+        stroke,
+        strokeWidth,
+        borderRadius
+      });
+    }
 
     editor.canvas.requestRenderAll();
   }
@@ -53,9 +56,12 @@ export default function ImageSetter () {
 
   useEffect(() => {
     if (object) {
+      const border = object.getBorder();
       form.setFieldsValue({
         border: {
-          borderRadius: object.clipPath?.rx || 0
+          type: border.stroke ? 'line' : 'none',
+          ...border,
+          stroke: border.stroke || '#000000'
         },
         opacity: object.opacity
       });
