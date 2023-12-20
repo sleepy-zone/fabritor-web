@@ -81,7 +81,8 @@ export const createFImageClass = () => {
         stroke: b.stroke || null,
         strokeWidth: b.strokeWidth || 1,
         rx: b.borderRadius || 0,
-        ry: b.borderRadius || 0
+        ry: b.borderRadius || 0,
+        strokeDashArray: b.strokeDashArray || null
       });
       this.imageBorder = {...b};
       this.addWithUpdate();

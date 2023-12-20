@@ -10,6 +10,29 @@ import ClipSetter from './Clip';
 
 const { Item: FormItem } = Form;
 
+const getObjectBorderType = ({stroke, strokeWidth, strokeDashArray}) => {
+  if (!stroke) {
+    return 'none';
+  }
+  if (strokeDashArray?.length) {
+    let [d1, d2] = strokeDashArray;
+    d1 = d1 / (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
+    d2 = d2 / (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
+    return [d1, d2].join(',');
+  }
+  return 'line';
+}
+
+const getStrokeDashArray = ({ type, strokeWidth }) => {
+  if (type !== 'line') {
+    const dashArray = type.split(',');
+    dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
+    dashArray[1] = dashArray[1] * (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
+    return dashArray;
+  } 
+  return null;
+}
+
 export default function ImageSetter () {
   const { object } = useContext(GloablStateContext);
   const [form] = Form.useForm();
@@ -32,7 +55,8 @@ export default function ImageSetter () {
       object.setBorder({
         stroke,
         strokeWidth,
-        borderRadius
+        borderRadius,
+        strokeDashArray: getStrokeDashArray(border)
       });
     }
 
@@ -59,7 +83,7 @@ export default function ImageSetter () {
       const border = object.getBorder();
       form.setFieldsValue({
         border: {
-          type: border.stroke ? 'line' : 'none',
+          type: getObjectBorderType(border),
           ...border,
           stroke: border.stroke || '#000000'
         },
