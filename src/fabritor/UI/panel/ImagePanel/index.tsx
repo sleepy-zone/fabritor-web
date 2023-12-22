@@ -23,7 +23,7 @@ export default function ImagePanel () {
   }
 
   const addPixabay = (item) => {
-    createImage({
+    createFImage({
       imageSource: item.cover
     });
   }
@@ -39,11 +39,11 @@ export default function ImagePanel () {
     )
   }
 
-  // useEffect(() => {
-  //   fetchPhotos('photo').then(setPhotos);
-  //   fetchPhotos('illustration').then(setIllustrations);
-  //   fetchPhotos('vector').then(setVectors);
-  // }, []);
+  useEffect(() => {
+    fetchPhotos('photo').then(setPhotos);
+    fetchPhotos('illustration').then(setIllustrations);
+    fetchPhotos('vector').then(setVectors);
+  }, []);
 
   return (
     <div className="fabritor-panel-wrapper">
