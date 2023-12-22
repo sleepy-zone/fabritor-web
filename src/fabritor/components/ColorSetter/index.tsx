@@ -25,7 +25,6 @@ export default function ColorSetter (props) {
     <ColorPicker
       value={value}
       onChange={handleChange}
-      format="hex"
       presets={[
         {
           label: 'Recommended',

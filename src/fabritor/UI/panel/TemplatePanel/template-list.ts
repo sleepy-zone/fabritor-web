@@ -1,4 +1,4 @@
-const turl = 'https://cdn.jsdelivr.net/gh/sleepy-zone/fabritor-assets/template/list.json';
+const turl = 'https://cdn.jsdelivr.net/gh/sleepy-zone/fabritor-assets/template/list2.json';
 
 export default function getTemplateList () {
   return fetch(`${turl}?t=${Date.now()}`)
