@@ -50,7 +50,7 @@ export default function ImageSetter () {
     const editor = getGlobalEditor();
     const { type, stroke = '#000000', strokeWidth, borderRadius } = border || {};
     if (type === 'none') {
-      object.setBorder({ stroke: null });
+      object.setBorder({ stroke: null, borderRadius });
     } else {
       object.setBorder({
         stroke,

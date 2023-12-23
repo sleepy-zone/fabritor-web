@@ -32,6 +32,7 @@ export const createFImageClass = () => {
       });
       this.img = image;
       this.borderRect = this._createBorderRect(imageBorder);
+      this.img.clipPath = this._createClipPath();
       this.callSuper('initialize', [this.img, this.borderRect], {
         borderColor: '#FF2222',
         borderDashArray: null,
@@ -61,6 +62,19 @@ export const createFImageClass = () => {
       return new fabric.Rect(options);
     },
 
+    _createClipPath () {
+      const width = this.img.getScaledWidth();
+      const height = this.img.getScaledHeight();
+      return new fabric.Rect({
+        originX: 'center',
+        originY: 'center',
+        width,
+        height,
+        rx: this.borderRect.rx || 0,
+        ry: this.borderRect.ry || 0
+      });
+    },
+
     setSrc (src, callback) {
       this.img.setSrc(src, () => {
         const width = this.img.getScaledWidth();
@@ -83,6 +97,10 @@ export const createFImageClass = () => {
         rx: b.borderRadius || 0,
         ry: b.borderRadius || 0,
         strokeDashArray: b.strokeDashArray || null
+      });
+      this.img.set({
+        clipPath: this._createClipPath(),
+        dirty: true
       });
       this.imageBorder = {...b};
       this.addWithUpdate();
