@@ -34,7 +34,7 @@ export default class Editor {
     this.init();
   }
 
-  public init() {
+  public async init() {
     this._initObject();
     this._initCanvas();
     this._initEvents();
@@ -42,6 +42,9 @@ export default class Editor {
     this._initGuidelines();
     this.fhistory = new FabricHistory(this);
     initHotKey(this.canvas, this.fhistory);
+
+    await this._loadLocal();
+    this._save2Local();
   }
 
   private _initObject () {
@@ -364,6 +367,25 @@ export default class Editor {
     return `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(json, null, 2)
     )}`;
+  }
+
+  private async _loadLocal () {
+    try {
+      const jsonStr = localStorage.getItem('fabritor_web_json')
+      if (jsonStr) {
+        const json = JSON.parse(jsonStr);
+        await this.loadFromJSON(json);
+      }
+    } catch(e) {  console.log(e) }
+  }
+
+  private _save2Local () {
+    setInterval(() => {
+      try {
+        const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
+        localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+      } catch(e) {  console.log(e) }
+    }, 1000);
   }
 
   public async loadFromJSON (json, addHistory = false) {

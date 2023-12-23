@@ -40,7 +40,6 @@ export default class FabricHistory {
     this._checkHistoryUndoLength();
     const curJson = this._getJSON();
     this.currentState = curJson;
-    this._save2Local(curJson);
   }
 
   private _getJSON () {
@@ -85,7 +84,6 @@ export default class FabricHistory {
       await this.editor.loadFromJSON(_history);
       this.historyProcessing = false;
       this.canvas.fire('fabritor:history:undo');
-      this._save2Local(_history);
     }
   }
 
@@ -99,7 +97,6 @@ export default class FabricHistory {
       await this.editor.loadFromJSON(_history);
       this.historyProcessing = false;
       this.canvas.fire('fabritor:history:redo');
-      this._save2Local(_history);
     }
   }
 
@@ -107,11 +104,5 @@ export default class FabricHistory {
     this.historyRedo = [];
     this.historyUndo = [];
     this.historyProcessing = false;
-  }
-
-  private _save2Local (json) {
-    try {
-      localStorage.setItem('fabritor_web_json', JSON.stringify(json));
-    } catch(e) {  console.log(e) }
   }
 }
