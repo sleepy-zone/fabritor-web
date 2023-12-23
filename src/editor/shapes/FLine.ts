@@ -5,6 +5,8 @@ export const createFLineClass = () => {
   fabric.FLine = fabric.util.createClass(fabric.Path, {
     type: 'f-line',
 
+    padding: 2,
+
     initialize (options) {
       const { start, end, arrow = [], left, top } = options;
       this.setOptions({

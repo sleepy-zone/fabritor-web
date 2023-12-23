@@ -13,8 +13,8 @@ export const initFTextControl = () => {
     ftextControl.br = objectControls.br;
     ftextControl.tl = objectControls.tl;
     ftextControl.bl = objectControls.bl;
-    ftextControl.mt = objectControls.mt;
-    ftextControl.mb = objectControls.mb;
+    // ftextControl.mt = objectControls.mt;
+    // ftextControl.mb = objectControls.mb;
     ftextControl.mtr = objectControls.mtr;
     ftextControl.copy = objectControls.copy;
     ftextControl.del = objectControls.del;

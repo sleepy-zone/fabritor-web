@@ -74,9 +74,6 @@ export const createTextbox = async (options) => {
 
   setObject2Center(textBox, options, editor);
 
-  textBox.setControlVisible('mt', false);
-  textBox.setControlVisible('mb', false);
-
   if (fontFamily) {
     try {
       await loadFont(fontFamily);
