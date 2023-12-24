@@ -1,7 +1,7 @@
 export const APP_NAME = 'fabritor';
 export const APP_VERSION = '2.0.0';
 export const SCHEMA_VERSION = 2;
-export const SCHEMA_VERSION_KEY = 'fabritor_version';
+export const SCHEMA_VERSION_KEY = 'fabritor_schema_version';
 export const LOG_PREFIX = `${APP_NAME}_log：`;
 
 export const OBJECT_DEFAULT_CONFIG = {
