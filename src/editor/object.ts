@@ -7,9 +7,6 @@ export const initObjectPrototype = () => {
     fabric.Object.prototype[key] = OBJECT_DEFAULT_CONFIG[key];
   });
 
-  fabric.Textbox.prototype.padding = 4;
-  fabric.Textbox.prototype.paintFirst = 'stroke';
-
    // Selection/Group global config
   const asConfig = {
     borderColor: '#cccddd',

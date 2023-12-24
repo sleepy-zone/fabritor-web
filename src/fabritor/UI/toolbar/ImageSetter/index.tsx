@@ -1,4 +1,3 @@
-import { fabric } from 'fabric';
 import { useContext, useEffect } from 'react';
 import { Form } from 'antd';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
@@ -7,10 +6,11 @@ import { GloablStateContext } from '@/context';
 import FlipSetter from './FlipSetter';
 import { getGlobalEditor } from '@/utils/global';
 import BorderSetter from './BorderSetter';
+import ClipSetter from './Clip';
 
 const { Item: FormItem } = Form;
 
-const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
+const getObjectBorderType = ({stroke, strokeWidth, strokeDashArray}) => {
   if (!stroke) {
     return 'none';
   }
@@ -23,47 +23,42 @@ const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
   return 'line';
 }
 
+const getStrokeDashArray = ({ type, strokeWidth }) => {
+  if (type !== 'line') {
+    const dashArray = type.split(',');
+    dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
+    dashArray[1] = dashArray[1] * (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
+    return dashArray;
+  } 
+  return null;
+}
+
 export default function ImageSetter () {
   const { object } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
-  const handleImageReplace = (rp) => {
+  const handleImageReplace = (base64) => {
     const editor = getGlobalEditor();
-    if (rp.img) {
-      object.set({
-        fill: new fabric.Pattern({
-          source: rp.img,
-          repeat: 'no-repeat'
-        }),
-        width: rp.img.width,
-        height: rp.img.height
+    if (base64) {
+      object.setSrc(base64, () => {
+        editor.canvas.requestRenderAll();
       });
-      editor.canvas.requestRenderAll();
-      object.setCoords();
     }
   }
 
   const handleBorder = (border) => {
     const editor = getGlobalEditor();
-    const { type, stroke = '#000', strokeWidth, borderRadius } = border || {};
+    const { type, stroke = '#000000', strokeWidth, borderRadius } = border || {};
     if (type === 'none') {
-      object.set('stroke', null);
+      object.setBorder({ stroke: null, borderRadius });
     } else {
-      object.set('stroke', stroke);
-      object.set('strokeWidth', strokeWidth);
-  
-      if (type !== 'line') {
-        const dashArray = type.split(',');
-        dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-        dashArray[1] = dashArray[1] * (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
-        object.set('strokeDashArray', dashArray);
-      } else {
-        object.set('strokeDashArray', null);
-      }
+      object.setBorder({
+        stroke,
+        strokeWidth,
+        borderRadius,
+        strokeDashArray: getStrokeDashArray(border)
+      });
     }
-
-    object.set('rx', borderRadius);
-    object.set('ry', borderRadius);
 
     editor.canvas.requestRenderAll();
   }
@@ -85,12 +80,12 @@ export default function ImageSetter () {
 
   useEffect(() => {
     if (object) {
+      const border = object.getBorder();
       form.setFieldsValue({
         border: {
-          type: getObjectBorderType(object.stroke, object.strokeWidth, object.strokeDashArray),
-          stroke: object.stroke || '#000000',
-          strokeWidth: object.strokeWidth || 1,
-          borderRadius: object.rx || object.ry
+          type: getObjectBorderType(border),
+          ...border,
+          stroke: border.stroke || '#000000'
         },
         opacity: object.opacity
       });
@@ -114,6 +109,10 @@ export default function ImageSetter () {
       <ToolbarDivider />
       <FormItem name="border">
         <BorderSetter />
+      </FormItem>
+      <ToolbarDivider />
+      <FormItem>
+        <ClipSetter object={object} />
       </FormItem>
       <ToolbarDivider />
     </Form>

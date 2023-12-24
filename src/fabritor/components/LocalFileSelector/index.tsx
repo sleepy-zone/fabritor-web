@@ -8,6 +8,7 @@ function LocalFileSelector (props, ref) {
     const file = evt.target.files[0];
     if (!file) return;
     onChange && onChange(evt.target.files[0]);
+    formRef.current?.reset?.();
   }
   useImperativeHandle(ref, () => ({
     start: () => {

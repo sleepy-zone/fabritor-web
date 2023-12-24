@@ -5,6 +5,7 @@ import { ROTATE_SVG, ROTATE_SVG_ACTIVE, ROTATE_CURSOR, COPY_SVG, DEL_SVG, COPY_S
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 import { initRectControl } from './rect';
 import { initFLineControl } from './fline';
+import { initFTextControl } from './ftext';
 
 const ROTATE_IMG = document.createElement('img');
 ROTATE_IMG.src = ROTATE_SVG;
@@ -120,9 +121,6 @@ export const renderController = () => {
   };
   Object.keys(mlConfig).forEach(key => {
     fabric.Object.prototype.controls.ml[key] = mlConfig[key];
-    // TextBox 
-    // https://github.com/fabricjs/fabric.js/blob/5.x/src/mixins/default_controls.js
-    fabric.Textbox.prototype.controls.ml[key] = mlConfig[key];
   });
 
   // middle right
@@ -134,7 +132,6 @@ export const renderController = () => {
   };
   Object.keys(mrConfig).forEach(key => {
     fabric.Object.prototype.controls.mr[key] = mrConfig[key];
-    fabric.Textbox.prototype.controls.mr[key] = mrConfig[key];
   });
 
   // top left
@@ -206,7 +203,6 @@ export const renderToolBarController = () => {
     render: renderSvgIcon(COPY_IMG)
   });
   fabric.Object.prototype.controls.copy = copyControl;
-  fabric.Textbox.prototype.controls.copy = copyControl;
 
   const delControl = new fabric.Control({
     x: 0,
@@ -218,7 +214,6 @@ export const renderToolBarController = () => {
     render: renderSvgIcon(DEL_IMG)
   });
   fabric.Object.prototype.controls.del = delControl;
-  fabric.Textbox.prototype.controls.del = delControl;
 }
 
 // TODO handle corner mouse over
@@ -248,4 +243,5 @@ export default function initControl () {
   renderToolBarController();
   initRectControl();
   initFLineControl();
+  initFTextControl();
 }

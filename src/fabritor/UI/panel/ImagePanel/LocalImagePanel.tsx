@@ -19,13 +19,7 @@ export default function LocalImagePanel (props) {
     
     const reader = new FileReader();
     reader.onload = (revt) => {
-      const img = new Image();
-      img.onload = () => {
-        localFileSelectorRef.current?.reset?.();
-        addImage?.({ img });
-      }
-      // @ts-ignore
-      img.src = revt.target.result;
+      addImage?.(revt.target.result);
     }
     reader.readAsDataURL(file);
   }

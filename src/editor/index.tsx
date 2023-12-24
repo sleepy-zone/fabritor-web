@@ -7,7 +7,7 @@ import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
-import { SKETCH_ID, FABRITOR_CUSTOM_PROPS } from '@/utils/constants';
+import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '@/utils/constants';
 import FabricHistory from './history';
 import { createGroup } from './group';
 import createCustomClass from './shapes';
@@ -34,7 +34,7 @@ export default class Editor {
     this.init();
   }
 
-  public init() {
+  public async init() {
     this._initObject();
     this._initCanvas();
     this._initEvents();
@@ -42,6 +42,9 @@ export default class Editor {
     this._initGuidelines();
     this.fhistory = new FabricHistory(this);
     initHotKey(this.canvas, this.fhistory);
+
+    await this._loadLocal();
+    this._save2Local();
   }
 
   private _initObject () {
@@ -93,7 +96,6 @@ export default class Editor {
 
     this._initResizeObserver();
     this._adjustSketch2Canvas();
-    this._saveJson2Local();
   }
 
   public setSketchSize (size) {
@@ -126,7 +128,7 @@ export default class Editor {
     );
 
     const center = this.canvas.getCenter();
-    this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.06);
+    this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.04);
 
     // sketch 移至画布中心
     const sketchCenter = this.sketch.getCenterPoint();
@@ -223,7 +225,7 @@ export default class Editor {
       const { target, subTargets } = opt;
       const subTarget = subTargets?.[0];
       if (target?.type === 'group' && subTarget) {
-        if (subTarget.type === 'textbox') {
+        if (subTarget.type === 'f-text') {
           this._editTextInGroup(target, subTarget);
         } else {
           subTarget.set('hasControls', false);
@@ -241,7 +243,7 @@ export default class Editor {
       const scaledWidth = target.getScaledWidth();
       const scaledHeight = target.getScaledHeight();
       if (target.type !== 'f-line' && target.type !== 'f-image') {
-        if (target.type !== 'textbox') {
+        if (target.type !== 'f-text') {
           target.setControlVisible('mt', scaledWidth >= 100);
           target.setControlVisible('mb', scaledWidth >= 100);
         }
@@ -260,8 +262,7 @@ export default class Editor {
         this.canvas.remove(items[i]);
       }
       const grp = createGroup({
-        items,
-        _templateConfig: group._templateConfig,
+        items
       });
       this.canvas.renderAll();
       this.canvas.setActiveObject(grp);
@@ -361,22 +362,36 @@ export default class Editor {
     return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   }
 
-  private _saveJson2Local () {
-    // save every second
-    // TODO: object change event trigger
-    setInterval(() => {
-      try {
-        const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
-        localStorage.setItem('fabritor_web_json', JSON.stringify(json));
-      } catch(e) {  console.log(e) }
-    }, 1000);
-  }
-
   public export2Json () {
-    const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
+    const json = this.canvas2Json();
     return `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(json, null, 2)
     )}`;
+  }
+
+  private async _loadLocal () {
+    try {
+      const jsonStr = localStorage.getItem('fabritor_web_json')
+      if (jsonStr) {
+        const json = JSON.parse(jsonStr);
+        await this.loadFromJSON(json);
+      }
+    } catch(e) {  console.log(e) }
+  }
+
+  private _save2Local () {
+    setInterval(() => {
+      try {
+        const json = this.canvas2Json();
+        localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+      } catch(e) {  console.log(e) }
+    }, 2000);
+  }
+
+  public canvas2Json () {
+    const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
+    json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
+    return json;
   }
 
   public async loadFromJSON (json, addHistory = false) {
@@ -389,9 +404,13 @@ export default class Editor {
         return;
       }
     }
+    if (json[SCHEMA_VERSION_KEY] !== SCHEMA_VERSION) {
+      message.error(`此模板已经无法与当前版本兼容，请更换模板`);
+      return;
+    }
     const { objects } = json;
     for (let item of objects) {
-      if (item.type === 'textbox') {
+      if (item.type === 'f-text') {
         await loadFont(item.fontFamily);
       }
     }
@@ -411,5 +430,11 @@ export default class Editor {
         }
       });
     });
+  }
+
+  public clearCanvas () {
+    const originalJson = '{"fabritor_schema_version":2,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"我的画板","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}';
+    this.canvas.clear();
+    this.loadFromJSON(originalJson);
   }
 }

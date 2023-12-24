@@ -20,6 +20,7 @@ export default function Toolbar () {
     if (!object || object.id === SKETCH_ID) return <SketchSetter />;
     switch (objectType) {
       case 'textbox':
+      case 'f-text':
         return <TextSetter />;
       case 'rect':
       case 'circle':
@@ -31,6 +32,7 @@ export default function Toolbar () {
       case 'f-line':
         return <LineSetter />;
       case 'f-image':
+      case 'image':
         return <ImageSetter />;
       case 'path':
       case 'group':

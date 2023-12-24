@@ -20,12 +20,12 @@ export const initFLineControl = () => {
 
   if (fabric.FLine) {
     const flineControls: any = fabric.FLine.prototype.controls = {};
-    flineControls.tr = objectControls.tr;
-    flineControls.br = objectControls.br;
-    flineControls.tl = objectControls.tl;
-    flineControls.bl = objectControls.bl;
-    flineControls.mt = objectControls.mt;
-    flineControls.mb = objectControls.mb;
+    // flineControls.tr = objectControls.tr;
+    // flineControls.br = objectControls.br;
+    // flineControls.tl = objectControls.tl;
+    // flineControls.bl = objectControls.bl;
+    // flineControls.mt = objectControls.mt;
+    // flineControls.mb = objectControls.mb;
     flineControls.mtr = objectControls.mtr;
     flineControls.copy = objectControls.copy;
     flineControls.del = objectControls.del;

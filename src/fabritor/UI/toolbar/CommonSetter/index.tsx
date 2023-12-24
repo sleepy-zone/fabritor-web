@@ -8,7 +8,6 @@ import { getGlobalEditor } from '@/utils/global';
 import OpacitySetter from '@/fabritor/components/OpacitySetter';
 import { DRAG_ICON } from '@/assets/icon';
 import BaseInfo from '../../header/BaseInfo';
-import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 
 const { Item: FormItem } = Form;
 

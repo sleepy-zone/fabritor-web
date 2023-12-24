@@ -11,14 +11,8 @@ export default function ReplaceSetter (props) {
 
   const handleFileChange = (file) => {
     const reader = new FileReader();
-    reader.onload = (revt => {
-      const img = new Image();
-      img.onload = () => {
-        localFileSelectorRef.current?.reset();
-        onChange && onChange({ img });
-      }
-      // @ts-ignore
-      img.src = revt.target.result;
+    reader.onload = (e => {
+      onChange && onChange(e.target.result);
     });
     reader.readAsDataURL(file);
   }

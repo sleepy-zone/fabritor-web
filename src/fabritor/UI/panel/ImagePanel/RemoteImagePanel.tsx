@@ -7,7 +7,7 @@ export default function RemoteImagePanel (props) {
 
   const handleClick = () => {
     if (url) {
-      addImage({ url });
+      addImage(url);
     }
   }
 

@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { Form } from 'antd';
+import { Form, Modal } from 'antd';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import SizeSetter from '@/fabritor/components/SizeSetter';
 import { getGlobalEditor } from '@/utils/global';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
+import { ClearOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 
 const { Item: FormItem } = Form;
 
@@ -24,13 +25,26 @@ export default function SketchSetter() {
     editor.fireCustomModifiedEvent();
   }
 
+  const clearCanvas = () => {
+    Modal.confirm({
+      title: '确认清空画布？',
+      icon: <ExclamationCircleFilled />,
+      onOk() {
+        const editor = getGlobalEditor();
+        editor.clearCanvas();
+      },
+      okText: '确认',
+      cancelText: '取消'
+    });
+  }
+
   useEffect(() => {
     const editor = getGlobalEditor();
     if (!editor) return;
     const { sketch } = editor;
     form.setFieldsValue({
       fill: sketch.fill,
-      size: [sketch.width, sketch.height],
+      size: [sketch.width, sketch.height]
     });
   }, []);
 
@@ -47,6 +61,12 @@ export default function SketchSetter() {
       <ToolbarDivider />
       <FormItem name="size">
         <SizeSetter />
+      </FormItem>
+      <ToolbarDivider />
+      <FormItem>
+        <span className="fabritor-toolbar-setter-trigger" onClick={clearCanvas}>
+          <ClearOutlined style={{ fontSize: 20 }} />
+        </span>
       </FormItem>
     </Form>
   );
