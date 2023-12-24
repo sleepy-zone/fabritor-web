@@ -43,7 +43,7 @@ export default class FabricHistory {
   }
 
   private _getJSON () {
-    return JSON.stringify(this.canvas.toJSON(FABRITOR_CUSTOM_PROPS));
+    return JSON.stringify(this.editor.canvas2Json());
   }
 
   private _historyEvents () {

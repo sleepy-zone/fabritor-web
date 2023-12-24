@@ -363,8 +363,7 @@ export default class Editor {
   }
 
   public export2Json () {
-    const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
-    json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
+    const json = this.canvas2Json();
     return `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(json, null, 2)
     )}`;
@@ -383,11 +382,16 @@ export default class Editor {
   private _save2Local () {
     setInterval(() => {
       try {
-        const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
-        json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
+        const json = this.canvas2Json();
         localStorage.setItem('fabritor_web_json', JSON.stringify(json));
       } catch(e) {  console.log(e) }
     }, 2000);
+  }
+
+  public canvas2Json () {
+    const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
+    json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
+    return json;
   }
 
   public async loadFromJSON (json, addHistory = false) {
