@@ -2,7 +2,7 @@
 
 <p align="center"><strong>fabritor, A creative editor based on fabricjs.</strong></p>
 
-<p align="center"><img alt="flow" src="/public/shot.jpg"></p>
+<p align="center"><img alt="flow" src="/public/shot_2.jpg"></p>
 
 ### 特性
 
