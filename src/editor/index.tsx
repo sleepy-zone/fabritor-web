@@ -7,7 +7,7 @@ import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
-import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, APP_VERSION, APP_VERSION_KEY } from '@/utils/constants';
+import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '@/utils/constants';
 import FabricHistory from './history';
 import { createGroup } from './group';
 import createCustomClass from './shapes';
@@ -364,7 +364,7 @@ export default class Editor {
 
   public export2Json () {
     const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
-    json[APP_VERSION_KEY] = APP_VERSION;
+    json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
     return `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(json, null, 2)
     )}`;
@@ -399,8 +399,8 @@ export default class Editor {
         return;
       }
     }
-    if (json[APP_VERSION_KEY] !== APP_VERSION) {
-      message.error(`此模板已经无法与当前版本 ${APP_VERSION} 兼容，请更换模板`);
+    if (json[SCHEMA_VERSION_KEY] !== SCHEMA_VERSION) {
+      message.error(`此模板已经无法与当前版本兼容，请更换模板`);
       return;
     }
     const { objects } = json;
