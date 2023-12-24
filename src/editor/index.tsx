@@ -384,6 +384,7 @@ export default class Editor {
     setInterval(() => {
       try {
         const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
+        json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
         localStorage.setItem('fabritor_web_json', JSON.stringify(json));
       } catch(e) {  console.log(e) }
     }, 2000);
