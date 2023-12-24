@@ -7,7 +7,7 @@ import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
-import { SKETCH_ID, FABRITOR_CUSTOM_PROPS } from '@/utils/constants';
+import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, APP_VERSION, APP_VERSION_KEY } from '@/utils/constants';
 import FabricHistory from './history';
 import { createGroup } from './group';
 import createCustomClass from './shapes';
@@ -364,6 +364,7 @@ export default class Editor {
 
   public export2Json () {
     const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
+    json[APP_VERSION_KEY] = APP_VERSION;
     return `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(json, null, 2)
     )}`;
@@ -385,7 +386,7 @@ export default class Editor {
         const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
         localStorage.setItem('fabritor_web_json', JSON.stringify(json));
       } catch(e) {  console.log(e) }
-    }, 1000);
+    }, 2000);
   }
 
   public async loadFromJSON (json, addHistory = false) {
@@ -397,6 +398,10 @@ export default class Editor {
         message.error('加载本地模板失败，请重试');
         return;
       }
+    }
+    if (json[APP_VERSION_KEY] !== APP_VERSION) {
+      message.error(`此模板已经无法与当前版本 ${APP_VERSION} 兼容，请更换模板`);
+      return;
     }
     const { objects } = json;
     for (let item of objects) {
