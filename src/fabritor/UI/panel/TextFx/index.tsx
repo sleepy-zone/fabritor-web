@@ -77,8 +77,8 @@ export default function TextFx () {
         style={{ padding: '0 16px' }}
       >
         <Title>描边</Title>
-        <FormItem label="颜色" name="stroke">
-          <ColorSetter />
+        <FormItem label="颜色">
+          <ColorSetter effectKey="stroke" />
         </FormItem>
         <FormItem label="粗细" name="strokeWidth">
           <Slider

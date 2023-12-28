@@ -83,7 +83,7 @@ export default function Fabritor () {
   }
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       const editor = new Editor({
         canvasEl: canvasEl.current,
         workspaceEl: workspaceEl.current,
@@ -96,9 +96,11 @@ export default function Fabritor () {
         }
       });
   
+      await editor.init();
       editorRef.current = editor;
       setGlobalEditor(editor);
       setReady(true);
+      setActiveObject(editor.sketch);
     }, 300);
 
     return () => {
@@ -113,6 +115,7 @@ export default function Fabritor () {
     <GloablStateContext.Provider
       value={{
         object: activeObject,
+        setActiveObject,
         isReady,
         setReady,
         fxType,

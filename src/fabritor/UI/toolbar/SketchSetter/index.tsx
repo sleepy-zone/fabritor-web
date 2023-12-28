@@ -1,15 +1,17 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Form, Modal } from 'antd';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import SizeSetter from '@/fabritor/components/SizeSetter';
 import { getGlobalEditor } from '@/utils/global';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 import { ClearOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { GloablStateContext } from '@/context';
 
 const { Item: FormItem } = Form;
 
 export default function SketchSetter() {
   const [form] = Form.useForm();
+  const { setActiveObject } = useContext(GloablStateContext);
 
   const handleValuesChange = (values) => {
     const editor = getGlobalEditor();
@@ -29,9 +31,10 @@ export default function SketchSetter() {
     Modal.confirm({
       title: '确认清空画布？',
       icon: <ExclamationCircleFilled />,
-      onOk() {
+      async onOk () {
         const editor = getGlobalEditor();
-        editor.clearCanvas();
+        await editor.clearCanvas();
+        setActiveObject(editor.sketch);
       },
       okText: '确认',
       cancelText: '取消'

@@ -10,7 +10,7 @@ import FallList from '@/fabritor/components/FallList';
 export default function TemplatePanel (props) {
   const { onLoadTpl } = props;
   const localFileSelectorRef = useRef<any>(null);
-  const { isReady, setReady } = useContext(GloablStateContext);
+  const { isReady, setReady, setActiveObject } = useContext(GloablStateContext);
   const [tList, setTList] = useState([]);
 
   const startLoad = () => {
@@ -41,6 +41,7 @@ export default function TemplatePanel (props) {
     const json = await getTemplate(item.url);
     await editor.loadFromJSON(json, true);
     onLoadTpl();
+    setActiveObject(editor.sketch);
     setReady(true);
   }
 

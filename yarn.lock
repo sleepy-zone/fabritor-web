@@ -5681,10 +5681,10 @@ rc-virtual-list@^3.11.1, rc-virtual-list@^3.5.1, rc-virtual-list@^3.5.2:
     rc-resize-observer "^1.0.0"
     rc-util "^5.36.0"
 
-react-colors-beauty@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-colors-beauty/-/react-colors-beauty-1.0.0.tgz#22dfff90f8e17f4be590ac80ebd2df9aa24c1341"
-  integrity sha512-UJ/xLXfhRJUACSLdDO1JBgZSTOYJV9k6FmhD4zaJFKKMNqhD6WFqD/807zzny26RX70VFl07mmhETdSuUPEVNQ==
+react-colors-beauty@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-colors-beauty/-/react-colors-beauty-1.0.2.tgz#9e36f863449c87cf3a8850fec0b3531eccf0531f"
+  integrity sha512-3DNfJ48wGRb8plmCr1pcNrNiMJ+YA8T6CSwQTYWnx9Dqx5uWtnd/a06AKPaX6fz0UJzkC4XwmVU+7xg9+RP7vg==
   dependencies:
     "@ice/jsx-runtime" "^0.2.0"
     "@rc-component/color-picker" "~1.4.1"

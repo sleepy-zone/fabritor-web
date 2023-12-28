@@ -1,6 +1,6 @@
 {
   "name": "fabritor-web",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "fabritor-web",
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
@@ -15,7 +15,7 @@
     "hotkeys-js": "^3.12.0",
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
-    "react-colors-beauty": "^1.0.0",
+    "react-colors-beauty": "1.0.2",
     "react-dom": "^18.2.0",
     "roughjs": "^4.6.6",
     "uuid": "^9.0.1"

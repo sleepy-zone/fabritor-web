@@ -25,6 +25,7 @@ export const downloadFile = (content: string, type: string, name: string) => {
 }
 
 const AngleCoordsMap = {
+  // TODO 45 135...
   90: JSON.stringify({ x1: 0, y1: 0, x2: 1, y2: 0 }),
   180: JSON.stringify({ x1: 0, y1: 0, x2: 0, y2: 1 }),
   270: JSON.stringify({ x1: 1, y1: 0, x2: 0, y2: 0 }),
@@ -40,7 +41,7 @@ const transformCoords2Angel = (coords) => {
   const keys = Object.keys(AngleCoordsMap);
   for (let key of keys) {
     if (JSON.stringify(coords) === AngleCoordsMap[key]) {
-      return key;
+      return Number(key);
     }
   }
   return 90;
@@ -52,8 +53,10 @@ export const transformFill2Colors = (v) => {
   }
   return {
     type: v.type,
-    colorStops: v.colorStops,
-    angle: transformCoords2Angel(v.coords)
+    gradient: {
+      colorStops: v.colorStops,
+      angle: transformCoords2Angel(v.coords)
+    }
   }
 }
 
