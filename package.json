@@ -15,6 +15,7 @@
     "hotkeys-js": "^3.12.0",
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
+    "react-colors-beauty": "^1.0.0",
     "react-dom": "^18.2.0",
     "roughjs": "^4.6.6",
     "uuid": "^9.0.1"
