@@ -43,5 +43,6 @@
   "publishConfig": {
     "access": "public"
   },
+  "license": "MIT",
   "repository": "git@github.com:ice-lab/react-materials.git"
 }
