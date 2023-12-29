@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { Form } from 'antd';
 import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
-import ColorSetter from '@/fabritor/components/ColorSetter';
+import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 import StrokeSetter from './StrokeSetter';
 
 const { Item: FormItem } = Form;

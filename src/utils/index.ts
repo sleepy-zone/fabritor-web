@@ -1,4 +1,3 @@
-import { fabric } from 'fabric';
 import * as FontFaceObserver from 'fontfaceobserver';
 import { v4 as uuidv4 } from 'uuid';
 import { FONT_PRESET_FAMILY_LIST, LOG_PREFIX } from './constants';
@@ -25,10 +24,13 @@ export const downloadFile = (content: string, type: string, name: string) => {
 }
 
 const AngleCoordsMap = {
-  // TODO 45 135...
+  45: JSON.stringify({ x1: 0, y1: 1, x2: 1, y2: 0 }),
   90: JSON.stringify({ x1: 0, y1: 0, x2: 1, y2: 0 }),
+  135: JSON.stringify({ x1: 0, y1: 0, x2: 1, y2: 1 }),
   180: JSON.stringify({ x1: 0, y1: 0, x2: 0, y2: 1 }),
+  225: JSON.stringify({ x1: 1, y1: 0, x2: 0, y2: 1 }),
   270: JSON.stringify({ x1: 1, y1: 0, x2: 0, y2: 0 }),
+  315: JSON.stringify({ x1: 1, y1: 1, x2: 0, y2: 0 }),
   0: JSON.stringify({ x1: 0, y1: 1, x2: 0, y2: 0 })
 }
 
@@ -40,7 +42,14 @@ const transformAngle2Coords = (angle) => {
 const transformCoords2Angel = (coords) => {
   const keys = Object.keys(AngleCoordsMap);
   for (let key of keys) {
-    if (JSON.stringify(coords) === AngleCoordsMap[key]) {
+    let _coords = { ...coords };
+    _coords = {
+      x1: coords.x1 > 1 ? 1 : 0,
+      y1: coords.y1 > 1 ? 1 : 0,
+      x2: coords.x2 > 1 ? 1 : 0,
+      y2: coords.y2 > 1 ? 1 : 0
+    }
+    if (JSON.stringify(_coords) === AngleCoordsMap[key]) {
       return Number(key);
     }
   }
@@ -67,20 +76,20 @@ export const transformColors2Fill = (v) => {
       fill = v.color;
       break;
     case 'linear':
-      fill = new fabric.Gradient({
+      fill = {
         type: 'linear',
         gradientUnits: 'percentage',
         coords: transformAngle2Coords(v.gradient.angle),
         colorStops: v.gradient.colorStops
-      });
+      };
       break;
     case 'radial':
-      fill = new fabric.Gradient({
+      fill = {
         type: 'radial',
         gradientUnits: 'percentage',
         coords: { x1: 0.5, y1: 0.5, x2: 0.5, y2: 0.5, r1: 0, r2: 1 },
         colorStops: v.gradient.colorStops
-      });
+      };
     default:
       break;
   }

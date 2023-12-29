@@ -88,8 +88,8 @@ export default function ShapeSetter () {
       onValuesChange={handleValuesChange}
       layout="inline"
     >
-      <FormItem name="fill">
-        <ColorSetter />
+      <FormItem>
+        <ColorSetter defaultColor="#000000" />
       </FormItem>
       <FormItem name="border">
         <BorderSetter />

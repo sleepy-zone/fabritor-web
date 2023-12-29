@@ -1,5 +1,5 @@
 import { Flex, Popover, Space, Radio, Slider } from 'antd';
-import ColorSetter from '@/fabritor/components/ColorSetter';
+import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 
 const BORDER_TYPES = [
   {

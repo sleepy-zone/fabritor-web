@@ -35,6 +35,7 @@ export default function TextSetter () {
   }
 
   const handleValuesChange = async (values) => {
+    console.log(values)
     const keys = Object.keys(values);
     if (!keys?.length) return;
 
@@ -109,10 +110,8 @@ export default function TextSetter () {
       >
         <FontSizeSetter />
       </FormItem>
-      <FormItem
-        name="fill"
-      >
-        <ColorSetter type="fontColor" />
+      <FormItem>
+        <ColorSetter type="fontColor" defaultColor="#000000" />
       </FormItem>
       <FormItem
         name="space"

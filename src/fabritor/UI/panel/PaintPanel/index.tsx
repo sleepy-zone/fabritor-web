@@ -3,9 +3,8 @@ import Title from '@/fabritor/components/Title';
 import { getGlobalEditor } from '@/utils/global';
 import { useEffect, useState } from 'react';
 import { fabric } from 'fabric';
-import { ClearOutlined } from '@ant-design/icons';
 import { DRAW_MODE_CURSOR, DRAG_ICON } from '@/assets/icon';
-import ColorSetter from '@/fabritor/components/ColorSetter';
+import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 import BrushList from './brush-list';
 
 export default function PaintPanel () {

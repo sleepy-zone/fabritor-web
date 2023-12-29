@@ -1,5 +1,5 @@
 import { Slider, Form, Switch } from 'antd';
-import ColorSetter from '@/fabritor/components/ColorSetter';
+import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 import { useEffect } from 'react';
 
 const { Item: FormItem } = Form;
