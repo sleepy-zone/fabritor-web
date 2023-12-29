@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import { fabric } from 'fabric';
 import { Slider, Form } from 'antd';
 import Title from '@/fabritor/components/Title';
 import ColorSetter from '@/fabritor/components/ColorSetter';
@@ -6,7 +7,9 @@ import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
 import TextShadow from './TextShadow';
 import TextPath from './TextPath';
+import TextPattern from './TextPattern';
 import { drawTextPath, getPathOffset, removeTextPath } from '@/editor/textbox';
+import { loadImageDom } from '@/editor/image';
 
 const { Item: FormItem } = Form;
 
@@ -14,9 +17,29 @@ export default function TextFx () {
   const [form] = Form.useForm();
   const { object, setFxType } = useContext(GloablStateContext);
 
-  const handleFxValueChange = (values) => {
+  const handleTextPattern = async (pattern) => {
+    if (!pattern.enable || !pattern.url) {
+      if (object.fill instanceof fabric.Pattern) {
+        object.set('fill', '#000000');
+      }
+      return Promise.resolve();
+    }
+
+    try {
+      const img = await loadImageDom(pattern.url);
+      object.set('fill', new fabric.Pattern({
+        source: img as HTMLImageElement,
+        repeat: pattern.repeat || 'repeat'
+      }));
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+  const handleFxValueChange = async (values) => {
     const editor = getGlobalEditor();
-    Object.keys(values).forEach((key) => {
+    const keys = Object.keys(values);
+    for (let key of keys) {
       const v = values[key];
       if (key === 'shadow') {
         if (v.enable) {
@@ -35,15 +58,18 @@ export default function TextFx () {
         } else {
           removeTextPath(object);
         }
+      } else if (key === 'pattern') {
+        await handleTextPattern(v);
       } else {
         object.set(key, v);
       }
-    });
+    }
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
   }
 
   const initObjectFx = () => {
+    const fill = object.fill;
     form.setFieldsValue({
       stroke: object.stroke,
       strokeWidth: object.strokeWidth || 0,
@@ -57,6 +83,11 @@ export default function TextFx () {
       path: {
         enable: !!object.path,
         offset: getPathOffset(object)
+      },
+      pattern: {
+        enable: fill instanceof fabric.Pattern,
+        url: fill?.source?.src,
+        repeat: fill.repeat || 'repeat'
       }
     });
   }
@@ -93,6 +124,10 @@ export default function TextFx () {
         <Title>波浪型文字</Title>
         <FormItem name="path">
           <TextPath />
+        </FormItem>
+        <Title>图片填充</Title>
+        <FormItem name="pattern">
+          <TextPattern />
         </FormItem>
       </Form>
     </div>

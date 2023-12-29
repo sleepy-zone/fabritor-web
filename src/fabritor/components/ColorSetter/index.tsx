@@ -83,7 +83,11 @@ export default function ColorSetter (props) {
   useEffect(() => {
     if (object) {
       const colors = object[effectKey];
-      setValue(transformFill2Colors(colors));
+      if (object.type === 'f-text' && effectKey === 'fill' && colors instanceof fabric.Pattern) {
+        setValue({ type: 'solid', color: '#000000' });
+      } else {
+        setValue(transformFill2Colors(colors));
+      }
     }
   }, [object]);
 

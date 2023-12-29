@@ -4,6 +4,18 @@ import { getGlobalEditor } from '@/utils/global';
 import { setObject2Center } from '@/utils/helper';
 import { message } from 'antd';
 
+export const loadImageDom = async (url) => {
+  return new Promise((resolve, reject) => {
+    fabric.util.loadImage(url, (img) => {
+      if (img) {
+        return resolve(img);
+      }
+      message.error('加载图片失败');
+      return reject();
+    }, null, 'anonymous');
+  });
+}
+
 export const loadImage = async (imageSource) => {
   if (typeof imageSource === 'string') {
     return new Promise<fabric.Image>((resolve, reject) => {
