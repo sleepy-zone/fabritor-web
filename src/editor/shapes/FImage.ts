@@ -80,8 +80,12 @@ export const createFImageClass = () => {
         const width = this.img.getScaledWidth();
         const height = this.img.getScaledHeight();
         this.img.setCoords();
-        this.borderRect.set({ width, height });
-        this.addWithUpdate(this.borderRect);
+        this.borderRect.set({ width, height, dirty: true });
+        this.img.set({
+          clipPath: this._createClipPath(),
+          dirty: true
+        });
+        this.addWithUpdate();
         callback && callback();
       });
     },
@@ -98,6 +102,7 @@ export const createFImageClass = () => {
         ry: b.borderRadius || 0,
         strokeDashArray: b.strokeDashArray || null
       });
+      this.img.setCoords();
       this.img.set({
         clipPath: this._createClipPath(),
         dirty: true

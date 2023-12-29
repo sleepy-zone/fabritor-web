@@ -7,6 +7,7 @@ import FlipSetter from './FlipSetter';
 import { getGlobalEditor } from '@/utils/global';
 import BorderSetter from './BorderSetter';
 import ClipSetter from './Clip';
+import { createFImage } from '@/editor/image';
 
 const { Item: FormItem } = Form;
 
@@ -24,6 +25,7 @@ const getObjectBorderType = ({stroke, strokeWidth, strokeDashArray}) => {
 }
 
 const getStrokeDashArray = ({ type, strokeWidth }) => {
+  if (!type) return null;
   if (type !== 'line') {
     const dashArray = type.split(',');
     dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);

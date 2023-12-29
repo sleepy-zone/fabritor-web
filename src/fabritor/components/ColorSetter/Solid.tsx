@@ -3,6 +3,10 @@ import { ColorPicker } from 'antd';
 export default function SolidColorSetter (props) {
   const { value, onChange, trigger } = props;
 
+  const handleChange = (v) => {
+    onChange && onChange(v.toHexString());
+  }
+
   const renderTrigger = () => {
     if (trigger) return trigger;
     return (
@@ -13,7 +17,7 @@ export default function SolidColorSetter (props) {
   return (
     <ColorPicker
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
     >
       <div className="fabritor-toolbar-setter-trigger">
         {renderTrigger()}
