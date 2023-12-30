@@ -1,5 +1,6 @@
 import { Popover } from 'antd';
-import { ColorsPicker } from 'react-colors-beauty';
+import { ColorsPicker, Color } from 'react-colors-beauty';
+import type { ColorsValue } from 'react-colors-beauty';
 import { useEffect, useState, useContext } from 'react';
 import { GloablStateContext } from '@/context';
 import { transformColors2Fill, transformFill2Colors } from '@/utils';
@@ -7,7 +8,7 @@ import { fabric } from 'fabric';
 
 export default function ColorSetter (props) {
   const { effectKey = 'fill', defaultColor = '#ffffff', trigger, type } = props;
-  const [value, setValue] = useState<any>();
+  const [value, setValue] = useState<ColorsValue>();
   const { object } = useContext(GloablStateContext);
 
   const handleChange = (v) => {
@@ -51,12 +52,23 @@ export default function ColorSetter (props) {
       case 'solid':
         return value.color;
       case 'linear':
-        return `linear-gradient(${value.gradient.angle}deg, ${value.gradient.colorStops.map(stop => `${stop.color} ${stop.offset * 100}%`)})`;
+        return `linear-gradient(${value.gradient?.angle}deg, ${value.gradient?.colorStops.map(stop => `${stop.color} ${stop.offset * 100}%`)})`;
       case 'radial':
-        return `radial-gradient(at 50% 50%, ${value.gradient.colorStops.map(stop => `${stop.color} ${stop.offset * 100}%`)})`;
+        return `radial-gradient(at 50% 50%, ${value.gradient?.colorStops.map(stop => `${stop.color} ${stop.offset * 100}%`)})`;
       default:
         return 'rgba(0, 0, 0, 0.88)';
     }
+  }
+
+  const calcTriggerBorder = () => {
+    if (value?.type === 'solid') {
+      const c = new Color(value.color);
+      if (c.toHexString() === '#ffffff') {
+        return '1px solid rgb(204,204,204)';
+      }
+      return;
+    }
+    return;
   }
 
   const renderTrigger = () => {
@@ -86,6 +98,7 @@ export default function ColorSetter (props) {
       if (object.type === 'f-text' && effectKey === 'fill' && colors instanceof fabric.Pattern) {
         setValue({ type: 'solid', color: '#000000' });
       } else {
+        // @ts-ignore
         setValue(transformFill2Colors(colors));
       }
     }
@@ -105,7 +118,9 @@ export default function ColorSetter (props) {
         trigger="click"
       >
         <div className="fabritor-toolbar-setter-trigger">
+          <div style={{ borderRadius: 4, border: calcTriggerBorder(), lineHeight: 0  }}>
           {renderTrigger()}
+          </div>
         </div>
       </Popover>
 
