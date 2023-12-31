@@ -1,6 +1,6 @@
-import { Button, Form, Input, InputNumber, QRCode, Radio, Switch, Collapse, Flex } from 'antd';
+import { Button, Form, Input, InputNumber, QRCode, Radio, Collapse, Flex } from 'antd';
 import AppSubPanel from './AppSubPanel';
-import ColorSetter from '@/fabritor/components/ColorSetter';
+import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 import { useEffect, useRef, useState } from 'react';
 import { createImage } from '@/editor/image';
 

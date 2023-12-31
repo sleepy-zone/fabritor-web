@@ -15,7 +15,13 @@ export default function DesignPanel (props) {
     {
       key: 'template',
       label: '模板库',
-      children: <TemplatePanel onLoadTpl={() => { setActiveKey('layers'); }} />
+      children: (
+        <TemplatePanel
+          onLoadTpl={() => { 
+            setActiveKey('layers');
+          }} 
+        />
+      )
     }
   ];
 

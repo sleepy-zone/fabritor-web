@@ -1,10 +1,10 @@
-import { Slider, Form, Switch } from 'antd';
-import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
+import { Form, Switch, Radio, Space } from 'antd';
 import { useEffect } from 'react';
+import ImageSelector from '@/fabritor/components/ImageSelector';
 
 const { Item: FormItem } = Form;
 
-export default function TextShadow (props) {
+export default function TextPattern (props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
 
@@ -26,20 +26,8 @@ export default function TextShadow (props) {
       <FormItem label="启用" name="enable" valuePropName="checked">
         <Switch />
       </FormItem>
-      <FormItem label="颜色" name="color">
-        <ColorSetter />
-      </FormItem>
-      <FormItem label="模糊" name="blur">
-        <Slider
-          min={0}
-          max={100}
-        />
-      </FormItem>
-      <FormItem label="偏移" name="offset">
-        <Slider
-          min={-180}
-          max={180}
-        />
+      <FormItem label="图片" name="url">
+        <ImageSelector />
       </FormItem>
     </Form>
   )

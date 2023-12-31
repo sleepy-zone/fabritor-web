@@ -20,18 +20,19 @@ export default class Editor {
   private _resizeObserver: ResizeObserver | null;
   private _pan;
   public fhistory;
+  public canSaveLocal: boolean;
 
   constructor (options) {
     const { template, ...rest } = options;
     this._options = rest;
     this._template = template;
+    this.canSaveLocal = false;
     this._pan = {
       enable: false,
       isDragging: false,
       lastPosX: 0,
       lastPosY: 0
     }
-    this.init();
   }
 
   public async init() {
@@ -44,6 +45,7 @@ export default class Editor {
     initHotKey(this.canvas, this.fhistory);
 
     await this._loadLocal();
+    this.canSaveLocal = true;
     this._save2Local();
   }
 
@@ -382,8 +384,10 @@ export default class Editor {
   private _save2Local () {
     setInterval(() => {
       try {
-        const json = this.canvas2Json();
-        localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+        if (this.canSaveLocal) {
+          const json = this.canvas2Json();
+          localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+        }
       } catch(e) {  console.log(e) }
     }, 2000);
   }
@@ -432,9 +436,9 @@ export default class Editor {
     });
   }
 
-  public clearCanvas () {
+  public async clearCanvas () {
     const originalJson = '{"fabritor_schema_version":2,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"我的画板","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}';
     this.canvas.clear();
-    this.loadFromJSON(originalJson);
+    await this.loadFromJSON(originalJson);
   }
 }

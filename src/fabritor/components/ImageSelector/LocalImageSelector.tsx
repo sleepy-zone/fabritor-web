@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { Button } from 'antd';
-import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
+import LocalFileSelector from '../LocalFileSelector';
 
-export default function LocalImagePanel (props) {
-  const { addImage } = props;
+export default function LocalImageSelector (props) {
+  const { onChange } = props;
   const localFileSelectorRef = useRef<any>();
 
   const handleClick = () => {
@@ -19,7 +19,7 @@ export default function LocalImagePanel (props) {
     
     const reader = new FileReader();
     reader.onload = (revt) => {
-      addImage?.(revt.target.result);
+      onChange?.(revt.target.result);
     }
     reader.readAsDataURL(file);
   }

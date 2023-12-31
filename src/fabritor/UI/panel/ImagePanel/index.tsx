@@ -1,11 +1,10 @@
-import LocalImagePanel from './LocalImagePanel';
-import { createSvg, createImage, createFImage } from '@/editor/image';
-import RemoteImagePanel from './RemoteImagePanel';
-import { Button, Flex } from 'antd';
+import { createFImage } from '@/editor/image';
+import { Button } from 'antd';
 import Title from '@/fabritor/components/Title';
 import { useEffect, useState } from 'react';
 import FallList from '@/fabritor/components/FallList';
 import { fetchPhotos } from './pixabay';
+import ImageSelector from '@/fabritor/components/ImageSelector';
 
 export default function ImagePanel () {
   const [photos, setPhotos] = useState([]);
@@ -18,9 +17,9 @@ export default function ImagePanel () {
     });
   }
 
-  const addSvg = async (options) => {
-    await createSvg(options);
-  }
+  // const addSvg = async (options) => {
+  //   await createSvg(options);
+  // }
 
   const addPixabay = (item) => {
     createFImage({
@@ -47,10 +46,7 @@ export default function ImagePanel () {
 
   return (
     <div className="fabritor-panel-wrapper">
-      <Flex gap={10} justify="space-around">
-        <LocalImagePanel addImage={addImage} addSvg={addSvg} />
-        <RemoteImagePanel addImage={addImage} />
-      </Flex>
+      <ImageSelector onChange={addImage} />
       <Title>来自{renderPixabayButton('vector')}的矢量图</Title>
       <FallList list={vectors} type="image" itemClick={addPixabay} />
       <Title>来自{renderPixabayButton('photo')}的图片</Title>

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Button, Input, Popover, Space } from 'antd';
 
-export default function RemoteImagePanel (props) {
-  const { addImage } = props;
+export default function RemoteImageSelector (props) {
+  const { onChange } = props;
   const [url, setUrl] = useState('');
 
   const handleClick = () => {
     if (url) {
-      addImage(url);
+      onChange?.(url);
     }
   }
 

@@ -80,8 +80,12 @@ export const createFImageClass = () => {
         const width = this.img.getScaledWidth();
         const height = this.img.getScaledHeight();
         this.img.setCoords();
-        this.borderRect.set({ width, height });
-        this.addWithUpdate(this.borderRect);
+        this.borderRect.set({ width, height, dirty: true });
+        this.img.set({
+          clipPath: this._createClipPath(),
+          dirty: true
+        });
+        this.addWithUpdate();
         callback && callback();
       });
     },
@@ -98,6 +102,7 @@ export const createFImageClass = () => {
         ry: b.borderRadius || 0,
         strokeDashArray: b.strokeDashArray || null
       });
+      this.img.setCoords();
       this.img.set({
         clipPath: this._createClipPath(),
         dirty: true
@@ -108,15 +113,36 @@ export const createFImageClass = () => {
 
     getBorder () {
       return this.imageBorder;
+    },
+
+    // http://fabricjs.com/fabric-filters
+    applyFilter (filter) {
+      try {
+        this.img.filters = filter ? [filter] : [];
+        this.img.applyFilters();
+      } catch(e) {
+        console.log(e);
+      }
+    },
+
+    applyFilterValue (prop, value) {
+      const filter = this.getFilter();
+      if (filter) {
+        filter[prop] = value;
+        this.img.filters = [filter];
+        this.img.applyFilters();
+      }
+    },
+
+    getFilter () {
+      return this.img.filters[0];
     }
   });
 
   fabric.FImage.fromObject = (object, callback) => {
     const { objects, ...options } = object;
     const imgJson = {...objects[0]};
-    const { src, ...imgOptions } = imgJson;
-    loadImage(imgJson.src).then((img) => {
-      img.set(imgOptions);
+    fabric.Image.fromObject(imgJson, (img) => {
       callback(new fabric.FImage({ image: img, ...options }, true));
     });
   }
