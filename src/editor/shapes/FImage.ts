@@ -118,18 +118,19 @@ export const createFImageClass = () => {
     // http://fabricjs.com/fabric-filters
     applyFilter (filter) {
       try {
-        this.img.filters = [filter];
+        this.img.filters = filter ? [filter] : [];
         this.img.applyFilters();
       } catch(e) {
         console.log(e);
       }
     },
 
-    applyFilterValue (index, prop, value) {
-      if (this.img.filters[index]) {
-        this.img.filters[index][prop] = value;
+    applyFilterValue (prop, value) {
+      const filter = this.getFilter();
+      if (filter) {
+        filter[prop] = value;
+        this.img.filters = [filter];
         this.img.applyFilters();
-        this.canvas.requestRenderAll();
       }
     },
 

@@ -1,43 +1,65 @@
 import { fabric } from 'fabric';
 import { useEffect, useContext } from 'react';
 import { GloablStateContext } from '@/context';
-import { Slider, Form } from 'antd';
-import Title from '@/fabritor/components/Title';
-import RadioImageGroup from '@/fabritor/components/RadioImageGroup';
+import { Form } from 'antd';
+import FilterGroup from './FilterGroup';
 
 const { Item: FormItem } = Form;
 
-const COLOR_FILTER_LIST = [
-  {
-    label: '古典',
-    value: 'Vintage',
-    src: 'https://cdn.pixabay.com/photo/2023/12/07/11/11/girl-8435340_1280.png'
-  },
-  {
-    label: '胶片',
-    value: 'Kodachrome',
-    src: 'https://cdn.pixabay.com/photo/2023/12/07/11/11/girl-8435340_1280.png'
+const handleFilterValue = (filter) => {
+  if (!filter) return { type: 'none' };
+  const { type } = filter;
+  if (type === 'Blur') {
+    return { type, param: filter.blur }
   }
-];
-
-const FILTER_INDEX = ['Vintage', 'Kodachrome'];
+  if (type === 'Pixelate') {
+    return { type, param: filter.blocksize }
+  }
+  if (type === 'HueRotation') {
+    return { type, param: filter.rotation }
+  }
+  return { type };
+}
 
 export default function ImageFx () {
   const { object, setFxType } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleFxValueChange = (values) => {
-    console.log(values);
-    if (values.colorFilter) {
-      object.applyFilter(new fabric.Image.filters[values.colorFilter]());
+    if (values.filter) {
+      const { type, param } = values.filter;
+      let filter;
+      if (type === 'Emboss') {
+        filter = new fabric.Image.filters.Convolute({
+          matrix:  [ 1,   1,  1,
+                     1, 0.7, -1,
+                    -1,  -1, -1 ]
+        });
+      } else if (type === 'none') {
+        filter = null;
+      } else {
+        filter = new fabric.Image.filters[type]();
+      }
+      if (type === 'Blur') {
+        filter.blur = param == undefined ? 0.2 : param;
+      }
+      if (type === 'Pixelate') {
+        filter.blocksize = param == undefined ? 4 : param;
+      }
+      if (type === 'HueRotation') {
+        filter.rotation = param == undefined ? 0 : param;
+      }
+      object.applyFilter(filter);
       object.canvas.requestRenderAll();
     }
   }
 
   const initImageFx = () => {
+    const filter = object.getFilter();
+    console.log(filter);
     form.setFieldsValue({
-      
-    })
+      filter: handleFilterValue(filter)
+    });
   }
 
   useEffect(() => {
@@ -55,9 +77,8 @@ export default function ImageFx () {
         onValuesChange={handleFxValueChange}
         style={{ padding: '0 16px' }}
       >
-        <Title>温暖</Title>
-        <FormItem name="colorFilter">
-          <RadioImageGroup options={COLOR_FILTER_LIST} />
+        <FormItem name="filter">
+          <FilterGroup />
         </FormItem>
       </Form>
     </div>
