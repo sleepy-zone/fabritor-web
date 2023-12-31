@@ -1,0 +1,21 @@
+.fabritor-radio-image-group {
+  display: flex;
+  gap: 8px;
+  &-item {
+    width: 88px;
+    text-align: center;
+    cursor: pointer;
+
+    img {
+      border-radius: 6px;
+    }
+    span {
+      font-size: 13px;
+    }
+  }
+  &-img {
+    font-size: 0;
+    border: 2px solid #dddddd;
+    border-radius: 8px;
+  }
+}

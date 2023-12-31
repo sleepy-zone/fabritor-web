@@ -21,6 +21,7 @@ export default function TemplatePanel (props) {
     if (!isReady) return;
     setReady(false);
     const editor = getGlobalEditor();
+    editor.canSaveLocal = false;
     const reader = new FileReader();
     editor.canvas.discardActiveObject();
     reader.onload = (async (evt) => {
@@ -29,7 +30,9 @@ export default function TemplatePanel (props) {
         await editor.loadFromJSON(json, true);
         setReady(true);
         onLoadTpl();
+        setActiveObject(editor.sketch);
       }
+      editor.canSaveLocal = true;
     });
     reader.readAsText(file);
   }
@@ -38,11 +41,13 @@ export default function TemplatePanel (props) {
     if (!isReady) return;
     const editor = getGlobalEditor();
     setReady(false);
+    editor.canSaveLocal = false;
     const json = await getTemplate(item.url);
     await editor.loadFromJSON(json, true);
     onLoadTpl();
     setActiveObject(editor.sketch);
     setReady(true);
+    editor.canSaveLocal = true;
   }
 
   useEffect(() => {

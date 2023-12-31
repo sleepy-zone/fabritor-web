@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { Form } from 'antd';
+import { FunctionOutlined } from '@ant-design/icons';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 import ReplaceSetter from './ReplaceSetter';
 import { GloablStateContext } from '@/context';
@@ -7,7 +8,6 @@ import FlipSetter from './FlipSetter';
 import { getGlobalEditor } from '@/utils/global';
 import BorderSetter from './BorderSetter';
 import ClipSetter from './Clip';
-import { createFImage } from '@/editor/image';
 
 const { Item: FormItem } = Form;
 
@@ -36,7 +36,7 @@ const getStrokeDashArray = ({ type, strokeWidth }) => {
 }
 
 export default function ImageSetter () {
-  const { object } = useContext(GloablStateContext);
+  const { object, setFxType } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleImageReplace = (base64) => {
@@ -115,6 +115,15 @@ export default function ImageSetter () {
       <ToolbarDivider />
       <FormItem>
         <ClipSetter object={object} />
+      </FormItem>
+      <ToolbarDivider />
+      <FormItem>
+        <span
+          className="fabritor-toolbar-setter-trigger"
+          onClick={() => { setFxType('image'); }}
+        >
+          <FunctionOutlined style={{ fontSize: 22 }} />
+        </span>
       </FormItem>
       <ToolbarDivider />
     </Form>

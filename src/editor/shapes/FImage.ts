@@ -113,15 +113,35 @@ export const createFImageClass = () => {
 
     getBorder () {
       return this.imageBorder;
+    },
+
+    // http://fabricjs.com/fabric-filters
+    applyFilter (filter) {
+      try {
+        this.img.filters = [filter];
+        this.img.applyFilters();
+      } catch(e) {
+        console.log(e);
+      }
+    },
+
+    applyFilterValue (index, prop, value) {
+      if (this.img.filters[index]) {
+        this.img.filters[index][prop] = value;
+        this.img.applyFilters();
+        this.canvas.requestRenderAll();
+      }
+    },
+
+    getFilter () {
+      return this.img.filters[0];
     }
   });
 
   fabric.FImage.fromObject = (object, callback) => {
     const { objects, ...options } = object;
     const imgJson = {...objects[0]};
-    const { src, ...imgOptions } = imgJson;
-    loadImage(imgJson.src).then((img) => {
-      img.set(imgOptions);
+    fabric.Image.fromObject(imgJson, (img) => {
       callback(new fabric.FImage({ image: img, ...options }, true));
     });
   }

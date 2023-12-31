@@ -35,7 +35,6 @@ export default function TextSetter () {
   }
 
   const handleValuesChange = async (values) => {
-    console.log(values)
     const keys = Object.keys(values);
     if (!keys?.length) return;
 

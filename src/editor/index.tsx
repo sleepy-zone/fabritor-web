@@ -20,11 +20,13 @@ export default class Editor {
   private _resizeObserver: ResizeObserver | null;
   private _pan;
   public fhistory;
+  public canSaveLocal: boolean;
 
   constructor (options) {
     const { template, ...rest } = options;
     this._options = rest;
     this._template = template;
+    this.canSaveLocal = false;
     this._pan = {
       enable: false,
       isDragging: false,
@@ -43,6 +45,7 @@ export default class Editor {
     initHotKey(this.canvas, this.fhistory);
 
     await this._loadLocal();
+    this.canSaveLocal = true;
     this._save2Local();
   }
 
@@ -381,8 +384,10 @@ export default class Editor {
   private _save2Local () {
     setInterval(() => {
       try {
-        const json = this.canvas2Json();
-        localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+        if (this.canSaveLocal) {
+          const json = this.canvas2Json();
+          localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+        }
       } catch(e) {  console.log(e) }
     }, 2000);
   }
