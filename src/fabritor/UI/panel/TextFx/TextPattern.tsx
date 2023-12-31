@@ -1,4 +1,4 @@
-import { Form, Switch, Radio } from 'antd';
+import { Form, Switch, Radio, Space } from 'antd';
 import { useEffect } from 'react';
 import ImageSelector from '@/fabritor/components/ImageSelector';
 
@@ -28,26 +28,6 @@ export default function TextPattern (props) {
       </FormItem>
       <FormItem label="图片" name="url">
         <ImageSelector />
-      </FormItem>
-      <FormItem label="重复" name="repeat">
-        <Radio.Group direction="vertical" options={[
-          {
-            label: '重复(repeat)',
-            value: 'repeat'
-          },
-          {
-            label: '横向重复(repeat-x)',
-            value: 'repeat-x'
-          },
-          {
-            label: '纵向重复(repeat-y)',
-            value: 'repeat-y'
-          },
-          {
-            label: '无重复(no-repeat)',
-            value: 'no-repeat'
-          }
-        ]} />
       </FormItem>
     </Form>
   )

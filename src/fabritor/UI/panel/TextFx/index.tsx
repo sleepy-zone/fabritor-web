@@ -29,7 +29,7 @@ export default function TextFx () {
       const img = await loadImageDom(pattern.url);
       object.set('fill', new fabric.Pattern({
         source: img as HTMLImageElement,
-        repeat: pattern.repeat || 'repeat'
+        repeat: 'repeat'
       }));
     } catch(e) {
       console.log(e);
@@ -86,8 +86,7 @@ export default function TextFx () {
       },
       pattern: {
         enable: fill instanceof fabric.Pattern,
-        url: fill?.source?.src,
-        repeat: fill.repeat || 'repeat'
+        url: fill?.source?.src
       }
     });
   }
