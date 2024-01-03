@@ -95,3 +95,51 @@ export const transformColors2Fill = (v) => {
   }
   return fill;
 }
+
+const getType = (type) => {
+  if (type.indexOf('text') === 0) {
+    return 'text';
+  }
+  if (type.indexOf('image/') === 0) {
+    return 'image';
+  }
+  return '';
+}
+
+export const readBlob = async (blob, blobType) => {
+  const type = getType(blobType);
+  if (!type) return Promise.resolve(null);
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      resolve({ type, result: e.target?.result });
+    }
+    reader.onerror = (e) => {
+      console.log(e)
+      resolve(null);
+    }
+    if (type === 'text') {
+      reader.readAsText(blob);
+    } else if (type === 'image') {
+      reader.readAsDataURL(blob);
+    }
+  });
+}
+
+export const getSystemClipboard = async () => {
+  try {
+    const clipboardItems = await navigator.clipboard.read();
+    for (const clipboardItem of clipboardItems) {
+      for (const type of clipboardItem.types) {
+        const result = await readBlob(await clipboardItem.getType(type), type);
+        if (result) {
+          return result;
+        }
+      }
+    }
+    return null;
+  } catch (err) {
+    console.error(err.name, err.message);
+    return null;
+  }
+}
