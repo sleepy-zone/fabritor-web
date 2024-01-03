@@ -24,13 +24,14 @@ export default function ColorSetter (props) {
         x1: coords.x1 === 1 ? object.width : 0,
         y1: coords.y1 === 1 ? object.height : 0,
         x2: coords.x2 === 1 ? object.width : 0,
-        y2: coords.y2 === 1 ? object.height : 0
+        y2: coords.y2 === 1 ? object.height : 0,
+        r1: 0,
+        r2: object.width > object.height ? object.width / 2  : object.height
       }
     }
     if (typeof fill !== 'string') {
       fill = new fabric.Gradient(fill);
     }
-    console.log(fill)
     object.set(effectKey, fill);
     object?.canvas?.requestRenderAll();
   }
