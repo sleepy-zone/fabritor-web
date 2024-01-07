@@ -36,17 +36,21 @@ export default class Editor {
   }
 
   public async init() {
+    const { storageLocal = true, withHistory = true } = this._options;
     this._initObject();
     this._initCanvas();
     this._initEvents();
     this._initSketch();
     this._initGuidelines();
     this.fhistory = new FabricHistory(this);
-    initHotKey(this.canvas, this.fhistory);
 
-    await this._loadLocal();
-    this.canSaveLocal = true;
-    this._save2Local();
+    initHotKey(this.canvas, this.fhistory, withHistory);
+
+    if (storageLocal) {
+      await this._loadLocal();
+      this.canSaveLocal = true;
+      this._save2Local();
+    }
   }
 
   private _initObject () {
@@ -56,7 +60,7 @@ export default class Editor {
   }
 
   private _initCanvas () {
-    const { canvasEl, workspaceEl } = this._options;
+    const { canvasEl, workspaceEl, ...rest } = this._options;
     this.canvas = new fabric.Canvas(canvasEl, {
       selection: true,
       containerClass: 'fabritor-canvas',
@@ -66,7 +70,8 @@ export default class Editor {
       width: workspaceEl.offsetWidth,
       height: workspaceEl.offsetHeight,
       backgroundColor: '#ddd',
-      preserveObjectStacking: true
+      preserveObjectStacking: true,
+      ...rest
     });
   }
 
@@ -77,7 +82,7 @@ export default class Editor {
 
   private _initSketch () {
     // 默认小红书尺寸
-    const { width = 1242, height = 1660 } = this._template || {};
+    const { width = 1242, height = 1660, ...rest } = this._template || {};
     const sketch = new fabric.Rect({
       fill: '#ffffff',
       left: 0,
@@ -91,6 +96,7 @@ export default class Editor {
       id: SKETCH_ID,
       // @ts-ignore custom desc
       fabritor_desc: '我的画板',
+      ...rest,
     });
     this.canvas.add(sketch);
     this.canvas.requestRenderAll();

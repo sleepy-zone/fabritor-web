@@ -1,20 +1,18 @@
 import { fabric } from 'fabric';
 import { useEffect, useRef, useState } from 'react';
 import { Layout, Spin } from 'antd';
-import Panel from './UI/panel';
-import Toolbar from './UI/toolbar';
 import Editor from '@/editor';
 import { setGlobalEditor } from '@/utils/global';
 import { GloablStateContext } from '@/context';
-import ContextMenu from './components/ContextMenu';
-import { SKETCH_ID } from '@/utils/constants';
-import ToolTip from './components/ToolTip';
-import Export from './UI/header/Export';
+import ToolTip from '../fabritor/components/ToolTip';
+import Header from './header';
+import Panel from './panel';
+import Setter from './setter';
 
 const { Content } = Layout;
 
 const workspaceStyle: React.CSSProperties = {
-  background: '#ddd',
+  background: '#eeeeee',
   width: '100%',
   height: '100%',
   overflow: 'hidden',
@@ -23,7 +21,6 @@ const workspaceStyle: React.CSSProperties = {
 
 const contentStyle: React.CSSProperties = {
   display: 'flex',
-  flexDirection: 'column',
   height: '100%'
 }
 
@@ -34,27 +31,7 @@ export default function Fabritor () {
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
   const [fxType, setFxType] = useState('');
-  const contextMenuRef = useRef<any>(null);
   const rotateAngleTipRef = useRef<any>(null);
-
-  const clickHandler = (opt) => {
-    const { target } = opt;
-    if (!target) {
-      contextMenuRef.current?.hide();
-      return;
-    }
-
-    if (opt.button === 3) { // 右键
-      if (target.id !== SKETCH_ID) {
-        editorRef.current?.canvas.setActiveObject(target);
-      }
-      setTimeout(() => {
-        contextMenuRef.current?.show();
-      }, 50);
-    } else {
-      contextMenuRef.current?.hide();
-    }
-  }
 
   const selectionHandler = (opt) => {
     const { selected } = opt;
@@ -79,17 +56,35 @@ export default function Fabritor () {
     rotateAngleTipRef.current.close();
   }
 
+  const preventContextMenu = (e) => {
+    e.preventDefault();
+  }
+
   useEffect(() => {
     setTimeout(async () => {
       const editor = new Editor({
         canvasEl: canvasEl.current,
         workspaceEl: workspaceEl.current,
+        selection: false,
+        fireRightClick: false,
+        backgroundColor: '#eeeeee',
+        storageLocal: false,
+        withHistory: false,
+        template: {
+          width: 1280,
+          height: 800,
+          fabritor_desc: 'My_ShotBeauty',
+          fill: new fabric.Gradient({
+            type: 'linear',
+            gradientUnits: 'percentage',
+            coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
+            colorStops: [{ offset: 0, color: '#f3b7ad' }, { offset: 1, color: '#fad4a6' }]
+          })
+        },
         sketchEventHandler: {
-          clickHandler,
           mouseupHandler,
           selectionHandler,
-          rotateHandler,
-          groupHandler: () => { setActiveObject(editorRef.current?.canvas.getActiveObject()) }
+          rotateHandler
         }
       });
   
@@ -100,11 +95,15 @@ export default function Fabritor () {
       setActiveObject(editor.sketch);
     }, 300);
 
+    document.addEventListener('contextmenu', preventContextMenu);
+
     return () => {
       if (editorRef.current) {
         editorRef.current.destroy();
         editorRef.current = null;
       }
+
+      document.removeEventListener('contextmenu', preventContextMenu);
     }
   }, []);
 
@@ -122,17 +121,15 @@ export default function Fabritor () {
       <Layout style={{ height: '100%' }} className="fabritor-layout">
         <Spin spinning={!isReady} fullscreen />
         <ToolTip ref={rotateAngleTipRef} />
-        <Export />
+        <Header />
         <Layout>
           <Panel />
           <Content style={contentStyle}>
-            <Toolbar />
-            <ContextMenu ref={contextMenuRef} object={activeObject}>
-              <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
-                <canvas ref={canvasEl} />
-              </div>
-            </ContextMenu>
+            <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
+              <canvas ref={canvasEl} />
+            </div>
           </Content>
+          <Setter />
         </Layout>
       </Layout>
     </GloablStateContext.Provider>

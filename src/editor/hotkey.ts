@@ -1,7 +1,7 @@
 import hotkeys from 'hotkeys-js';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 
-export default function initHotKey (canvas, fhistory) {
+export default function initHotKey (canvas, fhistory, withHistory) {
   // @ts-ignore
   hotkeys('ctrl+c,command+c', async (event) => {
     // event.preventDefault();
@@ -18,15 +18,17 @@ export default function initHotKey (canvas, fhistory) {
     removeObject(null, canvas);
   });
 
-  hotkeys('ctrl+z,command+z', (event) => {
-    event.preventDefault();
-    fhistory.undo();
-  });
-
-  hotkeys('ctrl+shift+z,command+shift+z', (event) => {
-    event.preventDefault();
-    fhistory.redo();
-  });
+  if (withHistory) {
+    hotkeys('ctrl+z,command+z', (event) => {
+      event.preventDefault();
+      fhistory.undo();
+    });
+  
+    hotkeys('ctrl+shift+z,command+shift+z', (event) => {
+      event.preventDefault();
+      fhistory.redo();
+    });
+  }
 
   hotkeys('up, right, down, left', (event, handler) => {
     const activeObject = canvas.getActiveObject();
