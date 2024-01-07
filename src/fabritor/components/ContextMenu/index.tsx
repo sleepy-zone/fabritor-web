@@ -100,7 +100,7 @@ const ContextMenu = (props, ref) => {
         break;
       case 'copy&paste':
         await copyObject(editor.canvas, object);
-        pasteObject(editor.canvas);
+        await pasteObject(editor.canvas);
         break;
       case 'del':
         removeObject(object, editor.canvas);

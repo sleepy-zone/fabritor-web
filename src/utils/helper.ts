@@ -1,5 +1,8 @@
 import { fabric } from 'fabric';
 import { FABRITOR_CUSTOM_PROPS } from './constants';
+import { createTextbox } from '@/editor/textbox';
+import { getSystemClipboard } from './index';
+import { createFImage } from '@/editor/image';
 
 // @ts-ignore fabric controlsUtils
 const controlsUtils = fabric.controlsUtils;
@@ -35,15 +38,33 @@ export const copyObject = async (canvas, target) => {
       target = canvas.getActiveObject();
     }
     if (!target) return Promise.resolve(false);
+
+    // 清空系统剪贴板
+    navigator.clipboard.writeText('');
     return target.clone(cloned => {
       _clipboard = cloned;
       return resolve(true);
     }, FABRITOR_CUSTOM_PROPS);
   });
 }
-export const pasteObject = (canvas) => {
+
+export const pasteObject = async (canvas) => {
+  // 先读取系统剪贴板
+  try {
+    const { type, result } = await getSystemClipboard() || {};
+    if (result) {
+      if (type === 'text') {
+        createTextbox({ text: result });
+      } else if (type === 'image') {
+        createFImage({ imageSource: result })
+      }
+      return;
+    }
+  } catch (err) {
+    console.error('Failed to read clipboard contents: ', err);
+  }
+
   // clone again, so you can do multiple copies.
-  if (!_clipboard) return;
   _clipboard.clone((cloned) => {
     canvas.discardActiveObject();
     cloned.set({
