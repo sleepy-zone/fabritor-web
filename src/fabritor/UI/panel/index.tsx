@@ -11,6 +11,7 @@ import TextFx from './TextFx';
 import ImageFx from './ImageFx';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
+import { getGlobalEditor } from '@/utils/global';
 
 import './index.scss';
 import { useState } from 'react';
@@ -98,6 +99,15 @@ export default function Panel () {
     setDesignDefaultKey('layers');
     setActiveKey(k);
     setFxType('');
+
+    const editor = getGlobalEditor();
+    if (editor?.canvas) {
+      if (k === 'paint') {
+        editor.canvas.isDrawingMode = true;
+      } else {
+        editor.canvas.isDrawingMode = false;
+      }
+    }
   }
 
   useEffect(() => {
@@ -121,7 +131,6 @@ export default function Panel () {
         tabPosition="left"
         style={{ flex: 1, overflow: 'auto' }}
         size="small"
-        destroyInactiveTabPane
         onChange={handleTabChange}
         items={
           OBJECT_TYPES.map((item) => {
