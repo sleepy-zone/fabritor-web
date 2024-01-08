@@ -3,7 +3,7 @@ import { FABRITOR_CUSTOM_PROPS, SKETCH_ID } from './constants';
 import { getSystemClipboard } from './index';
 import { createFImage } from '@/editor/image';
 import { getGlobalEditor } from './global';
-import { Modal } from 'antd';
+import { confirm } from './index';
 
 // @ts-ignore fabric controlsUtils
 const controlsUtils = fabric.controlsUtils;
@@ -54,7 +54,7 @@ export const loadGlobalImage = async (url) => {
   // 清空画布
   const objects = editor.canvas.getObjects();
   if (objects.length > 1) {
-    const confirmed = await Modal.confirm({ content: '确认重新记载图片，这会清空所有内容' });
+    const confirmed = await confirm({ content: '确认重新加载图片，这会清空所有内容' });
     if (!confirmed) return;
   }
   for (let object of objects) {

@@ -1,6 +1,7 @@
 import * as FontFaceObserver from 'fontfaceobserver';
 import { v4 as uuidv4 } from 'uuid';
 import { FONT_PRESET_FAMILY_LIST, LOG_PREFIX } from './constants';
+import { Modal } from 'antd';
 
 export const loadFont = async (f: string) => {
   if (!f) return Promise.resolve();
@@ -142,4 +143,20 @@ export const getSystemClipboard = async () => {
     console.error(err.name, err.message);
     return null;
   }
+}
+
+export const confirm = (options) => {
+  return new Promise((resolve) => {
+    Modal.confirm({
+      okText: '确定',
+      cancelText: '取消',
+      ...options,
+      onOk: () => {
+        resolve(true);
+      },
+      onCancel: () => {
+        resolve(false);
+      }
+    })
+  });
 }

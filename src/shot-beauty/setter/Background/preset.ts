@@ -19,6 +19,6 @@ export const IndexPresetColors = [
 ];
 
 export const AllPresetColors = [
-  
+  ...IndexPresetColors
 ]
 

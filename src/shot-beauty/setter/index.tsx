@@ -4,6 +4,7 @@ import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
 import Blank from './Blank';
 import BackgroundSetter from './Background';
+import ClipSetter from './Clip';
 
 const { Sider } = Layout;
 const { Item: FormItem } = Form;
@@ -19,7 +20,6 @@ export default function Setter () {
   const { globalImage, isReady, setGlobalImage } = useContext(GloablStateContext);
 
   const handleValuesChange = (values) => {
-    console.log(values);
     const keys = Object.keys(values);
     const editor = getGlobalEditor();
     const { image, paddingBase } = globalImage;
@@ -38,9 +38,21 @@ export default function Setter () {
         case 'borderRadius':
           image.setBorder({ borderRadius: value });
           editor.canvas.requestRenderAll();
+          break;
         case 'background':
           editor.sketch.set('fill', value);
           editor.canvas.requestRenderAll();
+          break;
+        case 'shadow':
+          image.set({
+            shadow: {
+              color: 'rgba(0,0,0,0.2)',
+              blur: value,
+              offset: 0
+            }
+          });
+          editor.canvas.requestRenderAll();
+          break;
         default:
           break;
       }
@@ -75,20 +87,17 @@ export default function Setter () {
         <FormItem label="圆角" name="borderRadius">
           <Slider min={0} max={100} />
         </FormItem>
+        <FormItem label="阴影" name="shadow">
+          <Slider min={0} max={200} />
+        </FormItem>
         <FormItem label="背景" name="background">
           <BackgroundSetter />
         </FormItem>
-        <FormItem label="裁剪" name="clip">
-          <Slider />
-        </FormItem>
-        <FormItem label="阴影" name="shadow">
-          <Slider />
+        <FormItem>
+          <ClipSetter />
         </FormItem>
         <FormItem label="滤镜" name="fx">
-          <Slider />
-        </FormItem>
-        <FormItem label="水印" name="waterMark">
-          <Slider />
+          
         </FormItem>
       </Form>
     </Sider>

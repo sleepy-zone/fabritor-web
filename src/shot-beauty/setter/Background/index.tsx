@@ -2,7 +2,7 @@ import { Button, Drawer, Flex } from 'antd';
 import { fabric } from 'fabric';
 import { AllPresetColors, IndexPresetColors } from './preset';
 import { useState } from 'react';
-import { RightOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const BackgroundItem = (props) => {
   const { color, onClick } = props;
@@ -60,21 +60,47 @@ export default function BackgroundSetter (props) {
         size="small"
         style={{
           position: 'absolute',
-          right: -12,
-          top: -34
+          right: -10,
+          top: -28
         }}
-        icon={<RightOutlined />}
+        onClick={() => { setShowMore(true); }}
       >
-        更多
+        更多<RightOutlined style={{ marginLeft: 2, fontSize: 12 }} />
       </Button>
       <Drawer
-        title="更多"
+        title={null}
         placement="right"
         open={showMore}
         mask={false}
         maskClosable={false}
+        width={340}
+        rootStyle={{ top: 50 }}
+        contentWrapperStyle={{ boxShadow: 'none' }}
+        closeIcon={null}
       >
-
+        <div>
+          <Button
+            type="text"
+            href="javascript:void(0);" 
+            size="small"
+            onClick={() => { setShowMore(false); }}
+            icon={<LeftOutlined />}
+            style={{ marginLeft: -10 }}
+          >
+            更多背景
+          </Button>
+          <Flex gap={8} style={{ marginTop: 24 }}>
+            {
+              AllPresetColors.map((item, index) => (
+                <BackgroundItem
+                  key={index}
+                  color={item}
+                  onClick={() => { handleColorChange(item) }}
+                />
+              ))
+            }
+          </Flex>
+        </div>
       </Drawer>
     </div>
   )

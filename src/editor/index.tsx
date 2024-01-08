@@ -138,7 +138,7 @@ export default class Editor {
     const center = this.canvas.getCenter();
 
     if (!keepZoomLevel) {
-      this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.2);
+      this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.1);
     }
 
     // sketch 移至画布中心
