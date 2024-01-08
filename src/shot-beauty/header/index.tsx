@@ -23,7 +23,7 @@ export default function () {
     <Header style={headerStyle}>
       <Flex align="center" gap={8}>
         <img src={LOGO_ICON2} />
-        <span style={{ fontWeight: 'bold', fontSize: 15 }}>ShotBeauty</span>
+        <span style={{ fontWeight: 'bold', fontSize: 15 }}>Photor</span>
       </Flex>
       { isReady ? <BaseInfo /> : null }
       <Export type="button" />

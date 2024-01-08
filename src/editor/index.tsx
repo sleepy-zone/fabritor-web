@@ -106,9 +106,9 @@ export default class Editor {
     this._adjustSketch2Canvas();
   }
 
-  public setSketchSize (size) {
+  public setSketchSize (size, keepZoomLevel = false) {
     this.sketch.set(size);
-    this._adjustSketch2Canvas();
+    this._adjustSketch2Canvas(keepZoomLevel);
   }
 
   private _initResizeObserver () {
@@ -123,7 +123,7 @@ export default class Editor {
     this._resizeObserver.observe(workspaceEl);
   }
 
-  private _adjustSketch2Canvas () {
+  private _adjustSketch2Canvas (keepZoomLevel = false) {
     const zoomLevel = calcCanvasZoomLevel(
       {
         width: this.canvas.width,
@@ -136,7 +136,10 @@ export default class Editor {
     );
 
     const center = this.canvas.getCenter();
-    this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.04);
+
+    if (!keepZoomLevel) {
+      this.canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoomLevel - 0.2);
+    }
 
     // sketch 移至画布中心
     const sketchCenter = this.sketch.getCenterPoint();
@@ -156,7 +159,7 @@ export default class Editor {
   }
 
   private _initEvents () {
-    const { sketchEventHandler } = this._options;
+    const { sketchEventHandler, triggerMouseOver = true } = this._options;
     this.canvas.on('mouse:down', (opt) => {
       if (!this._pan.enable) {
         sketchEventHandler?.clickHandler?.(opt);
@@ -185,6 +188,7 @@ export default class Editor {
       }
     });
     this.canvas.on('mouse:over', (opt) => {
+      if (!triggerMouseOver) return;
       const { target } = opt;
       if (this._pan.enable) return;
 
@@ -200,6 +204,7 @@ export default class Editor {
       target._renderControls(this.canvas.contextTop, { hasControls: false });
     });
     this.canvas.on('mouse:out', (opt) => {
+      if (!triggerMouseOver) return;
       const { target } = opt;
       // @ts-ignore
       if (!target || target.id === SKETCH_ID) return;
@@ -228,6 +233,7 @@ export default class Editor {
     this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
     this.canvas.on('fabritor:group', sketchEventHandler?.groupHandler);
     this.canvas.on('fabritor:ungroup', sketchEventHandler?.groupHandler);
+    this.canvas.on('fabritor:global-image', sketchEventHandler?.globalImageChange);
 
     this.canvas.on('mouse:dblclick', (opt) => {
       const { target, subTargets } = opt;

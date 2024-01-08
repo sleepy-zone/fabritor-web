@@ -1,8 +1,9 @@
 import { fabric } from 'fabric';
-import { FABRITOR_CUSTOM_PROPS } from './constants';
-import { createTextbox } from '@/editor/textbox';
+import { FABRITOR_CUSTOM_PROPS, SKETCH_ID } from './constants';
 import { getSystemClipboard } from './index';
 import { createFImage } from '@/editor/image';
+import { getGlobalEditor } from './global';
+import { Modal } from 'antd';
 
 // @ts-ignore fabric controlsUtils
 const controlsUtils = fabric.controlsUtils;
@@ -48,22 +49,72 @@ export const copyObject = async (canvas, target) => {
   });
 }
 
-export const pasteObject = async (canvas) => {
-  // 先读取系统剪贴板
-  try {
-    const { type, result } = await getSystemClipboard() || {};
-    if (result) {
-      if (type === 'text') {
-        createTextbox({ text: result });
-      } else if (type === 'image') {
-        createFImage({ imageSource: result })
-      }
-      return;
+export const loadGlobalImage = async (url) => {
+  const editor = getGlobalEditor();
+  // 清空画布
+  const objects = editor.canvas.getObjects();
+  if (objects.length > 1) {
+    const confirmed = await Modal.confirm({ content: '确认重新记载图片，这会清空所有内容' });
+    if (!confirmed) return;
+  }
+  for (let object of objects) {
+    if (object.id !== SKETCH_ID) {
+      editor.canvas.remove(object);
     }
-  } catch (err) {
-    console.error('Failed to read clipboard contents: ', err);
   }
 
+  // 添加待编辑图片
+  const fImg = await createFImage({
+    imageSource: url,
+    left: 0,
+    top: 0,
+    lockMovementX: true,
+    lockMovementY: true,
+    hasControls: false,
+    selectable: false,
+    imageBorder: {
+      borderRadius: 36
+    }
+  });
+
+  // 调整画布大小
+  const paddingBase = fImg.width > fImg.height ? fImg.width : fImg.height;
+  let padding = Math.round(paddingBase / 3);
+  padding = padding < 50 ? 50 : padding;
+
+  editor.setSketchSize({
+    width: fImg.width + padding,
+    height: fImg.height + padding,
+  });
+
+  // 图片移动到画布中心
+  editor.canvas.viewportCenterObject(fImg);
+  editor.canvas.fire('fabritor:global-image', { 
+    target: { paddingRatio: Math.round(padding / paddingBase * 100), image: fImg, paddingBase } 
+  });
+}
+
+export const tryLoadClipboardImage = async () => {
+  try {
+    const { type, result } = await getSystemClipboard() || {};
+    if (result && type === 'image') {
+      return await loadGlobalImage(result);
+    }
+    return false;
+  } catch (err) {
+    console.error('Failed to read clipboard contents: ', err);
+    return false;
+  }
+}
+
+export const pasteObject = async (canvas) => {
+  // 先读取系统剪贴板
+  const globalImage = await tryLoadClipboardImage();
+  if (globalImage) {
+    return;
+  };
+
+  if (!_clipboard) return;
   // clone again, so you can do multiple copies.
   _clipboard.clone((cloned) => {
     canvas.discardActiveObject();
@@ -87,7 +138,7 @@ export const pasteObject = async (canvas) => {
     // target.left += 50;
     canvas.setActiveObject(cloned);
     canvas.requestRenderAll();
-      canvas.fire('fabritor:clone', { target: cloned });
+    canvas.fire('fabritor:clone', { target: cloned });
   }, FABRITOR_CUSTOM_PROPS);
 }
 

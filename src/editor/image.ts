@@ -83,7 +83,7 @@ export const createImage = async (options) => {
 }
 
 export const createFImage = async (options) => {
-  const { imageSource } = options || {};
+  const { imageSource, ...rest } = options || {};
   const editor = getGlobalEditor();
   const { canvas } = editor;
 
@@ -96,14 +96,17 @@ export const createFImage = async (options) => {
 
   const fimg = new fabric.FImage({
     image: img,
-    id: uuid()
+    id: uuid(),
+    ...rest
   });
 
   setObject2Center(fimg, options, editor);
 
   canvas.add(fimg);
-  canvas.setActiveObject(fimg);
+  // canvas.setActiveObject(fimg);
   canvas.requestRenderAll();
+
+  return fimg;
 }
 
 export const createSvg = async (options) => {

@@ -32,6 +32,7 @@ export default function Fabritor () {
   const [isReady, setReady] = useState(false);
   const [fxType, setFxType] = useState('');
   const rotateAngleTipRef = useRef<any>(null);
+  const [globalImage, setGlobalImage] = useState<any>(null);
 
   const selectionHandler = (opt) => {
     const { selected } = opt;
@@ -60,6 +61,10 @@ export default function Fabritor () {
     e.preventDefault();
   }
 
+  const globalImageChange = (opt) => {
+    if (opt.target) setGlobalImage(opt.target);
+  }
+
   useEffect(() => {
     setTimeout(async () => {
       const editor = new Editor({
@@ -70,10 +75,11 @@ export default function Fabritor () {
         backgroundColor: '#eeeeee',
         storageLocal: false,
         withHistory: false,
+        triggerMouseOver: false,
         template: {
           width: 1280,
           height: 800,
-          fabritor_desc: 'My_ShotBeauty',
+          fabritor_desc: 'My_Photor',
           fill: new fabric.Gradient({
             type: 'linear',
             gradientUnits: 'percentage',
@@ -84,15 +90,20 @@ export default function Fabritor () {
         sketchEventHandler: {
           mouseupHandler,
           selectionHandler,
-          rotateHandler
+          rotateHandler,
+          globalImageChange
         }
       });
   
       await editor.init();
       editorRef.current = editor;
       setGlobalEditor(editor);
-      setReady(true);
       setActiveObject(editor.sketch);
+
+      // const globalImage = await tryLoadClipboardImage();
+      // if (globalImage) setGlobalImage(globalImage);
+
+      setReady(true);
     }, 300);
 
     document.addEventListener('contextmenu', preventContextMenu);
@@ -115,7 +126,9 @@ export default function Fabritor () {
         isReady,
         setReady,
         fxType,
-        setFxType
+        setFxType,
+        globalImage,
+        setGlobalImage
       }}
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">

@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import LocalFileSelector from '../LocalFileSelector';
 
 export default function LocalImageSelector (props) {
-  const { onChange } = props;
+  const { onChange, title, ...buttonProps } = props;
   const localFileSelectorRef = useRef<any>();
 
   const handleClick = () => {
@@ -26,8 +26,8 @@ export default function LocalImageSelector (props) {
 
   return (
     <div>
-      <Button type="primary" size="large" onClick={handleClick}>
-        添加本地图片
+      <Button type="primary" size="large" {...buttonProps} onClick={handleClick}>
+        {title || '添加本地图片'}
       </Button>
 
       <LocalFileSelector accept="image/jpg,image/jpeg,image/png" ref={localFileSelectorRef} onChange={handleFileChange} />
