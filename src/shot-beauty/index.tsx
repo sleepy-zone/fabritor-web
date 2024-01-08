@@ -100,9 +100,6 @@ export default function Fabritor () {
       setGlobalEditor(editor);
       setActiveObject(editor.sketch);
 
-      // const globalImage = await tryLoadClipboardImage();
-      // if (globalImage) setGlobalImage(globalImage);
-
       setReady(true);
     }, 300);
 

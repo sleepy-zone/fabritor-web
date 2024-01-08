@@ -3,6 +3,7 @@ import { useContext, useEffect } from 'react';
 import { GloablStateContext } from '@/context';
 import { getGlobalEditor } from '@/utils/global';
 import Blank from './Blank';
+import BackgroundSetter from './Background';
 
 const { Sider } = Layout;
 const { Item: FormItem } = Form;
@@ -10,7 +11,7 @@ const { Item: FormItem } = Form;
 const siderStyle: React.CSSProperties = {
   height: '100%',
   backgroundColor: '#ffffff',
-  padding: '32px 28px'
+  padding: '32px 16px'
 }
 
 export default function Setter () {
@@ -36,6 +37,9 @@ export default function Setter () {
           break;
         case 'borderRadius':
           image.setBorder({ borderRadius: value });
+          editor.canvas.requestRenderAll();
+        case 'background':
+          editor.sketch.set('fill', value);
           editor.canvas.requestRenderAll();
         default:
           break;
@@ -65,14 +69,14 @@ export default function Setter () {
         layout="vertical"
         onValuesChange={handleValuesChange}
       >
-        <FormItem label="边距" name="padding">
+        <FormItem label="边距" name="padding" style={{ marginBottom: 12 }}>
           <Slider min={0} max={100} />
         </FormItem>
         <FormItem label="圆角" name="borderRadius">
           <Slider min={0} max={100} />
         </FormItem>
         <FormItem label="背景" name="background">
-          <Slider />
+          <BackgroundSetter />
         </FormItem>
         <FormItem label="裁剪" name="clip">
           <Slider />
