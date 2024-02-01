@@ -32,3 +32,7 @@ yarn start
 ```
 
 访问: http://localhost:3000
+
+
+
+<a href="https://www.buymeacoffee.com/sleepy_zone" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
