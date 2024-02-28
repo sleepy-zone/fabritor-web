@@ -5,21 +5,22 @@ export default [
     key: 'line',
     svg: '<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44, 44, 44)" fill="rgb(44, 44, 44)" viewBox="0 -0.5 33 1"><line x1="0.5" x2="32.5" stroke-linecap="butt" fill="none"></line></svg>',
     options: {
-      start: [0, 0],
-      end: [300, 0],
       strokeWidth: 4,
       stroke: '#000000',
+      strokeLineJoin: 'round',
+      strokeLineCap: 'round',
     }
   },
   {
     key: 'dash-line',
     svg: `<svg xmlns="http://www.w3.org/2000/svg" stroke="rgb(44, 44, 44)" fill="rgb(44, 44, 44)" viewBox="0 -0.5 33 1"><line x1="0.5" x2="32.5" stroke-dasharray="3,1" stroke-linecap="butt" fill="none"></line></svg>`,
     options: {
-      start: [0, 0],
-      end: [300, 0],
+      points: [0, 0, 300, 0],
       strokeWidth: 4,
       strokeDashArray: [8, 8],
       stroke: '#000000',
+      strokeLineJoin: 'round',
+      strokeLineCap: 'round',
     }
   },
   {

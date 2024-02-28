@@ -3,6 +3,7 @@ import { FABRITOR_CUSTOM_PROPS } from './constants';
 import { createTextbox } from '@/editor/textbox';
 import { getSystemClipboard } from './index';
 import { createFImage } from '@/editor/image';
+import { handleMouseOutCorner } from '@/editor/controller';
 
 // @ts-ignore fabric controlsUtils
 const controlsUtils = fabric.controlsUtils;
@@ -104,6 +105,7 @@ export const removeObject = (target, canvas) => {
   } else {
     canvas.remove(target);
   }
+  handleMouseOutCorner(target);
   canvas.requestRenderAll();
   canvas.fire('fabritor:del', { target: null });
   return true;

@@ -1,9 +1,9 @@
-import { createFLineClass } from './FLine';
 import { createFTextClass } from './FText';
 import { createFImageClass } from './FImage';
+import { createFLineClass } from './FLine';
 
 export default function () {
-  createFLineClass();
   createFTextClass();
   createFImageClass();
+  createFLineClass();
 }

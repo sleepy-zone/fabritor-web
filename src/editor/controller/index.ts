@@ -4,7 +4,7 @@ import { fabric } from 'fabric';
 import { ROTATE_SVG, ROTATE_SVG_ACTIVE, ROTATE_CURSOR, COPY_SVG, DEL_SVG, COPY_SVG_ACTIVE, DEL_SVG_ACTIVE } from '@/assets/icon';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 import { initRectControl } from './rect';
-import { initFLineControl } from './fline';
+import { initLineControl } from './fline';
 import { initFTextControl } from './ftext';
 
 const ROTATE_IMG = document.createElement('img');
@@ -216,7 +216,6 @@ export const renderToolBarController = () => {
   fabric.Object.prototype.controls.del = delControl;
 }
 
-// TODO handle corner mouse over
 export const handleMouseOverCorner = (corner, target) => {
   if (corner === 'mtr') {
     target.controls[corner].render = renderSvgIcon(ROTATE_IMG_ACTIVE);
@@ -232,9 +231,15 @@ export const handleMouseOverCorner = (corner, target) => {
 
 export const handleMouseOutCorner = (target) => {
   if (!target) return;
-  target.controls.mtr.render = renderSvgIcon(ROTATE_IMG);
-  target.controls.copy.render = renderSvgIcon(COPY_IMG);
-  target.controls.del.render = renderSvgIcon(DEL_IMG);
+  if (target.controls?.mtr) {
+    target.controls.mtr.render = renderSvgIcon(ROTATE_IMG);
+  }
+  if (target.controls?.copy) {
+    target.controls.copy.render = renderSvgIcon(COPY_IMG);
+  }
+  if (target.controls?.del) {
+    target.controls.del.render = renderSvgIcon(DEL_IMG);
+  }
 }
 
 export default function initControl () {
@@ -242,6 +247,6 @@ export default function initControl () {
   renderRotateController();
   renderToolBarController();
   initRectControl();
-  initFLineControl();
+  initLineControl();
   initFTextControl();
 }
