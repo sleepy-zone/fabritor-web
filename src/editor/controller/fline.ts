@@ -1,4 +1,5 @@
 import { fabric } from 'fabric';
+import { Point } from 'fabric/fabric-impl';
 
 const controlsUtils = fabric.controlsUtils;
 
@@ -16,7 +17,7 @@ const changeLineStart = (eventData, transform, x, y) => {
 
 const linePositionHandler = (x, y) => {
   return (dim, finalMatrix, fabricObject) => {
-    if (fabricObject) {
+    if (fabricObject?.canvas) { // a strange bug when delete multi f-line objects...
       const points = fabricObject.calcLinePoints();
       const localPoint = new fabric.Point(points[x], points[y]);
       
@@ -26,8 +27,9 @@ const linePositionHandler = (x, y) => {
         fabricObject.calcTransformMatrix()
       ));
       return point;
+    } else {
+      return new fabric.Point(0, 0);
     }
-    return {} as fabric.Point;
   }
 }
 
@@ -43,16 +45,16 @@ export const initLineControl = () => {
       positionHandler: linePositionHandler('x1', 'y1'),
       actionHandler: changeLineStart,
       cursorStyleHandler: () => 'crosshair',
-      actionName: 'line-change',
+      actionName: 'line-points-change',
       render: objectControls.br.render
     });
 
-    lineControls.l2 = new fabric.Control({
-      positionHandler: linePositionHandler('x2', 'y2'),
-      actionHandler: changeLineEnd,
-      cursorStyleHandler: () => 'crosshair',
-      actionName: 'line-change',
-      render: objectControls.br.render
-    });
+    // lineControls.l2 = new fabric.Control({
+    //   positionHandler: linePositionHandler('x2', 'y2'),
+    //   actionHandler: changeLineEnd,
+    //   cursorStyleHandler: () => 'crosshair',
+    //   actionName: 'line-points-change',
+    //   render: objectControls.br.render
+    // });
   }
 }

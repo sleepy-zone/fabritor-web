@@ -37,6 +37,8 @@ export default function Toolbar () {
       case 'path':
       case 'group':
         return null;
+      case 'activeSelection':
+        return null;
       default:
         return <SketchSetter />;
     }

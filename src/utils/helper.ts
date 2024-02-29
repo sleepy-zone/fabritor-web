@@ -232,3 +232,21 @@ const _changeHeight = (eventData, transform, x, y) => {
 }
 
 export const changeHeight = controlsUtils.wrapWithFireEvent('resizing', controlsUtils.wrapWithFixedAnchor(_changeHeight));
+
+export const handleFLinePointsWhenMoving = (opt) => {
+  const { target, transform, action } = opt;
+  if (action === 'line-points-change') return;
+  const {  original } = transform;
+  const deltaLeft = target.left - original.left;
+  const deltaTop = target.top - original.top;
+  target.set({
+    x1: target.x1 + deltaLeft,
+    y1: target.y1 + deltaTop,
+    x2: target.x2 + deltaLeft,
+    y2: target.y2 + deltaTop
+  });
+}
+
+export const handleFArrowPointsWhenMoving = () => {
+
+}

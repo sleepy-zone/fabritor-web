@@ -5,6 +5,8 @@ export const createFLineClass = () => {
   fabric.FLine = fabric.util.createClass(fabric.Line, {
     type: 'f-line',
 
+    padding: 6,
+
     borderColor: '#00000000',
 
     setStrokeWidth (w) {

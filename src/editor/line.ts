@@ -14,10 +14,6 @@ export const drawLine = (options) => {
     ...rest
   });
 
-  line.on('moving', (opt) => {
-    console.log(opt)
-  });
-
   canvas.add(line);
   canvas.setActiveObject(line);
   canvas.viewportCenterObject(line);
