@@ -246,7 +246,3 @@ export const handleFLinePointsWhenMoving = (opt) => {
     y2: target.y2 + deltaTop
   });
 }
-
-export const handleFArrowPointsWhenMoving = () => {
-
-}

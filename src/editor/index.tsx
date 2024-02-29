@@ -254,8 +254,9 @@ export default class Editor {
         this.canvas.requestRenderAll();
       }
 
-      if (target.type === 'f-line') {
+      if (target.type === 'f-line' || target.type === 'f-arrow' || target.type === 'f-tri-arrow') {
         // fabric Line doesnot change points when moving
+        // but change left/top when change points ....
         handleFLinePointsWhenMoving(opt);
       }
     });

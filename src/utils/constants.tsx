@@ -122,4 +122,13 @@ export const FONT_PRESET_FAMILY_LIST = [
 
 export const SKETCH_ID = 'fabritor-sketch';
 
-export const FABRITOR_CUSTOM_PROPS = ['id', 'fabritor_desc', 'selectable', 'hasControls', 'sub_type', 'arrowDelta', 'middleIndex', 'imageSource', 'imageBorder'];
+export const FABRITOR_CUSTOM_PROPS = [
+  'id',
+  'fabritor_desc',
+  'selectable',
+  'hasControls',
+  'sub_type',
+  'imageSource',
+  'imageBorder',
+  'oldArrowInfo'
+];

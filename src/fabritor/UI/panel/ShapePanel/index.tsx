@@ -2,13 +2,26 @@ import { Flex } from 'antd';
 import Title from '@/fabritor/components/Title';
 import LineTypeList from './line-type-list';
 import ShapeTypeList from './shape-type-list';
-import { drawLine } from '@/editor/line';
+import { drawArrowLine, drawLine, drawTriArrowLine } from '@/editor/line';
 import createRect from '@/editor/rect';
 import createShape from '@/editor/shape';
 
 export default function ShapePanel () {
   const addLine = (item) => {
-    drawLine(item.options || {});
+    const { type, options = {} } = item;
+    switch (type) {
+      case 'f-line':
+        drawLine(options);
+        break;
+      case 'f-arrow':
+        drawArrowLine(options);
+        break;
+      case 'f-tri-arrow':
+        drawTriArrowLine(options);
+        break;
+      default:
+        break;
+    }
   }
 
   const addShape = (item) => {

@@ -1,7 +1,4 @@
 import { fabric } from 'fabric';
-import { Point } from 'fabric/fabric-impl';
-
-const controlsUtils = fabric.controlsUtils;
 
 const changeLineEnd = (eventData, transform, x, y) => {
   const { target } = transform;
@@ -49,12 +46,12 @@ export const initLineControl = () => {
       render: objectControls.br.render
     });
 
-    // lineControls.l2 = new fabric.Control({
-    //   positionHandler: linePositionHandler('x2', 'y2'),
-    //   actionHandler: changeLineEnd,
-    //   cursorStyleHandler: () => 'crosshair',
-    //   actionName: 'line-points-change',
-    //   render: objectControls.br.render
-    // });
+    lineControls.l2 = new fabric.Control({
+      positionHandler: linePositionHandler('x2', 'y2'),
+      actionHandler: changeLineEnd,
+      cursorStyleHandler: () => 'crosshair',
+      actionName: 'line-points-change',
+      render: objectControls.br.render
+    });
   }
 }
