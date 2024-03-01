@@ -73,22 +73,26 @@ export const pasteObject = async (canvas) => {
       top: cloned.top + 50,
       evented: true,
     });
-    if (cloned.type === 'activeSelection') {
-    // active selection needs a reference to the canvas.
-    cloned.canvas = canvas;
-    cloned.forEachObject((obj) => {
-      canvas.add(obj);
-    });
-    // this should solve the unselectability
-    cloned.setCoords();
-    } else {
-    canvas.add(cloned);
+
+    if(cloned.type === 'f-line' || cloned.type === 'f-arrow' || cloned.type === 'f-tri-arrow') {
+      handleFLinePointsWhenMoving({ target: cloned, transform: { original: { left: cloned.left - 50, top: cloned.top - 50 } } })
     }
-    // target.top += 50;
-    // target.left += 50;
+
+    if (cloned.type === 'activeSelection') {
+      // active selection needs a reference to the canvas.
+      cloned.canvas = canvas;
+      cloned.forEachObject((obj) => {
+        canvas.add(obj);
+      });
+      // this should solve the unselectability
+      cloned.setCoords();
+    } else {
+      canvas.add(cloned);
+    }
+
     canvas.setActiveObject(cloned);
     canvas.requestRenderAll();
-      canvas.fire('fabritor:clone', { target: cloned });
+    canvas.fire('fabritor:clone', { target: cloned });
   }, FABRITOR_CUSTOM_PROPS);
 }
 

@@ -1,5 +1,7 @@
 import { fabric } from 'fabric';
 
+const extend = fabric.util.object.extend;
+
 export const createFLineClass = () => {
   // @ts-ignore FLine
   fabric.FLine = fabric.util.createClass(fabric.Line, {
@@ -15,7 +17,15 @@ export const createFLineClass = () => {
 
     setStrokeDashArray (dashArray) {
       this.set('strokeDashArray', dashArray);
-    }
+    },
+
+    setStrokeLineCap (isRound) {
+      this.set('strokeLineCap', isRound ? 'round' : 'butt');
+    },
+
+    toObject (propertiesToInclude) {
+      return extend(this.callSuper('toObject', propertiesToInclude), { x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
+    },
   }); 
 
   // @ts-ignore FLine

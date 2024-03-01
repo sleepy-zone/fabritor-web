@@ -1,5 +1,7 @@
 import { fabric } from 'fabric';
 
+const extend = fabric.util.object.extend;
+
 export const createFArrowClass = () => {
   // @ts-ignore custom arrow
   fabric.FArrow = fabric.util.createClass(fabric.Line, {
@@ -50,7 +52,16 @@ export const createFArrowClass = () => {
 
     setStrokeDashArray (dashArray) {
       this.set('strokeDashArray', dashArray);
-    }
+    },
+
+    setStrokeLineCap (isRound) {
+      this.set('strokeLineCap', isRound ? 'round' : 'butt');
+      this.set('strokeLineJoin', isRound ? 'round' : 'miter')
+    },
+
+    toObject (propertiesToInclude) {
+      return extend(this.callSuper('toObject', propertiesToInclude), { x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
+    },
   });
   
   fabric.FArrow.fromObject = function(object, callback) {
@@ -108,7 +119,16 @@ export const createFTriArrowClass = () => {
 
     setStrokeDashArray (dashArray) {
       this.set('strokeDashArray', dashArray);
-    }
+    },
+
+    setStrokeLineCap (isRound) {
+      this.set('strokeLineCap', isRound ? 'round' : 'butt');
+      this.set('strokeLineJoin', isRound ? 'round' : 'miter')
+    },
+
+    toObject (propertiesToInclude) {
+      return extend(this.callSuper('toObject', propertiesToInclude), { x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
+    },
   });
   
   fabric.FTriArrow.fromObject = function(object, callback) {
