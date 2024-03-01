@@ -2,7 +2,6 @@ import { fabric } from 'fabric';
 import { TEXTBOX_DEFAULT_CONFIG } from '@/utils/constants';
 import { uuid, loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
-import { setObject2Center } from '@/utils/helper';
 
 export const getTextboxWidth = (textbox) => {
   const textLines = textbox.textLines || [];
@@ -28,7 +27,7 @@ export const drawTextPath = (textbox, offset) => {
   const { canvas } = editor;
   if (textbox.isEditing) return;
 
-  // textbox should 1 line;
+  // textbox should 1 line when use path
   const width = getTextboxWidth(textbox);
   const path = new fabric.Path(`M 0 0 Q ${width / 2} ${width / 2 * offset / 100} ${width} 0`, {
     visible: false,
@@ -50,16 +49,10 @@ export const removeTextPath = (textbox) => {
     path: null
   });
   canvas.requestRenderAll();
-  // textbox.clone(cloned => {
-  //   canvas.remove(textbox);
-  //   canvas.add(cloned);
-  //   canvas.setActiveObject(cloned);
-  //   canvas.requestRenderAll();
-  // });
 }
 
 export const createTextbox = async (options) => {
-  const { text = '', left, top, fontFamily, ...rest } = options || {};
+  const { text = '', fontFamily, ...rest } = options || {};
   const editor = getGlobalEditor();
   const { canvas } = editor;
 
@@ -71,16 +64,6 @@ export const createTextbox = async (options) => {
     pathAlign: 'center',
     id: uuid()
   });
-
-  setObject2Center(textBox, options, editor);
-
-  if (fontFamily) {
-    try {
-      await loadFont(fontFamily);
-    } finally {
-      textBox.set('fontFamily', fontFamily);
-    }
-  }
 
   textBox.on('editing:entered', () => {
     if (textBox.path) {
@@ -102,8 +85,22 @@ export const createTextbox = async (options) => {
   });
 
   canvas.add(textBox);
+  if (options.left == null && options.top == null) {
+    canvas.viewportCenterObject(textBox);
+  } else if (options.left == null) {
+    canvas.viewportCenterObjectH(textBox);
+  }
   canvas.setActiveObject(textBox);
   canvas.requestRenderAll();
+
+  if (fontFamily) {
+    try {
+      await loadFont(fontFamily);
+    } finally {
+      textBox.set('fontFamily', fontFamily);
+      canvas.requestRenderAll();
+    }
+  }
 
   return textBox;
 }

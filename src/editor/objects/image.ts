@@ -1,7 +1,6 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
-import { setObject2Center } from '@/utils/helper';
 import { message } from 'antd';
 
 export const loadImageDom = async (url) => {
@@ -56,7 +55,7 @@ export const createClipRect = (object, options = {}) => {
 }
 
 export const createImage = async (options) => {
-  const { imageSource, left, top, ...rest } = options || {};
+  const { imageSource, ...rest } = options || {};
   const editor = getGlobalEditor();
   const { canvas } = editor;
 
@@ -73,7 +72,7 @@ export const createImage = async (options) => {
     id: uuid()
   });
 
-  setObject2Center(img, options, editor);
+  canvas.viewportCenterObject(img);
 
   canvas.add(img);
   canvas.setActiveObject(img);
@@ -99,7 +98,7 @@ export const createFImage = async (options) => {
     id: uuid()
   });
 
-  setObject2Center(fimg, options, editor);
+  canvas.viewportCenterObject(fimg);
 
   canvas.add(fimg);
   canvas.setActiveObject(fimg);
@@ -107,7 +106,7 @@ export const createFImage = async (options) => {
 }
 
 export const createSvg = async (options) => {
-  const { url, left, top, ...rest } = options || {};
+  const { url, ...rest } = options || {};
   const editor = getGlobalEditor();
   const { canvas } = editor;
 
@@ -118,7 +117,7 @@ export const createSvg = async (options) => {
     id: uuid()
   });
 
-  setObject2Center(svg, options, editor);
+  canvas.viewportCenterObject(svg);
 
   canvas.add(svg);
   canvas.setActiveObject(svg);

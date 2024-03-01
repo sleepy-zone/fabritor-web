@@ -1,7 +1,6 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
-import { setObject2Center } from '@/utils/helper';
 
 export default function createRect (options) {
   const { width = 200, height = 200, left, top, ...rest } = options || {};
@@ -14,10 +13,9 @@ export default function createRect (options) {
     ...rest,
   });
 
-  setObject2Center(rect, options, editor);
-
   canvas.add(rect);
-  canvas.requestRenderAll();
+  canvas.viewportCenterObject(rect);
   canvas.setActiveObject(rect);
+  canvas.requestRenderAll();
   return rect;
 }
