@@ -270,7 +270,8 @@ export default class Editor {
         this.canvas.remove(items[i]);
       }
       const grp = createGroup({
-        items
+        items,
+        canvas: this.canvas
       });
       this.canvas.renderAll();
       this.canvas.setActiveObject(grp);
@@ -382,7 +383,10 @@ export default class Editor {
       const jsonStr = localStorage.getItem('fabritor_web_json')
       if (jsonStr) {
         const json = JSON.parse(jsonStr);
-        await this.loadFromJSON(json);
+        const res = await this.loadFromJSON(json, false, false);
+        if (!res) {
+          localStorage.setItem('fabritor_web_json', null);
+        }
       }
     } catch(e) {  console.log(e) }
   }
@@ -404,19 +408,20 @@ export default class Editor {
     return json;
   }
 
-  public async loadFromJSON (json, addHistory = false) {
-    if (!json) return;
+  public async loadFromJSON (json, addHistory = false, errorToast = true) {
+    if (!json) return false;
     if (typeof json === 'string') {
       try {
         json = JSON.parse(json);
       } catch(e) {
-        message.error('加载本地模板失败，请重试');
-        return;
+        console.log(e)
+        errorToast && message.error('加载本地模板失败，请重试');
+        return false;
       }
     }
     if (json[SCHEMA_VERSION_KEY] !== SCHEMA_VERSION) {
-      message.error(`此模板已经无法与当前版本兼容，请更换模板`);
-      return;
+      errorToast && message.error(`此模板已经无法与当前版本兼容，请更换模板`);
+      return false;
     }
     const { objects } = json;
     for (let item of objects) {
@@ -443,8 +448,8 @@ export default class Editor {
   }
 
   public async clearCanvas () {
-    const { width, height } = this.sketch;
-    const originalJson = `{"fabritor_schema_version":2,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"我的画板","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}`;
+    const { width, height, fabritor_desc } = this.sketch;
+    const originalJson = `{"fabritor_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"${fabritor_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}`;
     this.canvas.clear();
     await this.loadFromJSON(originalJson);
   }

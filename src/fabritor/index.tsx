@@ -4,7 +4,6 @@ import { Layout, Spin } from 'antd';
 import Panel from './UI/panel';
 import Toolbar from './UI/toolbar';
 import Editor from '@/editor';
-import { setGlobalEditor } from '@/utils/global';
 import { GloablStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
@@ -12,7 +11,6 @@ import ToolTip from './components/ToolTip';
 import Export from './UI/header/Export';
 
 import '../font.css';
-
 
 const { Content } = Layout;
 
@@ -33,7 +31,7 @@ const contentStyle: React.CSSProperties = {
 export default function Fabritor () {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const workspaceEl = useRef<HTMLDivElement>(null);
-  const editorRef = useRef<Editor | null>();
+  const [editor, setEditor] = useState<Editor | null>(null);
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
   const [fxType, setFxType] = useState('');
@@ -49,7 +47,7 @@ export default function Fabritor () {
 
     if (opt.button === 3) { // 右键
       if (target.id !== SKETCH_ID) {
-        editorRef.current?.canvas.setActiveObject(target);
+        editor?.canvas.setActiveObject(target);
       }
       setTimeout(() => {
         contextMenuRef.current?.show();
@@ -62,11 +60,11 @@ export default function Fabritor () {
   const selectionHandler = (opt) => {
     const { selected } = opt;
     if (selected && selected.length) {
-      const selection = editorRef.current?.canvas.getActiveObject();
+      const selection = editor?.canvas.getActiveObject();
       setActiveObject(selection);
     } else {
       // @ts-ignore
-      setActiveObject(editorRef.current?.sketch);
+      setActiveObject(editor?.sketch);
     }
   }
 
@@ -84,7 +82,7 @@ export default function Fabritor () {
 
   useEffect(() => {
     setTimeout(async () => {
-      const editor = new Editor({
+      const _editor = new Editor({
         canvasEl: canvasEl.current,
         workspaceEl: workspaceEl.current,
         sketchEventHandler: {
@@ -92,21 +90,19 @@ export default function Fabritor () {
           mouseupHandler,
           selectionHandler,
           rotateHandler,
-          groupHandler: () => { setActiveObject(editorRef.current?.canvas.getActiveObject()) }
+          groupHandler: () => { setActiveObject(editor?.canvas.getActiveObject()) }
         }
       });
   
-      await editor.init();
-      editorRef.current = editor;
-      setGlobalEditor(editor);
+      await _editor.init();
+      setEditor(_editor);
       setReady(true);
-      setActiveObject(editor.sketch);
+      setActiveObject(_editor.sketch);
     }, 300);
 
     return () => {
-      if (editorRef.current) {
-        editorRef.current.destroy();
-        editorRef.current = null;
+      if (editor) {
+        editor.destroy();
       }
     }
   }, []);
@@ -119,7 +115,8 @@ export default function Fabritor () {
         isReady,
         setReady,
         fxType,
-        setFxType
+        setFxType,
+        editor
       }}
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">

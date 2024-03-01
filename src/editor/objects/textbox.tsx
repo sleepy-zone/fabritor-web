@@ -1,7 +1,6 @@
 import { fabric } from 'fabric';
 import { TEXTBOX_DEFAULT_CONFIG } from '@/utils/constants';
 import { uuid, loadFont } from '@/utils';
-import { getGlobalEditor } from '@/utils/global';
 
 export const getTextboxWidth = (textbox) => {
   const textLines = textbox.textLines || [];
@@ -23,8 +22,6 @@ export const getPathOffset = (textbox) => {
 }
 
 export const drawTextPath = (textbox, offset) => {
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
   if (textbox.isEditing) return;
 
   // textbox should 1 line when use path
@@ -38,23 +35,19 @@ export const drawTextPath = (textbox, offset) => {
     path,
     width
   });
-  canvas.requestRenderAll();
+  textbox.canvas.requestRenderAll();
 }
 
 // 移除 path 属性位置错误，拖动一下才会更新。
 export const removeTextPath = (textbox) => {
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
   textbox.set({
     path: null
   });
-  canvas.requestRenderAll();
+  textbox.canvas.requestRenderAll();
 }
 
 export const createTextbox = async (options) => {
-  const { text = '', fontFamily, ...rest } = options || {};
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { text = '', fontFamily, canvas, ...rest } = options || {};
 
   let tmpPathInfo = { hasPath: false, offset: 100 };
 
@@ -71,7 +64,7 @@ export const createTextbox = async (options) => {
       tmpPathInfo.offset = getPathOffset(textBox);
       textBox.set('path', null);
       textBox.initDimensions();
-      editor.canvas.requestRenderAll();
+      canvas.requestRenderAll();
     } else {
       tmpPathInfo.hasPath = false;
     }
@@ -80,7 +73,7 @@ export const createTextbox = async (options) => {
   textBox.on('editing:exited', () => {
     if (tmpPathInfo.hasPath) {
       drawTextPath(textBox, tmpPathInfo.offset);
-      editor.canvas.requestRenderAll();
+      canvas.requestRenderAll();
     }
   });
 

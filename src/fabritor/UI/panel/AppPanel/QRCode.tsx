@@ -1,8 +1,9 @@
 import { Button, Form, Input, InputNumber, QRCode, Radio, Collapse, Flex } from 'antd';
 import AppSubPanel from './AppSubPanel';
 import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { createImage } from '@/editor/objects/image';
+import { GloablStateContext } from '@/context';
 
 const { Item: FormItem } = Form;
 
@@ -12,6 +13,7 @@ export default function QRCodePanel (props) {
   const [form2] = Form.useForm();
   const [QRCodeConfig, setQRCodeConfig] = useState({ value: 'fabritor' });
   const qrRef = useRef<HTMLDivElement>(null);
+  const { editor } = useContext(GloablStateContext);
 
   const handleValuesChange = (values) => {
     setQRCodeConfig({
@@ -22,15 +24,16 @@ export default function QRCodePanel (props) {
 
   const add2Canvas = () => {
     if (!QRCodeConfig.value || !qrRef.current) return;
-    const canvas = qrRef.current.querySelector('canvas');
-    if (!canvas) return;
+    const canvasEl = qrRef.current.querySelector('canvas');
+    if (!canvasEl) return;
     const img = new Image();
     img.onload = () => {
       createImage({
-        imageSource: img
+        imageSource: img,
+        canvas: editor.canvas
       });
     }
-    img.src = canvas.toDataURL();
+    img.src = canvasEl.toDataURL();
   }
 
   useEffect(() => {

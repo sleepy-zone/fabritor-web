@@ -1,15 +1,12 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
-import { getGlobalEditor } from '@/utils/global';
 
 export default function createRect (options) {
-  const { width = 200, height = 200, ...rest } = options || {};
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { canvas, ...rest } = options || {};
   const rect = new fabric.Rect({
     id: uuid(),
-    width,
-    height,
+    width: 200,
+    height: 200,
     ...rest,
   });
 

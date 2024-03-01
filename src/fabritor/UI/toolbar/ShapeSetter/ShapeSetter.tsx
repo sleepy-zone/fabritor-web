@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
-import { Form, InputNumber, Switch } from 'antd';
+import { Form } from 'antd';
 import { GloablStateContext } from '@/context';
-import { getGlobalEditor } from '@/utils/global';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import BorderSetter from '../ImageSetter/BorderSetter';
 
@@ -21,11 +20,10 @@ const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
 }
 
 export default function ShapeSetter () {
-  const { object } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleBorder = (border) => {
-    const editor = getGlobalEditor();
     const { type, stroke = '#000', strokeWidth, borderRadius } = border || {};
     if (type === 'none') {
       object.set('stroke', null);
@@ -57,7 +55,6 @@ export default function ShapeSetter () {
   }
 
   const handleValuesChange = (values) => {
-    const editor = getGlobalEditor();
     if (values.fill) {
       object.set('fill', values.fill);
       editor.canvas.requestRenderAll();

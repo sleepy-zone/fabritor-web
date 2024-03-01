@@ -1,5 +1,4 @@
 import { Flex, List } from 'antd';
-import { getGlobalEditor } from '@/utils/global';
 import { useEffect, useContext, useState } from 'react';
 import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
@@ -7,18 +6,17 @@ import { GroupOutlined } from '@ant-design/icons';
 import ContextMenu from '@/fabritor/components/ContextMenu';
 
 export default function Layer () {
-  const { isReady, object: activeObject } = useContext(GloablStateContext);
+  const { isReady, object: activeObject, editor } = useContext(GloablStateContext);
   const [layers, setLayers] = useState([]);
 
   const getCanvasLayers = (objects) => {
-    const editor = getGlobalEditor();
     const _layers: any = [];
     const length = objects.length;
     if (!length) {
       setLayers([]);
       return;
     }
-    const activeObject = editor.canvas.getActiveObject();
+    const activeObject = editor?.canvas.getActiveObject();
     for (let i = length - 1; i >= 0; i--) {
       let object = objects[i];
       if (object && object.id !== SKETCH_ID) {
@@ -41,7 +39,6 @@ export default function Layer () {
   }
 
   const handleItemClick = (item) => {
-    const editor = getGlobalEditor();
     editor.canvas.discardActiveObject();
     editor.canvas.setActiveObject(item.object);
     editor.canvas.requestRenderAll();
@@ -53,8 +50,7 @@ export default function Layer () {
 
     if (isReady) {
       setLayers([]);
-      const editor = getGlobalEditor();
-      canvas = editor.canvas;
+      canvas = editor?.canvas;
       initCanvasLayers();
 
       canvas.on({

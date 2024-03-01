@@ -2,14 +2,15 @@ import { fabric } from 'fabric';
 import AppSubPanel from './AppSubPanel';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
-import { getGlobalEditor } from '@/utils/global';
 import { createTextbox } from '@/editor/objects/textbox';
+import { useContext } from 'react';
+import { GloablStateContext } from '@/context';
 
 export default function EmojiPanel (props) {
   const { back } = props;
+  const { editor } = useContext(GloablStateContext);
 
   const handleEmojiSelect = async (emoji) => {
-    const editor = getGlobalEditor();
     const object = editor.canvas.getActiveObject() as fabric.Textbox;
     if (object && object.type === 'textbox') {
       object.set('text', `${object.text}${emoji.native}`);
@@ -18,7 +19,8 @@ export default function EmojiPanel (props) {
       await createTextbox({
         text: emoji.native,
         fontSize: 80,
-        width: 100
+        width: 100,
+        canvas: editor.canvas
       });
     }
   }

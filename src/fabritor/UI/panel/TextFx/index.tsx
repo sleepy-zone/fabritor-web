@@ -4,7 +4,6 @@ import { Slider, Form } from 'antd';
 import Title from '@/fabritor/components/Title';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import { GloablStateContext } from '@/context';
-import { getGlobalEditor } from '@/utils/global';
 import TextShadow from './TextShadow';
 import TextPath from './TextPath';
 import TextPattern from './TextPattern';
@@ -15,9 +14,10 @@ const { Item: FormItem } = Form;
 
 export default function TextFx () {
   const [form] = Form.useForm();
-  const { object, setFxType } = useContext(GloablStateContext);
+  const { object, setFxType, editor } = useContext(GloablStateContext);
 
   const handleTextPattern = async (pattern) => {
+    if (!object) return;
     if (!pattern.enable || !pattern.url) {
       if (object.fill instanceof fabric.Pattern) {
         object.set('fill', '#000000');
@@ -37,12 +37,13 @@ export default function TextFx () {
   }
 
   const handleFxValueChange = async (values) => {
-    const editor = getGlobalEditor();
+    if (!object || !editor) return;
     const keys = Object.keys(values);
     for (let key of keys) {
       const v = values[key];
       if (key === 'shadow') {
         if (v.enable) {
+          // @ts-ignore object shadow
           object.shadow = {
             color: v.color,
             blur: v.blur,
@@ -50,7 +51,7 @@ export default function TextFx () {
             offsetY: v.offset
           };
         } else {
-          object.shadow = null;
+          object.shadow = undefined;
         }
       } else if (key === 'path') {
         if (v.enable) {
@@ -61,7 +62,7 @@ export default function TextFx () {
       } else if (key === 'pattern') {
         await handleTextPattern(v);
       } else {
-        object.set(key, v);
+        object.set(key as (keyof fabric.Object), v);
       }
     }
     editor.canvas.requestRenderAll();
@@ -69,6 +70,7 @@ export default function TextFx () {
   }
 
   const initObjectFx = () => {
+    if (!object) return;
     const fill = object.fill;
     form.setFieldsValue({
       stroke: object.stroke,
@@ -93,7 +95,7 @@ export default function TextFx () {
 
   useEffect(() => {
     if (!object || (object.type !== 'textbox' && object.type !== 'f-text')) {
-      setFxType('');
+      setFxType?.('');
     } else {
       initObjectFx();
     }

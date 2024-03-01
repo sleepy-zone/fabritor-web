@@ -5,19 +5,24 @@ import ShapeTypeList from './shape-type-list';
 import { drawArrowLine, drawLine, drawTriArrowLine } from '@/editor/objects/line';
 import createRect from '@/editor/objects/rect';
 import createShape from '@/editor/objects/shape';
+import { useContext } from 'react';
+import { GloablStateContext } from '@/context';
 
 export default function ShapePanel () {
+  const { editor } = useContext(GloablStateContext);
+
   const addLine = (item) => {
     const { type, options = {} } = item;
+    const canvas = editor.canvas;
     switch (type) {
       case 'f-line':
-        drawLine(options);
+        drawLine({ ...options, canvas });
         break;
       case 'f-arrow':
-        drawArrowLine(options);
+        drawArrowLine({ ...options, canvas });
         break;
       case 'f-tri-arrow':
-        drawTriArrowLine(options);
+        drawTriArrowLine({ ...options, canvas });
         break;
       default:
         break;
@@ -25,13 +30,15 @@ export default function ShapePanel () {
   }
 
   const addShape = (item) => {
-    switch(item.key) {
+    const { key, options } = item;
+    const canvas = editor.canvas;
+    switch(key) {
       case 'rect':
       case 'rect-r':
-        createRect(item.options);
+        createRect({ ...options, canvas });
         break;
       default:
-        createShape(item.shape, item.options);
+        createShape(item.shape, { ...options, canvas });
         break;
     }
   }

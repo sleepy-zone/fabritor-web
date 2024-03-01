@@ -4,7 +4,6 @@ import { Form } from 'antd';
 import { DragOutlined } from '@ant-design/icons';
 import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 import { SKETCH_ID } from '@/utils/constants';
-import { getGlobalEditor } from '@/utils/global';
 import OpacitySetter from '@/fabritor/components/OpacitySetter';
 import { DRAG_ICON } from '@/assets/icon';
 import BaseInfo from '../../header/BaseInfo';
@@ -12,13 +11,12 @@ import BaseInfo from '../../header/BaseInfo';
 const { Item: FormItem } = Form;
 
 export default function CommonSetter () {
-  const { object, isReady } = useContext(GloablStateContext);
+  const { object, isReady, editor } = useContext(GloablStateContext);
   const [lock, setLock] = useState(false);
   const [opacity, setOpacity] = useState(1);
   const [panEnable, setPanEnable] = useState(false);
 
   const handleLock = () => {
-    const editor = getGlobalEditor();
     object.set({
       lockMovementX: !lock,
       lockMovementY: !lock,
@@ -30,7 +28,6 @@ export default function CommonSetter () {
   }
 
   const handleOpacity = (v) => {
-    const editor = getGlobalEditor();
     object.set('opacity', v);
     setOpacity(v);
     editor.canvas.requestRenderAll();
@@ -38,7 +35,6 @@ export default function CommonSetter () {
   }
 
   const enablePan = () => {
-    const editor = getGlobalEditor();
     const enable = editor.switchEnablePan();
     setPanEnable(enable);
   }

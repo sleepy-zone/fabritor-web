@@ -50,14 +50,14 @@ export const copyObject = async (canvas, target) => {
 }
 
 export const pasteObject = async (canvas) => {
-  // 先读取系统剪贴板
+  // 先尝试读取系统剪贴板
   try {
     const { type, result } = await getSystemClipboard() || {};
     if (result) {
       if (type === 'text') {
-        createTextbox({ text: result });
+        createTextbox({ text: result, canvas });
       } else if (type === 'image') {
-        createFImage({ imageSource: result })
+        createFImage({ imageSource: result, canvas })
       }
       return;
     }

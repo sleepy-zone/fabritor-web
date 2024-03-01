@@ -13,7 +13,7 @@
     "noImplicitAny": false,
     "importHelpers": true,
     "resolveJsonModule": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"],

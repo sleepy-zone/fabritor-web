@@ -1,11 +1,8 @@
 import { fabric } from 'fabric';
-import { getGlobalEditor } from '@/utils/global';
 import { uuid } from '@/utils';
 
 export const createGroup = (options) => {
-  const { items, ...rest } = options;
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { items, canvas, ...rest } = options;
 
   const group = new fabric.Group(items, {
     id: uuid(),

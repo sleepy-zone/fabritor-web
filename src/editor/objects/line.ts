@@ -1,11 +1,8 @@
 import { fabric } from 'fabric';
-import { getGlobalEditor } from '@/utils/global';
 import { uuid } from '@/utils';
 
 export const drawLine = (options) => {
-  const { points, ...rest } = options;
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { points, canvas, ...rest } = options;
 
   const line = new fabric.FLine(points || [0, 0, 300, 0], {
     strokeWidth: 4,
@@ -31,9 +28,7 @@ export const drawLine = (options) => {
 }
 
 export const drawArrowLine = (options) => {
-  const { points, ...rest } = options;
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { points, canvas, ...rest } = options;
 
   const arrow = new fabric.FArrow(points || [0, 0, 300, 0], {
     strokeWidth: 4,
@@ -59,9 +54,7 @@ export const drawArrowLine = (options) => {
 }
 
 export const drawTriArrowLine = (options) => {
-  const { points, ...rest } = options;
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { points, canvas, ...rest } = options;
 
   const arrow = new fabric.FTriArrow(points || [0, 0, 300, 0], {
     strokeWidth: 4,
