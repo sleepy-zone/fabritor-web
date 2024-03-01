@@ -31,6 +31,7 @@ const contentStyle: React.CSSProperties = {
 export default function Fabritor () {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const workspaceEl = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<Editor | null>(null);
   const [editor, setEditor] = useState<Editor | null>(null);
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
@@ -47,7 +48,7 @@ export default function Fabritor () {
 
     if (opt.button === 3) { // 右键
       if (target.id !== SKETCH_ID) {
-        editor?.canvas.setActiveObject(target);
+        editorRef.current.canvas.setActiveObject(target);
       }
       setTimeout(() => {
         contextMenuRef.current?.show();
@@ -60,11 +61,11 @@ export default function Fabritor () {
   const selectionHandler = (opt) => {
     const { selected } = opt;
     if (selected && selected.length) {
-      const selection = editor?.canvas.getActiveObject();
+      const selection = editorRef.current.canvas.getActiveObject();
       setActiveObject(selection);
     } else {
       // @ts-ignore
-      setActiveObject(editor?.sketch);
+      setActiveObject(editorRef.current.sketch);
     }
   }
 
@@ -90,11 +91,12 @@ export default function Fabritor () {
           mouseupHandler,
           selectionHandler,
           rotateHandler,
-          groupHandler: () => { setActiveObject(editor?.canvas.getActiveObject()) }
+          groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()) }
         }
       });
   
       await _editor.init();
+      editorRef.current = _editor;
       setEditor(_editor);
       setReady(true);
       setActiveObject(_editor.sketch);
@@ -102,7 +104,8 @@ export default function Fabritor () {
 
     return () => {
       if (editor) {
-        editor.destroy();
+        editorRef.current.destroy();
+        editorRef.current = null;
       }
     }
   }, []);

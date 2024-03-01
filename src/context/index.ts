@@ -11,4 +11,4 @@ export interface IGloablStateContext {
   editor?: Editor;
 }
 
-export const GloablStateContext = createContext<IGloablStateContext>({});
+export const GloablStateContext = createContext<IGloablStateContext>(null);
