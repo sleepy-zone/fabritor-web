@@ -8,8 +8,8 @@ import { getGlobalEditor } from '@/utils/global';
 import TextShadow from './TextShadow';
 import TextPath from './TextPath';
 import TextPattern from './TextPattern';
-import { drawTextPath, getPathOffset, removeTextPath } from '@/editor/textbox';
-import { loadImageDom } from '@/editor/image';
+import { drawTextPath, getPathOffset, removeTextPath } from '@/editor/objects/textbox';
+import { loadImageDom } from '@/editor/objects/image';
 
 const { Item: FormItem } = Form;
 

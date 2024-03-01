@@ -3,7 +3,7 @@ import AppSubPanel from './AppSubPanel';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { getGlobalEditor } from '@/utils/global';
-import { createTextbox } from '@/editor/textbox';
+import { createTextbox } from '@/editor/objects/textbox';
 
 export default function EmojiPanel (props) {
   const { back } = props;

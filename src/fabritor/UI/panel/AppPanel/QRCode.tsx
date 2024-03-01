@@ -2,7 +2,7 @@ import { Button, Form, Input, InputNumber, QRCode, Radio, Collapse, Flex } from 
 import AppSubPanel from './AppSubPanel';
 import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 import { useEffect, useRef, useState } from 'react';
-import { createImage } from '@/editor/image';
+import { createImage } from '@/editor/objects/image';
 
 const { Item: FormItem } = Form;
 

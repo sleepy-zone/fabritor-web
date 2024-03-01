@@ -1,8 +1,8 @@
 import { fabric } from 'fabric';
 import { FABRITOR_CUSTOM_PROPS } from './constants';
-import { createTextbox } from '@/editor/textbox';
+import { createTextbox } from '@/editor/objects/textbox';
 import { getSystemClipboard } from './index';
-import { createFImage } from '@/editor/image';
+import { createFImage } from '@/editor/objects/image';
 import { handleMouseOutCorner } from '@/editor/controller';
 
 // @ts-ignore fabric controlsUtils

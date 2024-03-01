@@ -1,4 +1,4 @@
-import { createFImage } from '@/editor/image';
+import { createFImage } from '@/editor/objects/image';
 import { Button } from 'antd';
 import Title from '@/fabritor/components/Title';
 import { useEffect, useState } from 'react';

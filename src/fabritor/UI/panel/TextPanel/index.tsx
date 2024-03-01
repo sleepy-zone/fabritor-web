@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import PresetFontPanel from './PresetFontPanel';
-import { createTextbox } from '@/editor/textbox';
+import { createTextbox } from '@/editor/objects/textbox';
 
 export default function TextPanel () {
   const handleAddText = async (options) => {

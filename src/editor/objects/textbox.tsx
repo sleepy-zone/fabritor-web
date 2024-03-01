@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { TEXTBOX_DEFAULT_CONFIG } from '../utils/constants';
+import { TEXTBOX_DEFAULT_CONFIG } from '@/utils/constants';
 import { uuid, loadFont } from '@/utils';
 import { getGlobalEditor } from '@/utils/global';
 import { setObject2Center } from '@/utils/helper';
