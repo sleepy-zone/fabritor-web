@@ -150,11 +150,7 @@ export default class Editor {
   }
 
   private _initEvents () {
-    const { sketchEventHandler } = this._options;
     this.canvas.on('mouse:down', (opt) => {
-      if (!this._pan.enable) {
-        sketchEventHandler?.clickHandler?.(opt);
-      }
       const evt = opt.e;
       if (this._pan.enable) {
         this._pan = {
@@ -201,7 +197,6 @@ export default class Editor {
       this.canvas.requestRenderAll();
     });
     this.canvas.on('mouse:up', (opt) => {
-      sketchEventHandler?.mouseupHandler?.(opt);
       // on mouse up we want to recalculate new interaction
       // for all objects, so we call setViewportTransform
       if (this._pan.enable) {
@@ -211,17 +206,6 @@ export default class Editor {
       }
     });
     this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
-
-    this.canvas.on('object:rotating', sketchEventHandler?.rotateHandler);
-
-    this.canvas.on('selection:created', (opt) => { sketchEventHandler?.selectionHandler(opt); });
-    this.canvas.on('selection:updated', (opt) => { sketchEventHandler?.selectionHandler(opt); });
-    this.canvas.on('selection:cleared', (opt) => { sketchEventHandler?.selectionHandler(opt); });
-
-    this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
-    this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
-    this.canvas.on('fabritor:group', sketchEventHandler?.groupHandler);
-    this.canvas.on('fabritor:ungroup', sketchEventHandler?.groupHandler);
 
     this.canvas.on('mouse:dblclick', (opt) => {
       const { target, subTargets } = opt;
@@ -234,7 +218,6 @@ export default class Editor {
           this.canvas.discardActiveObject();
           this.canvas.setActiveObject(subTarget);
           this.canvas.requestRenderAll();
-          sketchEventHandler?.dblObjectHandler?.(subTarget, opt);
         }
       }
     });
@@ -306,6 +289,10 @@ export default class Editor {
     });
     this.canvas.selection = !this._pan.enable;
     this.canvas.requestRenderAll();
+    return this._pan.enable;
+  }
+
+  public getIfPanEnable () {
     return this._pan.enable;
   }
 

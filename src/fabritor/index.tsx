@@ -7,7 +7,7 @@ import Editor from '@/editor';
 import { GloablStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
-import ToolTip from './components/ToolTip';
+import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
 import Export from './UI/header/Export';
 
 import '../font.css';
@@ -31,16 +31,16 @@ const contentStyle: React.CSSProperties = {
 export default function Fabritor () {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const workspaceEl = useRef<HTMLDivElement>(null);
-  const editorRef = useRef<Editor | null>(null);
   const [editor, setEditor] = useState<Editor | null>(null);
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
   const [fxType, setFxType] = useState('');
   const contextMenuRef = useRef<any>(null);
-  const rotateAngleTipRef = useRef<any>(null);
 
   const clickHandler = (opt) => {
     const { target } = opt;
+    if (editor.getIfPanEnable()) return;
+
     if (!target) {
       contextMenuRef.current?.hide();
       return;
@@ -48,7 +48,7 @@ export default function Fabritor () {
 
     if (opt.button === 3) { // 右键
       if (target.id !== SKETCH_ID) {
-        editorRef.current.canvas.setActiveObject(target);
+        editor.canvas.setActiveObject(target);
       }
       setTimeout(() => {
         contextMenuRef.current?.show();
@@ -59,53 +59,52 @@ export default function Fabritor () {
   }
 
   const selectionHandler = (opt) => {
-    const { selected } = opt;
+    const { selected, sketch } = opt;
     if (selected && selected.length) {
-      const selection = editorRef.current.canvas.getActiveObject();
+      const selection = editor.canvas.getActiveObject();
       setActiveObject(selection);
     } else {
       // @ts-ignore
-      setActiveObject(editorRef.current.sketch);
+      setActiveObject(sketch);
     }
   }
+  
+  const initEvent = () => {
+    editor.canvas.on('selection:created', selectionHandler);
+    editor.canvas.on('selection:updated', selectionHandler);
+    editor.canvas.on('selection:cleared', selectionHandler);
 
-  const rotateHandler = (opt) => {
-    const { target, e } = opt;
-    rotateAngleTipRef.current.show({
-      left: e.pageX + 16,
-      top: e.pageY
-    }, `${Math.round(target.angle)}°`);
+    editor.canvas.on('mouse:down', clickHandler);
   }
 
-  const mouseupHandler = () => {
-    rotateAngleTipRef.current.close();
+  const initEditor = async () => {
+    const _editor = new Editor({
+      canvasEl: canvasEl.current,
+      workspaceEl: workspaceEl.current,
+      sketchEventHandler: {
+        groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()) }
+      }
+    });
+
+    await _editor.init();
+
+    setEditor(_editor);
+    setReady(true);
+    setActiveObject(_editor.sketch);
   }
 
   useEffect(() => {
-    setTimeout(async () => {
-      const _editor = new Editor({
-        canvasEl: canvasEl.current,
-        workspaceEl: workspaceEl.current,
-        sketchEventHandler: {
-          clickHandler,
-          mouseupHandler,
-          selectionHandler,
-          rotateHandler,
-          groupHandler: () => { setActiveObject(_editor.canvas.getActiveObject()) }
-        }
-      });
-  
-      await _editor.init();
-      editorRef.current = _editor;
-      setEditor(_editor);
-      setReady(true);
-      setActiveObject(_editor.sketch);
-    }, 300);
+    if (editor) {
+      initEvent();
+    }
+  }, [editor]);
+
+  useEffect(() => {
+    initEditor();
 
     return () => {
       if (editor) {
-        editorRef.current.destroy();
-        editorRef.current = null;
+        editor.destroy();
       }
     }
   }, []);
@@ -124,7 +123,7 @@ export default function Fabritor () {
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">
         <Spin spinning={!isReady} fullscreen />
-        <ToolTip ref={rotateAngleTipRef} />
+        <ObjectRotateAngleTip />
         <Export />
         <Layout>
           <Panel />
