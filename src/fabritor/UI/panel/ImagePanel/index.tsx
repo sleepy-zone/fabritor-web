@@ -1,19 +1,22 @@
-import { createFImage } from '@/editor/image';
+import { createFImage } from '@/editor/objects/image';
 import { Button } from 'antd';
 import Title from '@/fabritor/components/Title';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import FallList from '@/fabritor/components/FallList';
 import { fetchPhotos } from './pixabay';
 import ImageSelector from '@/fabritor/components/ImageSelector';
+import { GloablStateContext } from '@/context';
 
 export default function ImagePanel () {
   const [photos, setPhotos] = useState([]);
   const [illustrations, setIllustrations] = useState([]);
   const [vectors, setVectors] = useState([]);
+  const { editor } = useContext(GloablStateContext);
 
   const addImage = async (url) => {
     await createFImage({
-      imageSource: url
+      imageSource: url,
+      canvas: editor.canvas
     });
   }
 
@@ -23,7 +26,8 @@ export default function ImagePanel () {
 
   const addPixabay = (item) => {
     createFImage({
-      imageSource: item.cover
+      imageSource: item.cover,
+      canvas: editor.canvas
     });
   }
 

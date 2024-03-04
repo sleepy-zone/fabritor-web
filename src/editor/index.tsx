@@ -1,16 +1,16 @@
 import { fabric } from 'fabric';
 import { message } from 'antd';
-import { calcCanvasZoomLevel } from '@/utils/helper';
+import { calcCanvasZoomLevel, handleFLinePointsWhenMoving } from '@/utils/helper';
 import initControl, { handleMouseOutCorner, handleMouseOverCorner } from './controller';
-import { initObjectPrototype } from './object';
+import { initObjectPrototype } from './objects/init';
 import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
 import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '@/utils/constants';
 import FabricHistory from './history';
-import { createGroup } from './group';
-import createCustomClass from './shapes';
+import { createGroup } from './objects/group';
+import createCustomClass from './custom-objects';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -150,11 +150,7 @@ export default class Editor {
   }
 
   private _initEvents () {
-    const { sketchEventHandler } = this._options;
     this.canvas.on('mouse:down', (opt) => {
-      if (!this._pan.enable) {
-        sketchEventHandler?.clickHandler?.(opt);
-      }
       const evt = opt.e;
       if (this._pan.enable) {
         this._pan = {
@@ -201,7 +197,6 @@ export default class Editor {
       this.canvas.requestRenderAll();
     });
     this.canvas.on('mouse:up', (opt) => {
-      sketchEventHandler?.mouseupHandler?.(opt);
       // on mouse up we want to recalculate new interaction
       // for all objects, so we call setViewportTransform
       if (this._pan.enable) {
@@ -211,17 +206,6 @@ export default class Editor {
       }
     });
     this.canvas.on('mouse:wheel', this._scrollSketch.bind(this));
-
-    this.canvas.on('object:rotating', sketchEventHandler?.rotateHandler);
-
-    this.canvas.on('selection:created', (opt) => { sketchEventHandler?.selectionHandler(opt); });
-    this.canvas.on('selection:updated', (opt) => { sketchEventHandler?.selectionHandler(opt); });
-    this.canvas.on('selection:cleared', (opt) => { sketchEventHandler?.selectionHandler(opt); });
-
-    this.canvas.on('fabritor:clone', sketchEventHandler?.cloneHandler);
-    this.canvas.on('fabritor:del', sketchEventHandler?.delHandler);
-    this.canvas.on('fabritor:group', sketchEventHandler?.groupHandler);
-    this.canvas.on('fabritor:ungroup', sketchEventHandler?.groupHandler);
 
     this.canvas.on('mouse:dblclick', (opt) => {
       const { target, subTargets } = opt;
@@ -234,7 +218,6 @@ export default class Editor {
           this.canvas.discardActiveObject();
           this.canvas.setActiveObject(subTarget);
           this.canvas.requestRenderAll();
-          sketchEventHandler?.dblObjectHandler?.(subTarget, opt);
         }
       }
     });
@@ -253,6 +236,12 @@ export default class Editor {
         target.setControlVisible('mr', scaledHeight >= 40);
         this.canvas.requestRenderAll();
       }
+
+      if (target.type === 'f-line' || target.type === 'f-arrow' || target.type === 'f-tri-arrow') {
+        // fabric Line doesnot change points when moving
+        // but change left/top when change points ....
+        handleFLinePointsWhenMoving(opt);
+      }
     });
   }
 
@@ -264,7 +253,8 @@ export default class Editor {
         this.canvas.remove(items[i]);
       }
       const grp = createGroup({
-        items
+        items,
+        canvas: this.canvas
       });
       this.canvas.renderAll();
       this.canvas.setActiveObject(grp);
@@ -299,6 +289,10 @@ export default class Editor {
     });
     this.canvas.selection = !this._pan.enable;
     this.canvas.requestRenderAll();
+    return this._pan.enable;
+  }
+
+  public getIfPanEnable () {
     return this._pan.enable;
   }
 
@@ -376,7 +370,10 @@ export default class Editor {
       const jsonStr = localStorage.getItem('fabritor_web_json')
       if (jsonStr) {
         const json = JSON.parse(jsonStr);
-        await this.loadFromJSON(json);
+        const res = await this.loadFromJSON(json, false, false);
+        if (!res) {
+          localStorage.setItem('fabritor_web_json', null);
+        }
       }
     } catch(e) {  console.log(e) }
   }
@@ -398,19 +395,20 @@ export default class Editor {
     return json;
   }
 
-  public async loadFromJSON (json, addHistory = false) {
-    if (!json) return;
+  public async loadFromJSON (json, addHistory = false, errorToast = true) {
+    if (!json) return false;
     if (typeof json === 'string') {
       try {
         json = JSON.parse(json);
       } catch(e) {
-        message.error('加载本地模板失败，请重试');
-        return;
+        console.log(e)
+        errorToast && message.error('加载本地模板失败，请重试');
+        return false;
       }
     }
     if (json[SCHEMA_VERSION_KEY] !== SCHEMA_VERSION) {
-      message.error(`此模板已经无法与当前版本兼容，请更换模板`);
-      return;
+      errorToast && message.error(`此模板已经无法与当前版本兼容，请更换模板`);
+      return false;
     }
     const { objects } = json;
     for (let item of objects) {
@@ -437,7 +435,8 @@ export default class Editor {
   }
 
   public async clearCanvas () {
-    const originalJson = '{"fabritor_schema_version":2,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"我的画板","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}';
+    const { width, height, fabritor_desc } = this.sketch;
+    const originalJson = `{"fabritor_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"${fabritor_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}`;
     this.canvas.clear();
     await this.loadFromJSON(originalJson);
   }

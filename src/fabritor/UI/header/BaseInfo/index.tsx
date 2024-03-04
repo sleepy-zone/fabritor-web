@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Typography } from 'antd';
-import { getGlobalEditor } from '@/utils/global';
+import { GloablStateContext } from '@/context';
 
 const { Title } = Typography;
 
 export default function BaseInfo () {
   const [desc, setDesc] = useState('');
+  const { editor } = useContext(GloablStateContext);
 
   const handleChange = (v) => {
     setDesc(v);
-    const editor = getGlobalEditor();
     if (!editor) return;
     const { sketch } = editor;
     // @ts-ignore custom desc
@@ -17,12 +17,11 @@ export default function BaseInfo () {
   }
 
   useEffect(() => {
-    const editor = getGlobalEditor();
     if (!editor) return;
     const { sketch } = editor;
     // @ts-ignore custom desc
     setDesc(sketch.fabritor_desc);
-  }, []);
+  }, [editor]);
 
   return (
     <Title

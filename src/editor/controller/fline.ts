@@ -1,50 +1,56 @@
 import { fabric } from 'fabric';
-import { getLocalPoint } from '@/utils/helper';
 
-const changeEnd = (eventData, transform, x, y) => {
-  const { target, originX, originY } = transform;
-  let { left, top, width } = target;
-  const localPoint = getLocalPoint(transform, originX, originY, x, y);
-  if (localPoint.x < 0) {
-    left += (localPoint.x + width);
-  } 
-  target.setEndX(Math.abs(localPoint.x));
-  target.set({ left, top, dirty: true });
-  target.setCoords();
-  
+const changeLineEnd = (eventData, transform, x, y) => {
+  const { target } = transform;
+  target.set({ x2: x, y2: y  });
   return true;
 }
 
-export const initFLineControl = () => {
+const changeLineStart = (eventData, transform, x, y) => {
+  const { target } = transform;
+  target.set({ x1: x, y1: y  });
+  return true;
+}
+
+const linePositionHandler = (x, y) => {
+  return (dim, finalMatrix, fabricObject) => {
+    if (fabricObject?.canvas) { // a strange bug when delete multi f-line objects...
+      const points = fabricObject.calcLinePoints();
+      const localPoint = new fabric.Point(points[x], points[y]);
+      
+      // move 不会改变 x1 y1 x2 y2
+      const point = fabric.util.transformPoint(localPoint, fabric.util.multiplyTransformMatrices(
+        fabricObject.canvas.viewportTransform,
+        fabricObject.calcTransformMatrix()
+      ));
+      return point;
+    } else {
+      return new fabric.Point(0, 0);
+    }
+  }
+}
+
+export const initLineControl = () => {
   const objectControls = fabric.Object.prototype.controls;
 
-  if (fabric.FLine) {
-    const flineControls: any = fabric.FLine.prototype.controls = {};
-    // flineControls.tr = objectControls.tr;
-    // flineControls.br = objectControls.br;
-    // flineControls.tl = objectControls.tl;
-    // flineControls.bl = objectControls.bl;
-    // flineControls.mt = objectControls.mt;
-    // flineControls.mb = objectControls.mb;
-    flineControls.mtr = objectControls.mtr;
-    flineControls.copy = objectControls.copy;
-    flineControls.del = objectControls.del;
+  if (fabric.Line) {
+    const lineControls: any = fabric.Line.prototype.controls = {};
+    lineControls.copy = objectControls.copy;
+    lineControls.del = objectControls.del;
 
-    flineControls.ml = new fabric.Control({
-      x: -0.5,
-      y: 0,
-      actionHandler: changeEnd,
-      cursorStyleHandler: objectControls.ml.cursorStyleHandler,
-      actionName: 'resizing',
-      render: objectControls.bl.render
+    lineControls.l1 = new fabric.Control({
+      positionHandler: linePositionHandler('x1', 'y1'),
+      actionHandler: changeLineStart,
+      cursorStyleHandler: () => 'crosshair',
+      actionName: 'line-points-change',
+      render: objectControls.br.render
     });
 
-    flineControls.mr = new fabric.Control({
-      x: 0.5,
-      y: 0,
-      actionHandler: changeEnd,
-      cursorStyleHandler: objectControls.mr.cursorStyleHandler,
-      actionName: 'resizing',
+    lineControls.l2 = new fabric.Control({
+      positionHandler: linePositionHandler('x2', 'y2'),
+      actionHandler: changeLineEnd,
+      cursorStyleHandler: () => 'crosshair',
+      actionName: 'line-points-change',
       render: objectControls.br.render
     });
   }

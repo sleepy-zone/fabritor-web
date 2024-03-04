@@ -1,8 +1,10 @@
 import { FloatButton, Dropdown } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { getGlobalEditor } from '@/utils/global';
 import { downloadFile } from '@/utils';
+import { useContext } from 'react';
+import { GloablStateContext } from '@/context';
+
 const items: MenuProps['items'] = [
   {
     key: 'jpg',
@@ -21,9 +23,11 @@ const items: MenuProps['items'] = [
     label: '导出为 模板'
   }
 ]
+
 export default function Export () {
+  const { editor } = useContext(GloablStateContext);
+
   const handleClick = ({ key }) => {
-    const editor = getGlobalEditor();
     const { sketch } = editor;
     // @ts-ignore
     const name = sketch.fabritor_desc;

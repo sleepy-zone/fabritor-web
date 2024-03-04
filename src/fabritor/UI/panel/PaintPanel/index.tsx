@@ -1,22 +1,23 @@
 import { Tooltip, Flex, Form, Slider, Button } from 'antd';
 import Title from '@/fabritor/components/Title';
-import { getGlobalEditor } from '@/utils/global';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 import { DRAW_MODE_CURSOR, DRAG_ICON } from '@/assets/icon';
 import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 import BrushList from './brush-list';
+import { GloablStateContext } from '@/context';
+
+const { Item: FormItem } = Form;
 
 export default function PaintPanel () {
   const [penForm] = Form.useForm();
   const [shadowForm] = Form.useForm();
-  const { Item: FormItem } = Form;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDrawingMode, setIsDrawingMode] = useState(true);
-  const [isClearMode, setIsClearMode] = useState(false);
+  const [isClearMode, setIsClearMode] = useState(false); // TODO ClearBrush
+  const { editor } = useContext(GloablStateContext);
 
   const handleBrushChange = (options) => {
-    const editor = getGlobalEditor();
     if (options.color) {
       editor.canvas.freeDrawingBrush.color = options.color;
       penForm.setFieldValue('color', options.color);
@@ -50,13 +51,11 @@ export default function PaintPanel () {
   }
 
   const stopFreeDrawMode = () => {
-    const editor = getGlobalEditor();
     editor.canvas.isDrawingMode = !editor.canvas.isDrawingMode;
     setIsDrawingMode(!isDrawingMode);
   }
 
   // const startClearMode = () => {
-  //   const editor = getGlobalEditor();
   //   const { canvas } = editor;
   //   if (!isClearMode) {
   //     canvas.freeDrawingBrush = new fabric.EraserBrush(canvas);
@@ -68,8 +67,7 @@ export default function PaintPanel () {
   // }
 
   const initBrush = () => {
-    const editor = getGlobalEditor();
-    if (editor?.canvas) {
+    if (editor) {
       editor.canvas.isDrawingMode = true;
       editor.canvas.freeDrawingCursor = `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAW_MODE_CURSOR)}") 4 12, crosshair`;
       const freeDrawingBrush = new fabric.PencilBrush(editor.canvas);

@@ -1,13 +1,14 @@
-import { useImperativeHandle, forwardRef, useState } from 'react';
+import { useImperativeHandle, forwardRef, useState, useContext } from 'react';
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 import { SKETCH_ID } from '@/utils/constants';
 import { copyObject, pasteObject, removeObject, groupSelection, ungroup, changeLayerLevel } from '@/utils/helper';
-import { getGlobalEditor } from '@/utils/global';
+import { GloablStateContext } from '@/context';
 
 const ContextMenu = (props, ref) => {
-  const [open, setOpen] = useState(false);
   const { object, noCareOpen } = props;
+  const [open, setOpen] = useState(false);
+  const { editor } = useContext(GloablStateContext);
 
   const renderMenuItems = () => {
     if (!object || object.id === SKETCH_ID) {
@@ -90,7 +91,6 @@ const ContextMenu = (props, ref) => {
   }
 
   const handleClick = async ({ key }) => {
-    const editor = getGlobalEditor();
     switch (key) {
       case 'copy':
         await copyObject(editor.canvas, object);

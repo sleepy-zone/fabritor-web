@@ -1,8 +1,6 @@
 import { fabric } from 'fabric';
-import { TEXTBOX_DEFAULT_CONFIG } from '../utils/constants';
+import { TEXTBOX_DEFAULT_CONFIG } from '@/utils/constants';
 import { uuid, loadFont } from '@/utils';
-import { getGlobalEditor } from '@/utils/global';
-import { setObject2Center } from '@/utils/helper';
 
 export const getTextboxWidth = (textbox) => {
   const textLines = textbox.textLines || [];
@@ -24,11 +22,9 @@ export const getPathOffset = (textbox) => {
 }
 
 export const drawTextPath = (textbox, offset) => {
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
   if (textbox.isEditing) return;
 
-  // textbox should 1 line;
+  // textbox should 1 line when use path
   const width = getTextboxWidth(textbox);
   const path = new fabric.Path(`M 0 0 Q ${width / 2} ${width / 2 * offset / 100} ${width} 0`, {
     visible: false,
@@ -39,29 +35,19 @@ export const drawTextPath = (textbox, offset) => {
     path,
     width
   });
-  canvas.requestRenderAll();
+  textbox.canvas.requestRenderAll();
 }
 
 // 移除 path 属性位置错误，拖动一下才会更新。
 export const removeTextPath = (textbox) => {
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
   textbox.set({
     path: null
   });
-  canvas.requestRenderAll();
-  // textbox.clone(cloned => {
-  //   canvas.remove(textbox);
-  //   canvas.add(cloned);
-  //   canvas.setActiveObject(cloned);
-  //   canvas.requestRenderAll();
-  // });
+  textbox.canvas.requestRenderAll();
 }
 
 export const createTextbox = async (options) => {
-  const { text = '', left, top, fontFamily, ...rest } = options || {};
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { text = '', fontFamily, canvas, ...rest } = options || {};
 
   let tmpPathInfo = { hasPath: false, offset: 100 };
 
@@ -72,23 +58,13 @@ export const createTextbox = async (options) => {
     id: uuid()
   });
 
-  setObject2Center(textBox, options, editor);
-
-  if (fontFamily) {
-    try {
-      await loadFont(fontFamily);
-    } finally {
-      textBox.set('fontFamily', fontFamily);
-    }
-  }
-
   textBox.on('editing:entered', () => {
     if (textBox.path) {
       tmpPathInfo.hasPath = true;
       tmpPathInfo.offset = getPathOffset(textBox);
       textBox.set('path', null);
       textBox.initDimensions();
-      editor.canvas.requestRenderAll();
+      canvas.requestRenderAll();
     } else {
       tmpPathInfo.hasPath = false;
     }
@@ -97,13 +73,27 @@ export const createTextbox = async (options) => {
   textBox.on('editing:exited', () => {
     if (tmpPathInfo.hasPath) {
       drawTextPath(textBox, tmpPathInfo.offset);
-      editor.canvas.requestRenderAll();
+      canvas.requestRenderAll();
     }
   });
 
   canvas.add(textBox);
+  if (options.left == null && options.top == null) {
+    canvas.viewportCenterObject(textBox);
+  } else if (options.left == null) {
+    canvas.viewportCenterObjectH(textBox);
+  }
   canvas.setActiveObject(textBox);
   canvas.requestRenderAll();
+
+  if (fontFamily) {
+    try {
+      await loadFont(fontFamily);
+    } finally {
+      textBox.set('fontFamily', fontFamily);
+      canvas.requestRenderAll();
+    }
+  }
 
   return textBox;
 }

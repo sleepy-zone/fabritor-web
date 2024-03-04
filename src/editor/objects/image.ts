@@ -1,7 +1,5 @@
 import { fabric } from 'fabric';
 import { uuid } from '@/utils';
-import { getGlobalEditor } from '@/utils/global';
-import { setObject2Center } from '@/utils/helper';
 import { message } from 'antd';
 
 export const loadImageDom = async (url) => {
@@ -56,9 +54,7 @@ export const createClipRect = (object, options = {}) => {
 }
 
 export const createImage = async (options) => {
-  const { imageSource, left, top, ...rest } = options || {};
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { imageSource, canvas, ...rest } = options || {};
 
   let img!: fabric.Image;
   try {
@@ -73,9 +69,8 @@ export const createImage = async (options) => {
     id: uuid()
   });
 
-  setObject2Center(img, options, editor);
-
   canvas.add(img);
+  canvas.viewportCenterObject(img);
   canvas.setActiveObject(img);
   canvas.requestRenderAll();
 
@@ -83,9 +78,7 @@ export const createImage = async (options) => {
 }
 
 export const createFImage = async (options) => {
-  const { imageSource } = options || {};
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { imageSource, canvas } = options || {};
 
   let img!: fabric.Image;
   try {
@@ -99,28 +92,24 @@ export const createFImage = async (options) => {
     id: uuid()
   });
 
-  setObject2Center(fimg, options, editor);
-
   canvas.add(fimg);
+  canvas.viewportCenterObject(fimg);
   canvas.setActiveObject(fimg);
   canvas.requestRenderAll();
 }
 
 export const createSvg = async (options) => {
-  const { url, left, top, ...rest } = options || {};
-  const editor = getGlobalEditor();
-  const { canvas } = editor;
+  const { url, canvas, ...rest } = options || {};
 
-  const svg: fabric.Group = await loadSvgFromUrl(url);
+  const svg = await loadSvgFromUrl(url) as fabric.Group;
 
   svg.set({
     ...rest,
     id: uuid()
   });
 
-  setObject2Center(svg, options, editor);
-
   canvas.add(svg);
+  canvas.viewportCenterObject(svg);
   canvas.setActiveObject(svg);
   canvas.requestRenderAll();
 

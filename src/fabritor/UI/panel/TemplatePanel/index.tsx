@@ -1,7 +1,6 @@
 import { useRef, useContext, useEffect, useState } from 'react';
 import { Button } from 'antd';
 import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
-import { getGlobalEditor } from '@/utils/global';
 import { GloablStateContext } from '@/context';
 import Title from '@/fabritor/components/Title';
 import getTemplateList, { getTemplate } from './template-list';
@@ -10,7 +9,7 @@ import FallList from '@/fabritor/components/FallList';
 export default function TemplatePanel (props) {
   const { onLoadTpl } = props;
   const localFileSelectorRef = useRef<any>(null);
-  const { isReady, setReady, setActiveObject } = useContext(GloablStateContext);
+  const { isReady, setReady, setActiveObject, editor } = useContext(GloablStateContext);
   const [tList, setTList] = useState([]);
 
   const startLoad = () => {
@@ -18,9 +17,8 @@ export default function TemplatePanel (props) {
   }
 
   const handleFileChange = (file) => {
-    if (!isReady) return;
-    setReady(false);
-    const editor = getGlobalEditor();
+    if (!isReady || !editor) return;
+    setReady?.(false);
     editor.canSaveLocal = false;
     const reader = new FileReader();
     editor.canvas.discardActiveObject();
@@ -38,8 +36,7 @@ export default function TemplatePanel (props) {
   }
 
   const handleLoadTemplate = async (item) => {
-    if (!isReady) return;
-    const editor = getGlobalEditor();
+    if (!isReady || !editor) return;
     setReady(false);
     editor.canSaveLocal = false;
     const json = await getTemplate(item.url);

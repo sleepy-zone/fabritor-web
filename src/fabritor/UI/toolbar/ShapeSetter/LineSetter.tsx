@@ -1,14 +1,13 @@
 import { useContext, useEffect } from 'react';
 import { Form } from 'antd';
 import { GloablStateContext } from '@/context';
-import { getGlobalEditor } from '@/utils/global';
 import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
 import StrokeSetter from './StrokeSetter';
 
 const { Item: FormItem } = Form;
 
 export default function LineSetter () {
-  const { object } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
@@ -59,7 +58,6 @@ export default function LineSetter () {
 
     object.setCoords();
 
-    const editor = getGlobalEditor();
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
   }

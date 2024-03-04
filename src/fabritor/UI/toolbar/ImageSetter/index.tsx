@@ -1,3 +1,4 @@
+import { fabric } from 'fabric';
 import { useContext, useEffect } from 'react';
 import { Form } from 'antd';
 import { FunctionOutlined } from '@ant-design/icons';
@@ -5,7 +6,6 @@ import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 import ReplaceSetter from './ReplaceSetter';
 import { GloablStateContext } from '@/context';
 import FlipSetter from './FlipSetter';
-import { getGlobalEditor } from '@/utils/global';
 import BorderSetter from './BorderSetter';
 import ClipSetter from './Clip';
 
@@ -36,20 +36,18 @@ const getStrokeDashArray = ({ type, strokeWidth }) => {
 }
 
 export default function ImageSetter () {
-  const { object, setFxType } = useContext(GloablStateContext);
+  const { object, setFxType, editor } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleImageReplace = (base64) => {
-    const editor = getGlobalEditor();
     if (base64) {
-      object.setSrc(base64, () => {
+      (object as fabric.Image).setSrc(base64, () => {
         editor.canvas.requestRenderAll();
       });
     }
   }
 
   const handleBorder = (border) => {
-    const editor = getGlobalEditor();
     const { type, stroke = '#000000', strokeWidth, borderRadius } = border || {};
     if (type === 'none') {
       object.setBorder({ stroke: null, borderRadius });
@@ -66,7 +64,6 @@ export default function ImageSetter () {
   }
 
   const handleValuesChange = (values) => {
-    const editor = getGlobalEditor();
     if (values.img) {
       handleImageReplace(values.img);
     }

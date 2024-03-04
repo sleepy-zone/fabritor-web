@@ -30,12 +30,15 @@ export default function Toolbar () {
         return <ShapeSetter />;
       case 'line':
       case 'f-line':
+      case 'f-arrow':
+      case 'f-tri-arrow':
         return <LineSetter />;
       case 'f-image':
-      case 'image':
         return <ImageSetter />;
+      case 'image':
       case 'path':
       case 'group':
+      case 'activeSelection':
         return null;
       default:
         return <SketchSetter />;

@@ -39,7 +39,7 @@ const PRESET_FONT_LIST = [
     config: {
       fontFamily: '霞鹜文楷',
       fontSize: 100,
-      text: '霞鹜文楷',
+      text: '文字边框',
       fill: '#ffffff',
       stroke: '#ff5757',
       strokeWidth: 12

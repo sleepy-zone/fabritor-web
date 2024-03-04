@@ -1,8 +1,9 @@
 import { fabric } from 'fabric';
 import { FABRITOR_CUSTOM_PROPS } from './constants';
-import { createTextbox } from '@/editor/textbox';
+import { createTextbox } from '@/editor/objects/textbox';
 import { getSystemClipboard } from './index';
-import { createFImage } from '@/editor/image';
+import { createFImage } from '@/editor/objects/image';
+import { handleMouseOutCorner } from '@/editor/controller';
 
 // @ts-ignore fabric controlsUtils
 const controlsUtils = fabric.controlsUtils;
@@ -49,14 +50,14 @@ export const copyObject = async (canvas, target) => {
 }
 
 export const pasteObject = async (canvas) => {
-  // 先读取系统剪贴板
+  // 先尝试读取系统剪贴板
   try {
     const { type, result } = await getSystemClipboard() || {};
     if (result) {
       if (type === 'text') {
-        createTextbox({ text: result });
+        createTextbox({ text: result, canvas });
       } else if (type === 'image') {
-        createFImage({ imageSource: result })
+        createFImage({ imageSource: result, canvas })
       }
       return;
     }
@@ -72,22 +73,26 @@ export const pasteObject = async (canvas) => {
       top: cloned.top + 50,
       evented: true,
     });
-    if (cloned.type === 'activeSelection') {
-    // active selection needs a reference to the canvas.
-    cloned.canvas = canvas;
-    cloned.forEachObject((obj) => {
-      canvas.add(obj);
-    });
-    // this should solve the unselectability
-    cloned.setCoords();
-    } else {
-    canvas.add(cloned);
+
+    if(cloned.type === 'f-line' || cloned.type === 'f-arrow' || cloned.type === 'f-tri-arrow') {
+      handleFLinePointsWhenMoving({ target: cloned, transform: { original: { left: cloned.left - 50, top: cloned.top - 50 } } })
     }
-    // target.top += 50;
-    // target.left += 50;
+
+    if (cloned.type === 'activeSelection') {
+      // active selection needs a reference to the canvas.
+      cloned.canvas = canvas;
+      cloned.forEachObject((obj) => {
+        canvas.add(obj);
+      });
+      // this should solve the unselectability
+      cloned.setCoords();
+    } else {
+      canvas.add(cloned);
+    }
+
     canvas.setActiveObject(cloned);
     canvas.requestRenderAll();
-      canvas.fire('fabritor:clone', { target: cloned });
+    canvas.fire('fabritor:clone', { target: cloned });
   }, FABRITOR_CUSTOM_PROPS);
 }
 
@@ -104,6 +109,7 @@ export const removeObject = (target, canvas) => {
   } else {
     canvas.remove(target);
   }
+  handleMouseOutCorner(target);
   canvas.requestRenderAll();
   canvas.fire('fabritor:del', { target: null });
   return true;
@@ -169,19 +175,6 @@ export const changeLayerLevel = (level, editor, target) => {
   editor.fireCustomModifiedEvent();
 }
 
-export const setObject2Center = (object, options, editor) => {
-  let { left = null, top = null } = options || {};
-  const { sketch } = editor;
-
-  if (left == null) {
-    left = (sketch.width || 0) / 2 - object.width / 2;
-  }
-  if (top == null) {
-    top = (sketch.height || 0) / 2 - object.height / 2;
-  }
-  object.set({ left, top });
-}
-
 /**
    * Transforms a point described by x and y in a distance from the top left corner of the object
    * bounding box.
@@ -230,3 +223,17 @@ const _changeHeight = (eventData, transform, x, y) => {
 }
 
 export const changeHeight = controlsUtils.wrapWithFireEvent('resizing', controlsUtils.wrapWithFixedAnchor(_changeHeight));
+
+export const handleFLinePointsWhenMoving = (opt) => {
+  const { target, transform, action } = opt;
+  if (action === 'line-points-change') return;
+  const {  original } = transform;
+  const deltaLeft = target.left - original.left;
+  const deltaTop = target.top - original.top;
+  target.set({
+    x1: target.x1 + deltaLeft,
+    y1: target.y1 + deltaTop,
+    x2: target.x2 + deltaLeft,
+    y2: target.y2 + deltaTop
+  });
+}
