@@ -1,19 +1,29 @@
 import { useContext, useEffect } from 'react';
 import { fabric } from 'fabric';
-import { Divider, Form, Select } from 'antd';
+import { Divider, Form, Select, List } from 'antd';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';
 import AlignSetter from './AlignSetter';
 import ColorSetter from '../ColorSetter';
 import { loadFont, transformColors2Fill, transformFill2Colors } from '@/utils';
-import { FunctionOutlined } from '@ant-design/icons';
+import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
+import Center from '@/fabritor/components/Center';
+import Title from '@/fabritor/components/Title';
 
 const { Item: FormItem } = Form;
 
+const TEXT_ADVANCE_CONFIG = [
+  {
+    icon: <FunctionOutlined style={{ fontSize: 22 }} />,
+    label: '特效',
+    key: 'fx'
+  }
+]
+
 export default function TextSetter () {
-  const { object, setFxType, editor }= useContext(GloablStateContext);
+  const { object, editor }= useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleFontStyles = (styles) => {
@@ -83,6 +93,10 @@ export default function TextSetter () {
    
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
+  }
+
+  const handleTextAdvanceConfigClick = (itemConfig) => {
+
   }
 
   useEffect(() => {
@@ -165,15 +179,28 @@ export default function TextSetter () {
           />
         </FormItem>
       </Form>
-      <Divider />
-      <div>
-      <span
-        className="fabritor-toolbar-setter-trigger"
-        onClick={() => { setFxType('text'); }}
-      >
-        <FunctionOutlined style={{ fontSize: 22 }} />
-      </span>
-      </div>
+      <Title>高级设置</Title>
+      <List
+        dataSource={TEXT_ADVANCE_CONFIG}
+        renderItem={(item: any) => (
+          <List.Item
+            className="fabritor-panel-layer-item"
+            style={{
+              border: '2px solid transparent',
+              padding: '10px 16px'
+            }}
+            onClick={() => { handleTextAdvanceConfigClick(item) }}
+          >
+            <Center style={{ height: 40 }}>
+              {item.icon}
+              <span style={{ fontSize: 16, fontWeight: 'bold', margin: '0 6px 0 10px' }}>
+                {item.label}
+              </span>
+              <RightOutlined />
+            </Center>
+          </List.Item>
+        )}
+      />
     </>
   )
 }
