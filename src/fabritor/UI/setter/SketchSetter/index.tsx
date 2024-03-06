@@ -1,11 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { fabric } from 'fabric';
-import { Form, Modal } from 'antd';
+import { Form } from 'antd';
 import ColorSetter from '../ColorSetter';
 import SizeSetter from '../SizeSetter';
-import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
-import { DRAG_ICON } from '@/assets/icon';
-import { ClearOutlined, ExclamationCircleFilled, DragOutlined } from '@ant-design/icons';
 import { GloablStateContext } from '@/context';
 import { transformColors2Fill, transformFill2Colors } from '@/utils';
 
@@ -13,8 +10,7 @@ const { Item: FormItem } = Form;
 
 export default function SketchSetter() {
   const [form] = Form.useForm();
-  const { setActiveObject, editor } = useContext(GloablStateContext);
-  const [panEnable, setPanEnable] = useState(false);
+  const { editor } = useContext(GloablStateContext);
 
   const handleFill = (_fill) => {
     const { sketch, canvas } = editor;
@@ -35,24 +31,6 @@ export default function SketchSetter() {
       }
     });
     editor.fireCustomModifiedEvent();
-  }
-
-  const clearCanvas = () => {
-    Modal.confirm({
-      title: '确认清空画布？',
-      icon: <ExclamationCircleFilled />,
-      async onOk () {
-        await editor.clearCanvas();
-        setActiveObject(editor.sketch);
-      },
-      okText: '确认',
-      cancelText: '取消'
-    });
-  }
-
-  const enablePan = () => {
-    const enable = editor.switchEnablePan();
-    setPanEnable(enable);
   }
 
   useEffect(() => {
@@ -77,26 +55,6 @@ export default function SketchSetter() {
       <FormItem label="画布背景色" name="fill">
         <ColorSetter type="sketch" />
       </FormItem>
-      {/* <FormItem>
-        <ColorSetter type="sketch" />
-      </FormItem>
-      <ToolbarDivider />
-      <ToolbarDivider />
-      <FormItem>
-        <span className="fabritor-toolbar-setter-trigger" onClick={clearCanvas}>
-          <ClearOutlined style={{ fontSize: 20 }} />
-        </span>
-      </FormItem>
-      <ToolbarDivider />
-      <FormItem>
-        <span className="fabritor-toolbar-setter-trigger" onClick={enablePan}>
-          {
-            panEnable? 
-            <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
-            <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
-          }
-        </span>
-      </FormItem> */}
     </Form>
   );
 }

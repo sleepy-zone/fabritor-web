@@ -91,7 +91,7 @@ export default class Editor {
       // @ts-ignore custom id 
       id: SKETCH_ID,
       // @ts-ignore custom desc
-      fabritor_desc: '我的画板',
+      fabritor_desc: '我的画板 by fabritor',
     });
     this.canvas.add(sketch);
     this.canvas.requestRenderAll();

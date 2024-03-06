@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Typography } from 'antd';
 import { GloablStateContext } from '@/context';
 
-const { Title } = Typography;
+const { Text } = Typography;
 
 export default function BaseInfo () {
   const [desc, setDesc] = useState('');
@@ -24,14 +24,20 @@ export default function BaseInfo () {
   }, [editor]);
 
   return (
-    <Title
-      level={5}
+    <Text
       editable={{
-        onChange: handleChange
+        onChange: handleChange,
+        autoSize: {
+          minRows: 1,
+          maxRows: 1
+        }
       }}
-      style={{ margin: 0, fontSize: 16 }}
+      ellipsis={{
+        rows: 1
+      }}
+      style={{ margin: 0, width: 200 }}
     >
       {desc || ''}
-    </Title>
+    </Text>
   )
 }

@@ -1,19 +1,16 @@
 import { fabric } from 'fabric';
 import { useEffect, useRef, useState } from 'react';
 import { Layout, Spin } from 'antd';
+import Header from './UI/header';
 import Panel from './UI/panel';
 import Setter from './UI/setter';
-import Toolbar from './UI/toolbar';
 import Editor from '@/editor';
 import { GloablStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
 import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
-import Export from './UI/header/Export';
 
 import '../font.css';
-import Sider from 'antd/es/layout/Sider';
-import Header from './UI/header';
 
 const { Content } = Layout;
 
@@ -127,7 +124,6 @@ export default function Fabritor () {
       <Layout style={{ height: '100%' }} className="fabritor-layout">
         <Spin spinning={!isReady} fullscreen />
         <ObjectRotateAngleTip />
-        <Export />
         <Header />
         <Layout>
           <Panel />

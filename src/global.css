@@ -32,6 +32,7 @@ html, body {
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
+  line-height: 0;
 
   &:hover {
     background-color: rgba(64,87,109,.07);

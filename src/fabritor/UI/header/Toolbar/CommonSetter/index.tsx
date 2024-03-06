@@ -6,7 +6,6 @@ import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 import { SKETCH_ID } from '@/utils/constants';
 import OpacitySetter from '@/fabritor/components/OpacitySetter';
 import { DRAG_ICON } from '@/assets/icon';
-import BaseInfo from '../../header/BaseInfo';
 
 const { Item: FormItem } = Form;
 
@@ -85,12 +84,6 @@ export default function CommonSetter () {
             }
           </span>
         </FormItem>
-        {
-          isReady ?
-          <FormItem>
-            <BaseInfo />
-          </FormItem> : null
-        }
       </Form>
     </>
   )
