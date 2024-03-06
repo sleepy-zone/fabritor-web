@@ -1,9 +1,10 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Form, Modal } from 'antd';
 import ColorSetter from '@/fabritor/components/ColorSetter';
 import SizeSetter from '@/fabritor/components/SizeSetter';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
-import { ClearOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { DRAG_ICON } from '@/assets/icon';
+import { ClearOutlined, ExclamationCircleFilled, DragOutlined } from '@ant-design/icons';
 import { GloablStateContext } from '@/context';
 
 const { Item: FormItem } = Form;
@@ -11,6 +12,7 @@ const { Item: FormItem } = Form;
 export default function SketchSetter() {
   const [form] = Form.useForm();
   const { setActiveObject, editor } = useContext(GloablStateContext);
+  const [panEnable, setPanEnable] = useState(false);
 
   const handleValuesChange = (values) => {
     const { sketch, canvas } = editor;
@@ -38,11 +40,15 @@ export default function SketchSetter() {
     });
   }
 
+  const enablePan = () => {
+    const enable = editor.switchEnablePan();
+    setPanEnable(enable);
+  }
+
   useEffect(() => {
     if (!editor) return;
     const { sketch } = editor;
     form.setFieldsValue({
-      fill: sketch.fill,
       size: [sketch.width, sketch.height]
     });
   }, [editor]);
@@ -54,7 +60,7 @@ export default function SketchSetter() {
       onValuesChange={handleValuesChange}
       className="fabritor-toolbar-form"
     >
-      <FormItem name="fill">
+      <FormItem>
         <ColorSetter type="sketch" />
       </FormItem>
       <ToolbarDivider />
@@ -65,6 +71,16 @@ export default function SketchSetter() {
       <FormItem>
         <span className="fabritor-toolbar-setter-trigger" onClick={clearCanvas}>
           <ClearOutlined style={{ fontSize: 20 }} />
+        </span>
+      </FormItem>
+      <ToolbarDivider />
+      <FormItem>
+        <span className="fabritor-toolbar-setter-trigger" onClick={enablePan}>
+          {
+            panEnable? 
+            <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
+            <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
+          }
         </span>
       </FormItem>
     </Form>

@@ -6,7 +6,6 @@ import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
-import Header from '../header';
 import TextFx from './TextFx';
 import ImageFx from './ImageFx';
 import { GloablStateContext } from '@/context';
@@ -124,7 +123,6 @@ export default function Panel () {
       width={420}
       className="fabritor-sider"
     >
-      <Header />
       <Tabs
         activeKey={activeKey}
         tabPosition="left"

@@ -2,6 +2,7 @@ import { fabric } from 'fabric';
 import { useEffect, useRef, useState } from 'react';
 import { Layout, Spin } from 'antd';
 import Panel from './UI/panel';
+import Setter from './UI/setter';
 import Toolbar from './UI/toolbar';
 import Editor from '@/editor';
 import { GloablStateContext } from '@/context';
@@ -11,6 +12,8 @@ import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
 import Export from './UI/header/Export';
 
 import '../font.css';
+import Sider from 'antd/es/layout/Sider';
+import Header from './UI/header';
 
 const { Content } = Layout;
 
@@ -125,16 +128,17 @@ export default function Fabritor () {
         <Spin spinning={!isReady} fullscreen />
         <ObjectRotateAngleTip />
         <Export />
+        <Header />
         <Layout>
           <Panel />
           <Content style={contentStyle}>
-            <Toolbar />
             <ContextMenu ref={contextMenuRef} object={activeObject}>
               <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
                 <canvas ref={canvasEl} />
               </div>
             </ContextMenu>
           </Content>
+          <Setter />
         </Layout>
       </Layout>
     </GloablStateContext.Provider>
