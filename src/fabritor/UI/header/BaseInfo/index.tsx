@@ -9,11 +9,12 @@ export default function BaseInfo () {
   const { editor } = useContext(GloablStateContext);
 
   const handleChange = (v) => {
-    setDesc(v);
+    const _v = v || '我的画板 by fabritor';
+    setDesc(_v);
     if (!editor) return;
     const { sketch } = editor;
     // @ts-ignore custom desc
-    sketch.set('fabritor_desc', v);
+    sketch.set('fabritor_desc', _v);
   }
 
   useEffect(() => {

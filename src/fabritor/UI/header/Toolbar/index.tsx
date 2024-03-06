@@ -4,6 +4,7 @@ import { GloablStateContext } from '@/context';
 import { DRAG_ICON } from '@/assets/icon';
 import { ClearOutlined, DragOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import { CenterV } from '@/fabritor/components/Center';
+import ToolbarItem from './ToolbarItem';
 
 import './index.scss';
 
@@ -31,16 +32,16 @@ export default function Toolbar () {
 
   return (
     <CenterV gap={4}>
-      <span className="fabritor-toolbar-setter-trigger" onClick={enablePan}>
+      <ToolbarItem onClick={enablePan} title={panEnable ? '选择元素' : '拖拽画布'}>
         {
           panEnable? 
           <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
           <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
         }
-      </span>
-      <span className="fabritor-toolbar-setter-trigger" onClick={clearCanvas}>
+      </ToolbarItem>
+      <ToolbarItem onClick={clearCanvas} title="清空画布">
         <ClearOutlined style={{ fontSize: 20 }} />
-      </span>
+      </ToolbarItem>
     </CenterV>
   )
 }

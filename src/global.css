@@ -26,7 +26,7 @@ html, body {
   gap: 5;
 }
 
-.fabritor-toolbar-setter-trigger {
+.fabritor-toolbar-item {
   display: flex;
   align-items: center;
   cursor: pointer;
