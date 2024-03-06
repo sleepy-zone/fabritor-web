@@ -1,6 +1,6 @@
 {
   "name": "fabritor-web",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "fabritor-web",
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
