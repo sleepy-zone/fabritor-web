@@ -11,6 +11,7 @@ import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } 
 import FabricHistory from './history';
 import { createGroup } from './objects/group';
 import createCustomClass from './custom-objects';
+import { LOAD_FROM_LOCAL_WHEN_INIT, AUTO_SAVE_WHEN_CHANGE, HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL } from '@/config';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -178,23 +179,28 @@ export default class Editor {
       const { target } = opt;
       if (this._pan.enable) return;
 
-      const corner = target?.__corner;
-      if (corner) {
-        handleMouseOverCorner(corner, opt.target);
+      if (HOVER_OBJECT_CORNER) {
+        const corner = target?.__corner;
+        if (corner) {
+          handleMouseOverCorner(corner, opt.target);
+        }
       }
 
-      if (!target || target.id === SKETCH_ID) return;
-      if (target === this.canvas.getActiveObject()) return;
-
-      // @ts-ignore
-      target._renderControls(this.canvas.contextTop, { hasControls: false });
+      if (HOVER_OBJECT_CONTROL) {
+        if (target && target.id !== SKETCH_ID && target !== this.canvas.getActiveObject()) {
+          // @ts-ignore
+          target._renderControls(this.canvas.contextTop, { hasControls: false });
+        }
+      }
     });
     this.canvas.on('mouse:out', (opt) => {
       const { target } = opt;
-      // @ts-ignore
-      if (!target || target.id === SKETCH_ID) return;
-      handleMouseOutCorner(target);
-      this.canvas.requestRenderAll();
+      if (HOVER_OBJECT_CORNER) {
+        if (target && target.id !== SKETCH_ID) {
+          handleMouseOutCorner(target);
+          this.canvas.requestRenderAll();
+        }
+      }
     });
     this.canvas.on('mouse:up', (opt) => {
       // on mouse up we want to recalculate new interaction
@@ -366,27 +372,32 @@ export default class Editor {
   }
 
   private async _loadLocal () {
-    try {
-      const jsonStr = localStorage.getItem('fabritor_web_json')
-      if (jsonStr) {
-        const json = JSON.parse(jsonStr);
-        const res = await this.loadFromJSON(json, false, false);
-        if (!res) {
-          localStorage.setItem('fabritor_web_json', null);
-        }
-      }
-    } catch(e) {  console.log(e) }
-  }
-
-  private _save2Local () {
-    setInterval(() => {
+    if (LOAD_FROM_LOCAL_WHEN_INIT) {
       try {
-        if (this.canSaveLocal) {
-          const json = this.canvas2Json();
-          localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+        const jsonStr = localStorage.getItem('fabritor_web_json')
+        if (jsonStr) {
+          const json = JSON.parse(jsonStr);
+          const res = await this.loadFromJSON(json, false, false);
+          if (!res) {
+            localStorage.setItem('fabritor_web_json', null);
+          }
         }
       } catch(e) {  console.log(e) }
-    }, 2000);
+    }
+  }
+
+  // @TODO save2local when change
+  private _save2Local () {
+    if (AUTO_SAVE_WHEN_CHANGE) {
+      setInterval(() => {
+        try {
+          if (this.canSaveLocal) {
+            const json = this.canvas2Json();
+            localStorage.setItem('fabritor_web_json', JSON.stringify(json));
+          }
+        } catch(e) {  console.log(e) }
+      }, 2000);
+    }
   }
 
   public canvas2Json () {
@@ -436,7 +447,7 @@ export default class Editor {
 
   public async clearCanvas () {
     const { width, height, fabritor_desc } = this.sketch;
-    const originalJson = `{"fabritor_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"${fabritor_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":1242,"height":1660,"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}`;
+    const originalJson = `{"fabritor_schema_version":3,"version":"5.3.0","objects":[{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"fabritor-sketch","fabritor_desc":"${fabritor_desc}","selectable":false,"hasControls":false}],"clipPath":{"type":"rect","version":"5.3.0","originX":"left","originY":"top","left":0,"top":0,"width":${width},"height":${height},"fill":"#ffffff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"stroke","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"selectable":true,"hasControls":true},"background":"#ddd"}`;
     this.canvas.clear();
     await this.loadFromJSON(originalJson);
   }
