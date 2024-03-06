@@ -15,6 +15,17 @@ html, body {
   overflow: auto !important;
 }
 
+.fabritor-layout h5.ant-typography {
+  margin: 0;
+}
+
+.fabritor-color-setter .rcs .rc-input-number-affix-wrapper {
+  height: 20px;
+}
+.fabritor-color-setter .rcs-preset-colors {
+  gap: 5;
+}
+
 .fabritor-toolbar-setter-trigger {
   display: flex;
   align-items: center;

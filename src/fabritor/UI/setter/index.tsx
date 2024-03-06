@@ -4,6 +4,7 @@ import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import SketchSetter from './SketchSetter';
 import TextSetter from './TextSetter';
+import { CenterV } from '@/fabritor/components/Center';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -49,7 +50,7 @@ export default function Setter () {
     }
   }
 
-  const renderSetterTitle = () => {
+  const getSetterTitle = () => {
     if (!isReady) return null;
     if (!object || object.id === SKETCH_ID) return '画布';
     switch (objectType) {
@@ -79,16 +80,32 @@ export default function Setter () {
     }
   }
 
+  const renderSetterTitle = () => {
+    const title = getSetterTitle();
+    if (!title) {
+      return null;
+    }
+    return (
+      <CenterV style={{ borderBottom: '1px solid #e8e8e8', paddingLeft: 16 }}>
+        <Title level={5}>
+          {getSetterTitle()}
+        </Title>
+      </CenterV>
+    )
+  }
+
   return (
     <Sider
       style={siderStyle}
-      width={320}
+      width={280}
       className="fabritor-sider"
     >
-      <Title level={5} style={{ height: 46, lineHeight: '46px', margin: 0, borderBottom: '1px solid #e8e8e8' }}>
       {renderSetterTitle()}
-      </Title>
-      {renderSetter()}
+      <div
+        style={{ padding: 16 }}
+      >
+        {renderSetter()}
+      </div>
     </Sider>
   )
 }

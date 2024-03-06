@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
+import { fabric } from 'fabric';
 import { Form, Modal } from 'antd';
-import ColorSetter from '@/fabritor/components/ColorSetter';
-import SizeSetter from '@/fabritor/components/SizeSetter';
+import ColorSetter from '../ColorSetter';
+import SizeSetter from '../SizeSetter';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
 import { DRAG_ICON } from '@/assets/icon';
 import { ClearOutlined, ExclamationCircleFilled, DragOutlined } from '@ant-design/icons';
 import { GloablStateContext } from '@/context';
+import { transformColors2Fill, transformFill2Colors } from '@/utils';
 
 const { Item: FormItem } = Form;
 
@@ -14,14 +16,22 @@ export default function SketchSetter() {
   const { setActiveObject, editor } = useContext(GloablStateContext);
   const [panEnable, setPanEnable] = useState(false);
 
-  const handleValuesChange = (values) => {
+  const handleFill = (_fill) => {
     const { sketch, canvas } = editor;
+    let fill = transformColors2Fill(_fill);
+    if (typeof fill !== 'string') {
+      fill = new fabric.Gradient(fill);
+    }
+    sketch.set('fill', fill);
+    canvas.requestRenderAll();
+  }
+
+  const handleValuesChange = (values) => {
     Object.keys(values).forEach((key) => {
       if (key === 'size') {
         editor.setSketchSize({ width: values[key][0], height: values[key][1] });
-      } else {
-        sketch.set(key, values[key]);
-        canvas.requestRenderAll();
+      } else if (key === 'fill') {
+        handleFill(values[key]);
       }
     });
     editor.fireCustomModifiedEvent();
@@ -49,24 +59,28 @@ export default function SketchSetter() {
     if (!editor) return;
     const { sketch } = editor;
     form.setFieldsValue({
-      size: [sketch.width, sketch.height]
+      size: [sketch.width, sketch.height],
+      fill: transformFill2Colors(sketch.fill)
     });
   }, [editor]);
 
   return (
     <Form
-      layout="inline"
+      layout="vertical"
+      colon={false}
       form={form}
       onValuesChange={handleValuesChange}
-      className="fabritor-toolbar-form"
     >
-      <FormItem>
+      <FormItem label="画布尺寸" name="size">
+        <SizeSetter />
+      </FormItem>
+      <FormItem label="画布背景色" name="fill">
+        <ColorSetter type="sketch" />
+      </FormItem>
+      {/* <FormItem>
         <ColorSetter type="sketch" />
       </FormItem>
       <ToolbarDivider />
-      <FormItem name="size">
-        <SizeSetter />
-      </FormItem>
       <ToolbarDivider />
       <FormItem>
         <span className="fabritor-toolbar-setter-trigger" onClick={clearCanvas}>
@@ -82,7 +96,7 @@ export default function SketchSetter() {
             <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
           }
         </span>
-      </FormItem>
+      </FormItem> */}
     </Form>
   );
 }
