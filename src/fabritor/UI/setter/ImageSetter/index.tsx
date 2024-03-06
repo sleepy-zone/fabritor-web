@@ -93,27 +93,22 @@ export default function ImageSetter () {
 
   return (
     <Form
-      layout="inline"
+      layout="vertical"
       form={form}
       onValuesChange={handleValuesChange}
-      className="fabritor-toolbar-form"
     >
       <FormItem name="img">
         <ReplaceSetter />
       </FormItem>
-      <ToolbarDivider />
-      <FormItem name="flip">
+      {/* <FormItem name="flip">
         <FlipSetter />
-      </FormItem>
-      <ToolbarDivider />
-      <FormItem name="border">
+      </FormItem> */}
+      <FormItem name="border" label="边框配置">
         <BorderSetter />
       </FormItem>
-      <ToolbarDivider />
       <FormItem>
         <ClipSetter object={object} />
       </FormItem>
-      <ToolbarDivider />
       <FormItem>
         <span
           className="fabritor-toolbar-setter-trigger"

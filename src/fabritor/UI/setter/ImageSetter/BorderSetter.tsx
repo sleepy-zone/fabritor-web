@@ -35,59 +35,51 @@ export default function BorderSetter (props) {
   }
 
   return (
-    <Popover
-      content={
-        <Flex vertical gap={8}>
-          <Radio.Group
-            value={value?.type}
-            onChange={(v) => { handleChange(v.target.value, 'type') }}
-          >
-            {
-              BORDER_TYPES.map(item => (
-                <Radio.Button key={item.key} value={item.key}>
-                  <span
-                    dangerouslySetInnerHTML={{ __html: item.svg }}
-                    style={{ 
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      marginTop: 3
-                    }}
-                  />
-                </Radio.Button>
-              ))
-            }
-          </Radio.Group>
-          <Space direction="vertical">
-            <span>颜色</span>
-            <ColorSetter
-              value={value?.stroke}
-              onChange={(v) => { handleChange(v, 'stroke') }}
-            />
-          </Space>
-          <Space direction="vertical">
-            <span>粗细</span>
-            <Slider
-              min={1}
-              max={100}
-              value={value?.strokeWidth}
-              onChange={(v) => { handleChange(v, 'strokeWidth') }}
-            />
-          </Space>
-          <Space direction="vertical">
-            <span>圆角</span>
-            <Slider
-              min={0}
-              max={200}
-              value={value?.borderRadius}
-              onChange={(v) => { handleChange(v, 'borderRadius') }}
-            />
-          </Space>
-        </Flex>
-      }
-      placement="bottom"
-      trigger="click"
-    >
-      <span className="fabritor-toolbar-setter-trigger">边框</span>
-    </Popover>
+    <Flex vertical gap={8}>
+      <Radio.Group
+        value={value?.type}
+        onChange={(v) => { handleChange(v.target.value, 'type') }}
+      >
+        {
+          BORDER_TYPES.map(item => (
+            <Radio.Button key={item.key} value={item.key}>
+              <span
+                dangerouslySetInnerHTML={{ __html: item.svg }}
+                style={{ 
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  marginTop: 3
+                }}
+              />
+            </Radio.Button>
+          ))
+        }
+      </Radio.Group>
+      <Space direction="vertical">
+        <span>颜色</span>
+        <ColorSetter
+          value={value?.stroke}
+          onChange={(v) => { handleChange(v, 'stroke') }}
+        />
+      </Space>
+      <Space direction="vertical">
+        <span>粗细</span>
+        <Slider
+          min={1}
+          max={100}
+          value={value?.strokeWidth}
+          onChange={(v) => { handleChange(v, 'strokeWidth') }}
+        />
+      </Space>
+      <Space direction="vertical">
+        <span>圆角</span>
+        <Slider
+          min={0}
+          max={200}
+          value={value?.borderRadius}
+          onChange={(v) => { handleChange(v, 'borderRadius') }}
+        />
+      </Space>
+    </Flex>
   )
 }

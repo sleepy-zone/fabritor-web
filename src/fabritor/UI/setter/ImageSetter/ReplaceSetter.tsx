@@ -1,4 +1,4 @@
-import { Popover } from 'antd';
+import { Popover, Button } from 'antd';
 import ImageSelector from '@/fabritor/components/ImageSelector';
 
 export default function ReplaceSetter (props) {
@@ -7,12 +7,12 @@ export default function ReplaceSetter (props) {
   return (
     <Popover
       content={
-        <ImageSelector onChange={onChange} />
+        <ImageSelector size="middle" type="default" onChange={onChange} />
       }
       placement="bottom"
       trigger="click"
     >
-      <span className="fabritor-toolbar-setter-trigger">替换图片</span>
+      <Button type="primary" block>替换图片</Button>
     </Popover>
   );
 }

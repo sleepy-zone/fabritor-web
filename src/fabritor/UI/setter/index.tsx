@@ -4,6 +4,7 @@ import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import SketchSetter from './SketchSetter';
 import TextSetter from './TextSetter';
+import ImageSetter from './ImageSetter';
 import { CenterV } from '@/fabritor/components/Center';
 
 const { Sider } = Layout;
@@ -38,8 +39,8 @@ export default function Setter () {
       // case 'f-arrow':
       // case 'f-tri-arrow':
       //   return <LineSetter />;
-      // case 'f-image':
-      //   return <ImageSetter />;
+      case 'f-image':
+        return <ImageSetter />;
       // case 'image':
       // case 'path':
       // case 'group':
