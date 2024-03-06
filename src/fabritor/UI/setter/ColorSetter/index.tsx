@@ -1,9 +1,5 @@
 import { Popover } from 'antd';
 import { ColorsPicker, Color } from 'react-colors-beauty';
-import type { ColorsValue } from 'react-colors-beauty';
-import { useEffect, useState } from 'react';
-import { transformColors2Fill, transformFill2Colors } from '@/utils';
-import { fabric } from 'fabric';
 
 // @TODO preset size
 export default function ColorSetter (props) {
@@ -12,23 +8,6 @@ export default function ColorSetter (props) {
   const handleChange = (v) => {
     if (!v) return;
     if (!v.color) v.color = defaultColor;
-    // let fill = transformColors2Fill(v);
-    // text gradient nor support percentage https://github.com/fabricjs/fabric.js/issues/8168  
-    // if (objectType === 'f-text' && typeof fill !== 'string') {
-    //   fill.gradientUnits = 'pixels';
-    //   const { coords } = fill;
-    //   fill.coords = {
-    //     x1: coords.x1 === 1 ? object.width : 0,
-    //     y1: coords.y1 === 1 ? object.height : 0,
-    //     x2: coords.x2 === 1 ? object.width : 0,
-    //     y2: coords.y2 === 1 ? object.height : 0,
-    //     r1: 0,
-    //     r2: object.width > object.height ? object.width / 2  : object.height
-    //   }
-    // }
-    // if (typeof fill !== 'string') {
-    //   fill = new fabric.Gradient(fill);
-    // }
     onChange?.(v);
   }
 
@@ -99,8 +78,11 @@ export default function ColorSetter (props) {
         trigger="click"
       >
         <div 
-          className="fabritor-toolbar-setter-trigger"
-          style={{ borderRadius: 4, backgroundColor: calcTriggerBg(), lineHeight: 0  }}
+          className="fabritor-toolbar-item"
+          style={{
+            borderRadius: 4,
+            backgroundColor: calcTriggerBg()
+          }}
         >
           {renderTrigger()}
         </div>

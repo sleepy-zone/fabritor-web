@@ -1,36 +1,56 @@
 import { useContext, useEffect } from 'react';
-import { Form, Select } from 'antd';
+import { fabric } from 'fabric';
+import { Divider, Form, Select } from 'antd';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';
 import AlignSetter from './AlignSetter';
-import ColorSetter from '@/fabritor/components/ColorSetter';
-import { loadFont } from '@/utils';
-import SpaceSetter from './SpaceSetter';
+import ColorSetter from '../ColorSetter';
+import { loadFont, transformColors2Fill, transformFill2Colors } from '@/utils';
 import { FunctionOutlined } from '@ant-design/icons';
-import FontSizeSetter from './FontSize';
+import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 
 const { Item: FormItem } = Form;
 
 export default function TextSetter () {
-  const { object, setFxType, editor } = useContext(GloablStateContext);
+  const { object, setFxType, editor }= useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleFontStyles = (styles) => {
-    object.set('fontWeight', styles?.bold ? 'bold' : 'normal');
-    object.set('fontStyle', styles?.italic ? 'italic' : 'normal');
-    object.set('underline', !!styles.underline);
-    object.set('linethrough', !!styles.linethrough);
-  }
-
-  const handleFontSpace = (space) => {
-    object.set('lineHeight', space.lineHeight);
-    object.set('charSpacing', space.charSpacing);
+    object.set({
+      fontWeight: styles?.bold ? 'bold' : 'normal',
+      fontStyle: styles?.italic ? 'italic' : 'normal',
+      underline: !!styles.underline,
+      linethrough: !!styles.linethrough
+    });
   }
 
   const handleTextStroke = (border) => {
-    object.set('stroke', border.stroke);
-    object.set('strokeWidth', border.strokeWidth);
+    object.set({
+      stroke: border.stroke,
+      strokeWidth: border.strokeWidth
+    });
+  }
+
+  const handleFill = (_fill) => {
+    let fill = transformColors2Fill(_fill);
+    // text gradient nor support percentage https://github.com/fabricjs/fabric.js/issues/8168  
+    if (typeof fill !== 'string') {
+      fill.gradientUnits = 'pixels';
+      const { coords } = fill;
+      fill.coords = {
+        x1: coords.x1 === 1 ? object.width : 0,
+        y1: coords.y1 === 1 ? object.height : 0,
+        x2: coords.x2 === 1 ? object.width : 0,
+        y2: coords.y2 === 1 ? object.height : 0,
+        r1: 0,
+        r2: object.width > object.height ? object.width / 2  : object.height
+      }
+    }
+    if (typeof fill !== 'string') {
+      fill = new fabric.Gradient(fill);
+    }
+    object.set({ fill });
   }
 
   const handleValuesChange = async (values) => {
@@ -46,10 +66,10 @@ export default function TextSetter () {
         } finally {
           object.set(key, values[key]);
         }
-      } else if (key === 'space') {
-        handleFontSpace(values[key]);
       } else if (key === 'border') {
         handleTextStroke(values[key]);
+      } else if (key === 'fill') {
+        handleFill(values[key]);
       } else {
         const selectedText = object.getSelectedText();
         if (selectedText && key === 'fill') {
@@ -69,12 +89,10 @@ export default function TextSetter () {
     form.setFieldsValue({
       fontFamily: object.fontFamily,
       fontSize: object.fontSize,
-      fill: object.fill,
+      fill: transformFill2Colors(object.fill),
       textAlign: object.textAlign,
-      space: {
-        lineHeight: object.lineHeight,
-        charSpacing: object.charSpacing
-      },
+      lineHeight: object.lineHeight,
+      charSpacing: object.charSpacing,
       fontStyles: {
         bold: object.fontWeight === 'bold',
         italic: object.fontStyle === 'italic',
@@ -89,45 +107,73 @@ export default function TextSetter () {
   }, [object]);
 
   return (
-    <Form
-      form={form}
-      onValuesChange={handleValuesChange}
-      layout="inline"
-      className="fabritor-toolbar-form-text"
-    >
-      <FormItem name="fontFamily">
-        <Select
-          options={FONT_PRESET_FAMILY_LIST}
-          style={{ width: 160 }}
-        />
-      </FormItem>
-      <FormItem
-        name="fontSize"
+    <>
+      <Form
+        form={form}
+        onValuesChange={handleValuesChange}
+        colon={false}
       >
-        <FontSizeSetter />
-      </FormItem>
-      <FormItem>
-        <ColorSetter type="fontColor" defaultColor="#000000" />
-      </FormItem>
-      <FormItem
-        name="space"
-      >
-        <SpaceSetter />
-      </FormItem>
-      <FormItem name="textAlign">
-        <AlignSetter />
-      </FormItem>
-      <FormItem name="fontStyles">
-        <FontStyleSetter />
-      </FormItem>
-      <FormItem>
-        <span
-          className="fabritor-toolbar-setter-trigger"
-          onClick={() => { setFxType('text'); }}
+        <FormItem
+          name="fontFamily"
+          label="字体"
         >
-          <FunctionOutlined style={{ fontSize: 22 }} />
-        </span>
-      </FormItem>
-    </Form>
+          <Select
+            options={FONT_PRESET_FAMILY_LIST}
+          />
+        </FormItem>
+        <FormItem
+          name="fontSize"
+          label="字号"
+        >
+          <SliderInputNumber max={400} />
+        </FormItem>
+        <FormItem
+          name="fill"
+          label="颜色"
+        >
+          <ColorSetter type="fontColor" defaultColor="#000000" />
+        </FormItem>
+        <FormItem
+          name="textAlign"
+          label="对齐"
+        >
+          <AlignSetter />
+        </FormItem>
+        <FormItem
+          name="fontStyles"
+          label="样式"
+        >
+          <FontStyleSetter />
+        </FormItem>
+        <FormItem
+          name="charSpacing"
+          label="字间距"
+        >
+          <SliderInputNumber
+            min={-200}
+            max={800}
+          />
+        </FormItem>
+        <FormItem
+          name="lineHeight"
+          label="行间距"
+        >
+          <SliderInputNumber
+            min={0.5}
+            max={2.5}
+            step={0.01}
+          />
+        </FormItem>
+      </Form>
+      <Divider />
+      <div>
+      <span
+        className="fabritor-toolbar-setter-trigger"
+        onClick={() => { setFxType('text'); }}
+      >
+        <FunctionOutlined style={{ fontSize: 22 }} />
+      </span>
+      </div>
+    </>
   )
 }
