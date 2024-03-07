@@ -1,44 +1,17 @@
 import { useContext, useEffect } from 'react';
-import { Form } from 'antd';
+import { Form, Radio, Switch } from 'antd';
 import { GloablStateContext } from '@/context';
-import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
-import StrokeSetter from './StrokeSetter';
+import ColorSetter from '../ColorSetter/Solid';
+import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
+import { BORDER_TYPES, getObjectBorderType, getStrokeDashArray } from '../BorderSetter';
 
 const { Item: FormItem } = Form;
+
+const LINE_BORDER_TYPES = BORDER_TYPES.slice(1);
 
 export default function LineSetter () {
   const { object, editor } = useContext(GloablStateContext);
   const [form] = Form.useForm();
-
-  const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
-    if (!stroke) {
-      return 'none';
-    }
-    if (strokeDashArray?.length) {
-      let [d1, d2] = strokeDashArray;
-      d1 = d1 / strokeWidth;
-      d2 = d2 / strokeWidth;
-      return [d1, d2].join(',');
-    }
-    return 'line';
-  }
-
-  const handleStrokeConfig = (strokeConfig) => {
-    if (!strokeConfig) return;
-    const { strokeWidth = 1, round = false, type = 'line' } = strokeConfig;
-
-    object.setStrokeWidth(strokeWidth);
-    object.set('strokeLineCap', round ? 'round' : 'butt');
-
-    if (type !== 'line') {
-      const dashArray = type.split(',');
-      dashArray[0] = dashArray[0] * strokeWidth;
-      dashArray[1] = dashArray[1] * strokeWidth;
-      object.set('strokeDashArray', dashArray);
-    } else {
-      object.set('strokeDashArray', null);
-    }
-  }
 
   const handleValuesChange = (values) => {
     const keys = Object.keys(values);
@@ -48,8 +21,14 @@ export default function LineSetter () {
         case 'stroke':
           object.set('stroke', values[key]);
           break;
-        case 'strokeConfig':
-          handleStrokeConfig(values[key]);
+        case 'strokeWidth':
+          object.setStrokeWidth(values[key]);
+          break;
+        case 'round':
+          object.set('strokeLineCap', values[key] ? 'round' : 'butt');
+          break;
+        case 'type':
+          object.set('strokeDashArray', getStrokeDashArray({ type: values[key], strokeWidth: object.strokeWidth }));
           break;
         default:
           break;
@@ -64,12 +43,10 @@ export default function LineSetter () {
 
   useEffect(() => {
     form.setFieldsValue({
-      stroke: object.stroke,
-      strokeConfig: {
-        type: getObjectBorderType(object.stroke, object.strokeWidth, object.strokeDashArray),
-        strokeWidth: object.strokeWidth,
-        round: object.strokeLineCap === 'round'
-      }
+      stroke: object.stroke || '#000000',
+      type: getObjectBorderType(object),
+      strokeWidth: object.strokeWidth,
+      round: object.strokeLineCap === 'round'
     });
   }, [object]);
 
@@ -77,17 +54,47 @@ export default function LineSetter () {
     <Form
       form={form}
       onValuesChange={handleValuesChange}
-      layout="inline"
+      colon={false}
     >
       <FormItem
         name="stroke"
+        label="颜色"
       >
         <ColorSetter />
       </FormItem>
+      <FormItem name="type" label="样式" labelCol={{ span: 24 }}>
+        <Radio.Group>
+          {
+            LINE_BORDER_TYPES.map(item => (
+              <Radio.Button key={item.key} value={item.key}>
+                <span
+                  dangerouslySetInnerHTML={{ __html: item.svg }}
+                  style={{ 
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    marginTop: 3
+                  }}
+                />
+              </Radio.Button>
+            ))
+          }
+        </Radio.Group>
+      </FormItem>
       <FormItem
-        name="strokeConfig"
+        name="strokeWidth"
+        label="粗细"
       >
-        <StrokeSetter borderTypesDisabled={object?.sub_type === 'arrow'} />
+        <SliderInputNumber
+          min={1}
+          max={50}
+        />
+      </FormItem>
+      <FormItem
+        name="round"
+        label="圆角"
+        valuePropName="checked"
+      >
+        <Switch />
       </FormItem>
     </Form>
   )

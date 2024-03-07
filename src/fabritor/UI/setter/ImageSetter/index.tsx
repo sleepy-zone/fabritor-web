@@ -6,6 +6,7 @@ import ReplaceSetter from './ReplaceSetter';
 import { GloablStateContext } from '@/context';
 import FlipSetter from './FlipSetter';
 import BorderSetter from './BorderSetter';
+import { getObjectBorderType, getStrokeDashArray } from '../BorderSetter'
 import ClipSetter from './Clip';
 import Title from '@/fabritor/components/Title';
 import FList from '@/fabritor/components/FList';
@@ -18,31 +19,7 @@ const IMAGE_ADVANCE_CONFIG = [
     label: '特效',
     key: 'fx'
   }
-]
-
-const getObjectBorderType = ({stroke, strokeWidth, strokeDashArray}) => {
-  if (!stroke) {
-    return 'none';
-  }
-  if (strokeDashArray?.length) {
-    let [d1, d2] = strokeDashArray;
-    d1 = d1 / (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-    d2 = d2 / (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
-    return [d1, d2].join(',');
-  }
-  return 'line';
-}
-
-const getStrokeDashArray = ({ type, strokeWidth }) => {
-  if (!type) return null;
-  if (type !== 'line') {
-    const dashArray = type.split(',');
-    dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-    dashArray[1] = dashArray[1] * (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
-    return dashArray;
-  } 
-  return null;
-}
+];
 
 export default function ImageSetter () {
   const { object, setFxType, editor } = useContext(GloablStateContext);

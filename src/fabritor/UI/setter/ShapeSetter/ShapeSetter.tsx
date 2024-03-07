@@ -3,23 +3,10 @@ import { fabric } from 'fabric';
 import { Form } from 'antd';
 import { GloablStateContext } from '@/context';
 import ColorSetter from '../ColorSetter';
-import BorderSetter from '../ImageSetter/BorderSetter';
+import BorderSetter, { getObjectBorderType, getStrokeDashArray } from '../BorderSetter';
 import { transformColors2Fill, transformFill2Colors } from '@/utils';
 
 const { Item: FormItem } = Form;
-
-const getObjectBorderType = (stroke, strokeWidth, strokeDashArray) => {
-  if (!stroke) {
-    return 'none';
-  }
-  if (strokeDashArray?.length) {
-    let [d1, d2] = strokeDashArray;
-    d1 = d1 / (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-    d2 = d2 / (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
-    return [d1, d2].join(',');
-  }
-  return 'line';
-}
 
 export default function ShapeSetter () {
   const { object, editor } = useContext(GloablStateContext);
@@ -28,25 +15,20 @@ export default function ShapeSetter () {
   const handleBorder = (border) => {
     const { type, stroke = '#000', strokeWidth, borderRadius } = border || {};
     if (type === 'none') {
-      object.set('stroke', null);
-      object.set('strokeWidth', 1);
+      object.set({ stroke: null, strokeWidth: 1 });
     } else {
-      object.set('stroke', stroke);
-      object.set('strokeWidth', strokeWidth);
-  
-      if (type !== 'line') {
-        const dashArray = type.split(',');
-        dashArray[0] = dashArray[0] * (strokeWidth / 2 > 1 ? strokeWidth / 2 : strokeWidth);
-        dashArray[1] = dashArray[1] * (strokeWidth / 4 > 1 ? strokeWidth / 4 : strokeWidth);
-        object.set('strokeDashArray', dashArray);
-      } else {
-        object.set('strokeDashArray', null);
-      }
+      object.set({
+        stroke,
+        strokeWidth,
+        strokeDashArray: getStrokeDashArray({ type, strokeWidth })
+      });
     }
 
     if (object.type === 'rect') {
-      object.set('rx', borderRadius);
-      object.set('ry', borderRadius);
+      object.set({
+        rx: borderRadius,
+        ry: borderRadius
+      });
     } else {
       object.set('strokeLineJoin', borderRadius > 0 ? 'round' : 'miter');
     }
@@ -75,7 +57,7 @@ export default function ShapeSetter () {
     if (object) {
       form.setFieldsValue({
         border: {
-          type: getObjectBorderType(object.stroke, object.strokeWidth, object.strokeDashArray),
+          type: getObjectBorderType(object),
           stroke: object.stroke || '#000000',
           strokeWidth: object.strokeWidth || 1,
           borderRadius: object.rx || object.ry || (object.strokeLineJoin === 'round' ? 100 : 0)
@@ -89,12 +71,17 @@ export default function ShapeSetter () {
     <Form
       form={form}
       onValuesChange={handleValuesChange}
+      colon={false}
     >
-      <FormItem name="border">
-        <BorderSetter />
-      </FormItem>
-      <FormItem name="fill" label="背景色">
+      <FormItem name="fill" label="颜色">
         <ColorSetter defaultColor="#000000" />
+      </FormItem>
+      <FormItem
+        name="border"
+        label={<span style={{ fontWeight: 'bold', fontSize: 15 }}>边框</span>}
+        labelCol={{ span: 24 }}
+      >
+        <BorderSetter />
       </FormItem>
     </Form>
   )

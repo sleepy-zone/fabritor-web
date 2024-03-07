@@ -27,7 +27,7 @@ html, body {
 }
 
 .fabritor-toolbar-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   cursor: pointer;
   padding: 4px;
