@@ -14,7 +14,7 @@ const { Item: FormItem } = Form;
 
 export default function TextFx () {
   const [form] = Form.useForm();
-  const { object, setFxType, editor } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GloablStateContext);
 
   const handleTextPattern = async (pattern) => {
     if (!object) return;
@@ -106,8 +106,6 @@ export default function TextFx () {
 
   useEffect(() => {
     if (!object || (object.type !== 'textbox' && object.type !== 'f-text')) {
-      setFxType?.('');
-    } else {
       initObjectFx();
     }
   }, [object]);

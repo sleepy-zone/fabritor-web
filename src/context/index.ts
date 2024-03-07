@@ -6,8 +6,6 @@ export interface IGloablStateContext {
   setActiveObject?: (o: fabric.Object) => void;
   isReady?: boolean;
   setReady?: (o: boolean) => void;
-  fxType?: string;
-  setFxType?: (t: string) => void;
   editor?: Editor;
 }
 

@@ -34,7 +34,6 @@ export default function Fabritor () {
   const [editor, setEditor] = useState<Editor | null>(null);
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
-  const [fxType, setFxType] = useState('');
   const contextMenuRef = useRef<any>(null);
 
   const clickHandler = (opt) => {
@@ -116,8 +115,6 @@ export default function Fabritor () {
         setActiveObject,
         isReady,
         setReady,
-        fxType,
-        setFxType,
         editor
       }}
     >

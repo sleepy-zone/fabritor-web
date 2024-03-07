@@ -31,7 +31,7 @@ export default function Toolbar () {
   }
 
   return (
-    <CenterV gap={4}>
+    <CenterV gap={4} style={{ borderRight: '1px solid #e8e8e8', paddingRight: 12 }}>
       <ToolbarItem onClick={enablePan} title={panEnable ? '选择元素' : '拖拽画布'}>
         {
           panEnable? 
