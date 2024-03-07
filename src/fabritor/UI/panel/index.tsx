@@ -1,12 +1,11 @@
 import { Layout, Tabs, Flex, FloatButton } from 'antd';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
-import ImageFx from './ImageFx';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
 
@@ -57,7 +56,6 @@ const OBJECT_TYPES = [
 ];
 
 export default function Panel () {
-  const { fxType, setFxType } = useContext(GloablStateContext);
   const [activeKey, setActiveKey] = useState('design');
   const [designDefaultKey, setDesignDefaultKey] = useState('template');
   const { editor } = useContext(GloablStateContext);
@@ -96,7 +94,6 @@ export default function Panel () {
   const handleTabChange = (k) => {
     setDesignDefaultKey('layers');
     setActiveKey(k);
-    setFxType('');
 
     if (editor?.canvas) {
       if (k === 'paint') {
@@ -106,15 +103,6 @@ export default function Panel () {
       }
     }
   }
-
-  useEffect(() => {
-    if (fxType) {
-      setActiveKey('');
-    } else {
-      setActiveKey(activeKey || 'design');
-      setDesignDefaultKey('layers');
-    }
-  }, [fxType]);
 
   return (
     <Sider
@@ -138,9 +126,6 @@ export default function Panel () {
           })
         }
       />
-      {
-        fxType === 'image' ? <ImageFx /> : null
-      }
       <FloatButton
         icon={<GithubFilled />}
         style={{ left: 10, bottom: 14 }}

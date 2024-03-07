@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Col, Form, Row } from 'antd';
 import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import ReplaceSetter from './ReplaceSetter';
@@ -10,20 +10,24 @@ import { getObjectBorderType, getStrokeDashArray } from '../BorderSetter'
 import ClipSetter from './Clip';
 import Title from '@/fabritor/components/Title';
 import FList from '@/fabritor/components/FList';
+import MoreConfigWrapper from '../Form/MoreConfigWrapper';
+import ImageFx from './ImageFx';
 
 const { Item: FormItem } = Form;
 
-const IMAGE_ADVANCE_CONFIG = [
-  {
-    icon: <FunctionOutlined style={{ fontSize: 22 }} />,
-    label: '特效',
-    key: 'fx'
-  }
-];
-
 export default function ImageSetter () {
-  const { object, setFxType, editor } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GloablStateContext);
   const [form] = Form.useForm();
+  const [openFx, setOpenFx] = useState(false);
+
+  const IMAGE_ADVANCE_CONFIG = [
+    {
+      icon: <FunctionOutlined style={{ fontSize: 22 }} />,
+      label: '滤镜',
+      key: 'fx',
+      onClick: () => { setOpenFx(true) }
+    }
+  ];
 
   const handleImageReplace = (base64) => {
     if (base64) {
@@ -105,17 +109,24 @@ export default function ImageSetter () {
     </Form>
     <Title>高级设置</Title>
     <FList 
-        dataSource={IMAGE_ADVANCE_CONFIG}
-        renderItemChildren={(item) => (
-          <>
-            {item.icon}
-            <span style={{ fontSize: 16, fontWeight: 'bold', margin: '0 6px 0 10px' }}>
-              {item.label}
-            </span>
-            <RightOutlined />
-          </>
-        )}
-      />
+      dataSource={IMAGE_ADVANCE_CONFIG}
+      renderItemChildren={(item) => (
+        <>
+          {item.icon}
+          <span style={{ fontSize: 16, fontWeight: 'bold', margin: '0 6px 0 10px' }}>
+            {item.label}
+          </span>
+          <RightOutlined />
+        </>
+      )}
+    />
+    <MoreConfigWrapper
+      open={openFx}
+      setOpen={setOpenFx}
+      title="滤镜"
+    >
+      <ImageFx />
+    </MoreConfigWrapper>
     </>
   )
 }

@@ -76,7 +76,7 @@ export default function RadioImageGroup (props) {
               className="fabritor-radio-image-group-img"
               style={{ borderColor: value?.type === option.value ? '#ff2222' : '#eeeeee' }}
             >
-              <img src={option.src} style={{ width: '100%' }} />
+              <img src={option.src} />
             </div>
             <span>{option.label}</span>
             {

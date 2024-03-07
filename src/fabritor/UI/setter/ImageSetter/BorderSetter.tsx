@@ -16,9 +16,10 @@ export default function BorderSetter (props) {
         setOpen={setShowMore}
         title="边框"
       >
-        <CommonBorderSetter value={value} onChange={onChange} />
+        <div style={{ marginTop: 24 }}>
+          <CommonBorderSetter value={value} onChange={onChange} />
+        </div>
       </MoreConfigWrapper>
-
     </>
   )
 }

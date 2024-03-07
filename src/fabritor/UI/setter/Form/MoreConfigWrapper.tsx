@@ -39,7 +39,6 @@ export default function MoreConfigWrapper (props) {
         >
           {title}
         </Button>
-        <div style={{ marginTop: 24 }} />
         {children}
       </div>
     </Drawer>

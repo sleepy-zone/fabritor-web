@@ -117,6 +117,7 @@ export default function TextFx () {
       form={form}
       onValuesChange={handleFxValueChange}
       colon={false}
+      style={{ marginTop: 24 }}
     >
       <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>描边</span>} />
       <FormItem label="颜色">

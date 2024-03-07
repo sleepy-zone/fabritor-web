@@ -22,7 +22,7 @@ const handleFilterValue = (filter) => {
 }
 
 export default function ImageFx () {
-  const { object, setFxType } = useContext(GloablStateContext);
+  const { object } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleFxValueChange = (values) => {
@@ -63,24 +63,19 @@ export default function ImageFx () {
   }
 
   useEffect(() => {
-    if (!object || object.type !== 'f-image') {
-      setFxType('');
-    } else {
+    if (object && object.type === 'f-image') {
       initImageFx();
     }
   }, [object]);
 
   return (
-    <div className="fabritor-setter-panel">
-      <Form
-        form={form}
-        onValuesChange={handleFxValueChange}
-        style={{ padding: '0 16px' }}
-      >
-        <FormItem name="filter">
-          <FilterGroup />
-        </FormItem>
-      </Form>
-    </div>
+    <Form
+      form={form}
+      onValuesChange={handleFxValueChange}
+    >
+      <FormItem name="filter">
+        <FilterGroup />
+      </FormItem>
+    </Form>
   )
 }
