@@ -24,7 +24,7 @@ const iconStyle = { fontSize: 18, marginRight: 0 };
 
 const OBJECT_TYPES = [
   {
-    label: '设计',
+    label: '图层',
     value: 'design',
     icon: <AlertOutlined style={iconStyle} />
   },
@@ -56,13 +56,11 @@ const OBJECT_TYPES = [
 ];
 
 export default function Panel () {
-  const [activeKey, setActiveKey] = useState('design');
-  const [designDefaultKey, setDesignDefaultKey] = useState('template');
   const { editor } = useContext(GloablStateContext);
 
   const renderPanel = (value) => {
     if (value === 'design') {
-      return <DesignPanel defaultKey={designDefaultKey} />;
+      return <DesignPanel />;
     }
     if (value === 'text') {
       return <TextPanel />;
@@ -92,9 +90,6 @@ export default function Panel () {
   }
 
   const handleTabChange = (k) => {
-    setDesignDefaultKey('layers');
-    setActiveKey(k);
-
     if (editor?.canvas) {
       if (k === 'paint') {
         editor.canvas.isDrawingMode = true;
@@ -111,7 +106,6 @@ export default function Panel () {
       className="fabritor-sider"
     >
       <Tabs
-        activeKey={activeKey}
         tabPosition="left"
         style={{ flex: 1, overflow: 'auto' }}
         size="small"
