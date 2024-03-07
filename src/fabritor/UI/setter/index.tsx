@@ -41,11 +41,10 @@ export default function Setter () {
         return <LineSetter />;
       case 'f-image':
         return <ImageSetter />;
-      case 'image':
       case 'path':
       case 'group':
-      case 'activeSelection':
-        return null;
+      case 'activeSelection':xw
+        return <SketchSetter />;
       default:
         return <SketchSetter />;
     }

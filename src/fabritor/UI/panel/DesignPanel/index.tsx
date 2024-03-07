@@ -1,10 +1,9 @@
-import { Flex, List } from 'antd';
+import { Flex, List, Empty } from 'antd';
 import { useEffect, useContext, useState } from 'react';
 import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
-import { GroupOutlined } from '@ant-design/icons';
+import { GroupOutlined, HeartTwoTone } from '@ant-design/icons';
 import ContextMenu from '@/fabritor/components/ContextMenu';
-import FList from '@/fabritor/components/FList';
 
 export default function Layer () {
   const { isReady, object: activeObject, editor } = useContext(GloablStateContext);
@@ -80,29 +79,41 @@ export default function Layer () {
     <div
       className="fabritor-panel-wrapper"
     >
-      <List
-        dataSource={layers}
-        renderItem={(item: any) => (
-          <ContextMenu object={item.object} noCareOpen>
-            <List.Item
-              className="fabritor-list-item"
-              style={{
-                border: activeObject === item.object ? ' 2px solid #ff2222' : '2px solid transparent',
-                padding: '10px 16px'
-              }}
-              onClick={() => { handleItemClick(item) }}
-            >
-              <Flex justify="space-between" align="center" style={{ width: '100%', height: 40 }}>
-                <img src={item.cover} style={{ maxWidth: 200, maxHeight: 34 }} />
-                {
-                  item.group ?
-                  <GroupOutlined style={{ fontSize: 18, color: 'rgba(17, 23, 29, 0.6)' }} /> : null
-                }
-              </Flex>
-            </List.Item>
-          </ContextMenu>
-        )}
-      />
+      {
+        layers.length ? 
+        <List
+          dataSource={layers}
+          renderItem={(item: any) => (
+            <ContextMenu object={item.object} noCareOpen>
+              <List.Item
+                className="fabritor-list-item"
+                style={{
+                  border: activeObject === item.object ? ' 2px solid #ff2222' : '2px solid transparent',
+                  padding: '10px 16px'
+                }}
+                onClick={() => { handleItemClick(item) }}
+              >
+                <Flex justify="space-between" align="center" style={{ width: '100%', height: 40 }}>
+                  <img src={item.cover} style={{ maxWidth: 200, maxHeight: 34 }} />
+                  {
+                    item.group ?
+                    <GroupOutlined style={{ fontSize: 18, color: 'rgba(17, 23, 29, 0.6)' }} /> : null
+                  }
+                </Flex>
+              </List.Item>
+            </ContextMenu>
+          )}
+        /> :
+        <Empty
+          image={null}
+          description={
+            <div>
+              <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 40 }} />
+              <p style={{ color: '#aaa', fontSize: 16 }}>开始挥洒你的创意 ~</p>
+            </div>
+          }
+        />
+      }
     </div>
   )
 }
