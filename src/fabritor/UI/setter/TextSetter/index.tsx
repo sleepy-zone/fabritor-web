@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { fabric } from 'fabric';
-import { Form, Select, List } from 'antd';
+import { Form, Select } from 'antd';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
 import { GloablStateContext } from '@/context';
 import FontStyleSetter from './FontStyleSetter';
@@ -9,7 +9,6 @@ import ColorSetter from '../ColorSetter';
 import { loadFont, transformColors2Fill, transformFill2Colors } from '@/utils';
 import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
-import Center from '@/fabritor/components/Center';
 import Title from '@/fabritor/components/Title';
 import FList from '@/fabritor/components/FList';
 

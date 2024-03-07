@@ -1,7 +1,7 @@
 import Cropper from 'cropperjs';
 import { useRef, useState, useEffect } from 'react';
 import { Button, Space } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+import { CloseOutlined, CheckOutlined, ExpandOutlined } from '@ant-design/icons';
 
 import 'cropperjs/dist/cropper.css';
 
@@ -72,7 +72,7 @@ export default function ClipSetter (props) {
 
   return (
     <div>
-      <span className="fabritor-toolbar-setter-trigger" onClick={startCrop}>裁剪</span>
+      <Button block icon={<ExpandOutlined />} onClick={startCrop}>裁剪</Button>
 
       {
         showCrop ?

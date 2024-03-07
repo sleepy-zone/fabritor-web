@@ -1,15 +1,24 @@
 import { fabric } from 'fabric';
 import { useContext, useEffect } from 'react';
-import { Form } from 'antd';
-import { FunctionOutlined } from '@ant-design/icons';
-import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
+import { Col, Form, Row } from 'antd';
+import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import ReplaceSetter from './ReplaceSetter';
 import { GloablStateContext } from '@/context';
 import FlipSetter from './FlipSetter';
 import BorderSetter from './BorderSetter';
 import ClipSetter from './Clip';
+import Title from '@/fabritor/components/Title';
+import FList from '@/fabritor/components/FList';
 
 const { Item: FormItem } = Form;
+
+const IMAGE_ADVANCE_CONFIG = [
+  {
+    icon: <FunctionOutlined style={{ fontSize: 22 }} />,
+    label: '特效',
+    key: 'fx'
+  }
+]
 
 const getObjectBorderType = ({stroke, strokeWidth, strokeDashArray}) => {
   if (!stroke) {
@@ -92,32 +101,44 @@ export default function ImageSetter () {
   }, [object]);
 
   return (
+    <>
     <Form
-      layout="vertical"
       form={form}
       onValuesChange={handleValuesChange}
+      colon={false}
     >
       <FormItem name="img">
         <ReplaceSetter />
       </FormItem>
-      {/* <FormItem name="flip">
-        <FlipSetter />
-      </FormItem> */}
-      <FormItem name="border" label="边框配置">
-        <BorderSetter />
-      </FormItem>
-      <FormItem>
-        <ClipSetter object={object} />
-      </FormItem>
-      <FormItem>
-        <span
-          className="fabritor-toolbar-setter-trigger"
-          onClick={() => { setFxType('image'); }}
-        >
-          <FunctionOutlined style={{ fontSize: 22 }} />
-        </span>
-      </FormItem>
-      <ToolbarDivider />
+      <Row gutter={8}>
+        <Col span={12}>
+          <FormItem>
+            <ClipSetter object={object} />
+          </FormItem>
+        </Col>
+        {/* <FormItem name="flip">
+          <FlipSetter />
+        </FormItem> */}
+        <Col span={12}>
+          <FormItem name="border">
+            <BorderSetter />
+          </FormItem>
+        </Col>
+      </Row>
     </Form>
+    <Title>高级设置</Title>
+    <FList 
+        dataSource={IMAGE_ADVANCE_CONFIG}
+        renderItemChildren={(item) => (
+          <>
+            {item.icon}
+            <span style={{ fontSize: 16, fontWeight: 'bold', margin: '0 6px 0 10px' }}>
+              {item.label}
+            </span>
+            <RightOutlined />
+          </>
+        )}
+      />
+    </>
   )
 }

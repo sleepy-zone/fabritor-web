@@ -1,9 +1,9 @@
 import { Flex, Slider, InputNumber } from 'antd';
 
 export default function SliderInputNumber (props) {
-  const { min = 1, max = 100, step = 1, sliderProps, inputProps, onChange, value } = props;
+  const { min = 1, max = 100, step = 1, style, sliderProps, inputProps, onChange, value } = props;
   return (
-    <Flex gap={4}>
+    <Flex gap={4} style={style}>
       <Slider
         style={{ flex: 1 }}
         min={min}
