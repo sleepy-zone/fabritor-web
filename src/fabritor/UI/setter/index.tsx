@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Layout, Typography } from 'antd';
 import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import SketchSetter from './SketchSetter';
 import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
+import { LineSetter, ShapeSetter } from './ShapeSetter';
 import { CenterV } from '@/fabritor/components/Center';
 
 const { Sider } = Layout;
@@ -28,24 +29,23 @@ export default function Setter () {
       case 'textbox':
       case 'f-text':
         return <TextSetter />;
-      // case 'rect':
-      // case 'circle':
-      // case 'triangle':
-      // case 'polygon':
-      // case 'ellipse':  
-      //   return <ShapeSetter />;
-      // case 'line':
-      // case 'f-line':
-      // case 'f-arrow':
-      // case 'f-tri-arrow':
-      //   return <LineSetter />;
+      case 'rect':
+      case 'circle':
+      case 'triangle':
+      case 'polygon':
+      case 'ellipse':  
+        return <ShapeSetter />;
+      case 'f-line':
+      case 'f-arrow':
+      case 'f-tri-arrow':
+        return <LineSetter />;
       case 'f-image':
         return <ImageSetter />;
-      // case 'image':
-      // case 'path':
-      // case 'group':
-      // case 'activeSelection':
-      //   return null;
+      case 'image':
+      case 'path':
+      case 'group':
+      case 'activeSelection':
+        return null;
       default:
         return <SketchSetter />;
     }

@@ -1,8 +1,10 @@
 import { useContext, useEffect } from 'react';
+import { fabric } from 'fabric';
 import { Form } from 'antd';
 import { GloablStateContext } from '@/context';
-import ColorSetter from '@/fabritor/components/ColorSetter';
+import ColorSetter from '../ColorSetter';
 import BorderSetter from '../ImageSetter/BorderSetter';
+import { transformColors2Fill, transformFill2Colors } from '@/utils';
 
 const { Item: FormItem } = Form;
 
@@ -56,7 +58,11 @@ export default function ShapeSetter () {
 
   const handleValuesChange = (values) => {
     if (values.fill) {
-      object.set('fill', values.fill);
+      let fill = transformColors2Fill(values.fill);
+      if (typeof fill !== 'string') {
+        fill = new fabric.Gradient(fill);
+      }
+      object.set('fill', fill);
       editor.canvas.requestRenderAll();
     }
     if (values.border) {
@@ -74,7 +80,7 @@ export default function ShapeSetter () {
           strokeWidth: object.strokeWidth || 1,
           borderRadius: object.rx || object.ry || (object.strokeLineJoin === 'round' ? 100 : 0)
         },
-        fill: object.fill
+        fill: transformFill2Colors(object.fill)
       });
     }
   }, [object]);
@@ -83,13 +89,12 @@ export default function ShapeSetter () {
     <Form
       form={form}
       onValuesChange={handleValuesChange}
-      layout="inline"
     >
-      <FormItem>
-        <ColorSetter defaultColor="#000000" />
-      </FormItem>
       <FormItem name="border">
         <BorderSetter />
+      </FormItem>
+      <FormItem name="fill" label="背景色">
+        <ColorSetter defaultColor="#000000" />
       </FormItem>
     </Form>
   )
