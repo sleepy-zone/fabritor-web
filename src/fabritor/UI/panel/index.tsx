@@ -1,14 +1,11 @@
 import { Layout, Tabs, Flex, FloatButton } from 'antd';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
-import Header from '../header';
-import TextFx from './TextFx';
-import ImageFx from './ImageFx';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
 
@@ -27,7 +24,7 @@ const iconStyle = { fontSize: 18, marginRight: 0 };
 
 const OBJECT_TYPES = [
   {
-    label: '设计',
+    label: '图层',
     value: 'design',
     icon: <AlertOutlined style={iconStyle} />
   },
@@ -59,14 +56,11 @@ const OBJECT_TYPES = [
 ];
 
 export default function Panel () {
-  const { fxType, setFxType } = useContext(GloablStateContext);
-  const [activeKey, setActiveKey] = useState('design');
-  const [designDefaultKey, setDesignDefaultKey] = useState('template');
   const { editor } = useContext(GloablStateContext);
 
   const renderPanel = (value) => {
     if (value === 'design') {
-      return <DesignPanel defaultKey={designDefaultKey} />;
+      return <DesignPanel />;
     }
     if (value === 'text') {
       return <TextPanel />;
@@ -96,10 +90,6 @@ export default function Panel () {
   }
 
   const handleTabChange = (k) => {
-    setDesignDefaultKey('layers');
-    setActiveKey(k);
-    setFxType('');
-
     if (editor?.canvas) {
       if (k === 'paint') {
         editor.canvas.isDrawingMode = true;
@@ -109,24 +99,13 @@ export default function Panel () {
     }
   }
 
-  useEffect(() => {
-    if (fxType) {
-      setActiveKey('');
-    } else {
-      setActiveKey(activeKey || 'design');
-      setDesignDefaultKey('layers');
-    }
-  }, [fxType]);
-
   return (
     <Sider
       style={siderStyle}
       width={420}
       className="fabritor-sider"
     >
-      <Header />
       <Tabs
-        activeKey={activeKey}
         tabPosition="left"
         style={{ flex: 1, overflow: 'auto' }}
         size="small"
@@ -141,12 +120,6 @@ export default function Panel () {
           })
         }
       />
-      {
-        fxType === 'text' ? <TextFx /> : null
-      }
-      {
-        fxType === 'image' ? <ImageFx /> : null
-      }
       <FloatButton
         icon={<GithubFilled />}
         style={{ left: 10, bottom: 14 }}

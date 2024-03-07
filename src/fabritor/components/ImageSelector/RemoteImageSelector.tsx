@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Input, Popover, Space } from 'antd';
 
 export default function RemoteImageSelector (props) {
-  const { onChange } = props;
+  const { onChange, ...rest } = props;
   const [url, setUrl] = useState('');
 
   const handleClick = () => {
@@ -22,7 +22,7 @@ export default function RemoteImageSelector (props) {
       title="请输入地址："
       trigger="click"
     >
-      <Button type="primary" size="large">
+      <Button type="primary" size="large" {...rest}>
         添加远程图片
       </Button>
     </Popover>

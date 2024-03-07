@@ -15,12 +15,24 @@ html, body {
   overflow: auto !important;
 }
 
-.fabritor-toolbar-setter-trigger {
-  display: flex;
+.fabritor-layout h5.ant-typography {
+  margin: 0;
+}
+
+.fabritor-color-setter .rcs .rc-input-number-affix-wrapper {
+  height: 20px;
+}
+.fabritor-color-setter .rcs-preset-colors {
+  gap: 5;
+}
+
+.fabritor-toolbar-item {
+  display: inline-flex;
   align-items: center;
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
+  line-height: 0;
 
   &:hover {
     background-color: rgba(64,87,109,.07);

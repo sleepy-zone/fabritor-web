@@ -1,0 +1,83 @@
+.fabritor-toolbar {
+  height: 46px;
+  background-color: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 0 16px;
+  overflow-x: auto;
+}
+
+.fabritor-crop-wrapper {
+  .cropper-line {
+    background-color: #ff2222;
+    opacity: 1;
+    &.line-n {
+      height: 2px;
+      top: -2px;
+    }
+    &.line-e {
+      width: 2px;
+      right: -2px;
+    }
+    &.line-s {
+      height: 2px;
+      bottom: -2px;
+    }
+    &.line-w {
+      width: 2px;
+      left: -2px;
+    }
+  }
+  .cropper-point {
+    opacity: 1;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 2px 2px rgba(221,221,221,1);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+
+    &.point-ne {
+      right: -5px;
+      top: -5px;
+    }
+    &.point-nw {
+      left: -5px;
+      top: -5px;
+    }
+    &.point-sw {
+      left: -5px;
+      bottom: -5px;
+    }
+    &.point-se {
+      right: -5px;
+      bottom: -5px;
+    }
+    &.point-n {
+      width: 20px;
+      height: 6px;
+      border-radius: 10px;
+      top: -3px;
+    }
+    &.point-w {
+      width: 6px;
+      height: 20px;
+      border-radius: 10px;
+      left: -3px;
+    }
+    &.point-s {
+      width: 20px;
+      height: 6px;
+      border-radius: 10px;
+      bottom: -3px;
+    }
+    &.point-e {
+      width: 6px;
+      height: 20px;
+      border-radius: 10px;
+      right: -3px;
+    }
+  }
+}
+
+.rcs-preset-colors {
+  gap: 5px !important;
+}

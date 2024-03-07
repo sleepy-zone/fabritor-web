@@ -1,11 +1,12 @@
-import { Tooltip, Flex, Form, Slider, Button } from 'antd';
+import { Tooltip, Flex, Form, Button } from 'antd';
 import Title from '@/fabritor/components/Title';
 import { useContext, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 import { DRAW_MODE_CURSOR, DRAG_ICON } from '@/assets/icon';
-import ColorSetter from '@/fabritor/components/ColorSetter/Solid';
+import ColorSetter from '@/fabritor/UI/setter/ColorSetter/Solid';
 import BrushList from './brush-list';
 import { GloablStateContext } from '@/context';
+import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 
 const { Item: FormItem } = Form;
 
@@ -14,7 +15,6 @@ export default function PaintPanel () {
   const [shadowForm] = Form.useForm();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDrawingMode, setIsDrawingMode] = useState(true);
-  const [isClearMode, setIsClearMode] = useState(false); // TODO ClearBrush
   const { editor } = useContext(GloablStateContext);
 
   const handleBrushChange = (options) => {
@@ -121,11 +121,13 @@ export default function PaintPanel () {
           ))
         }
       </Flex>
-      <Title>画笔设置</Title>
       <Form
         form={penForm}
         onValuesChange={handlePenChange}
+        style={{ marginBottom: 0, marginTop: 16 }}
+        colon={false}
       >
+        <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>画笔</span>} />
         <FormItem
           label="颜色"
           name="color"
@@ -136,14 +138,15 @@ export default function PaintPanel () {
           label="线宽"
           name="width"
         >
-          <Slider min={1} max={100} />
+          <SliderInputNumber min={1} max={100} />
         </FormItem>
       </Form>
-      <Title>阴影设置</Title>
       <Form
         form={shadowForm}
         onValuesChange={handleShadowChange}
+        colon={false}
       >
+        <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>阴影</span>} />
         <FormItem
           label="颜色"
           name="color"
@@ -154,13 +157,13 @@ export default function PaintPanel () {
           label="宽度"
           name="width"
         >
-          <Slider min={0} max={50} />
+          <SliderInputNumber min={0} max={50} />
         </FormItem>
         <FormItem
           label="偏移"
           name="offset"
         >
-          <Slider min={0} max={50} />
+          <SliderInputNumber min={0} max={50} />
         </FormItem>
       </Form>
       <Title>操作</Title>
@@ -168,7 +171,6 @@ export default function PaintPanel () {
         <Button style={{ width: 64 }} onClick={stopFreeDrawMode} type={isDrawingMode ? "default" : "primary"} title="停止绘图">
           <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
         </Button>
-        {/* <Button icon={<ClearOutlined />} style={{ width: 64 }} onClick={startClearMode} type={!isClearMode ? "default" : "primary"}/> */}
       </Flex>
     </div>
   )

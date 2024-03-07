@@ -1,14 +1,14 @@
 import { fabric } from 'fabric';
 import { useEffect, useRef, useState } from 'react';
 import { Layout, Spin } from 'antd';
+import Header from './UI/header';
 import Panel from './UI/panel';
-import Toolbar from './UI/toolbar';
+import Setter from './UI/setter';
 import Editor from '@/editor';
 import { GloablStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
 import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
-import Export from './UI/header/Export';
 
 import '../font.css';
 
@@ -34,7 +34,6 @@ export default function Fabritor () {
   const [editor, setEditor] = useState<Editor | null>(null);
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
-  const [fxType, setFxType] = useState('');
   const contextMenuRef = useRef<any>(null);
 
   const clickHandler = (opt) => {
@@ -116,25 +115,23 @@ export default function Fabritor () {
         setActiveObject,
         isReady,
         setReady,
-        fxType,
-        setFxType,
         editor
       }}
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">
         <Spin spinning={!isReady} fullscreen />
         <ObjectRotateAngleTip />
-        <Export />
+        <Header />
         <Layout>
           <Panel />
           <Content style={contentStyle}>
-            <Toolbar />
             <ContextMenu ref={contextMenuRef} object={activeObject}>
               <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
                 <canvas ref={canvasEl} />
               </div>
             </ContextMenu>
           </Content>
+          <Setter />
         </Layout>
       </Layout>
     </GloablStateContext.Provider>

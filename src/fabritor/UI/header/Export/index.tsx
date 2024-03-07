@@ -1,4 +1,4 @@
-import { FloatButton, Dropdown } from 'antd';
+import { Dropdown, Button } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { downloadFile } from '@/utils';
@@ -53,12 +53,20 @@ export default function Export () {
     }
   }
   return (
-    <Dropdown 
-      menu={{ items, onClick: handleClick }} 
-      arrow={{ pointAtCenter: true }}
-      placement="bottom"
+    <div
+      style={{
+        width: 280,
+        textAlign: 'right',
+        paddingRight: 16
+      }}
     >
-      <FloatButton type="primary" icon={<ExportOutlined />}/>
-    </Dropdown>
+      <Dropdown 
+        menu={{ items, onClick: handleClick }} 
+        arrow={{ pointAtCenter: true }}
+        placement="bottom"
+      >
+        <Button type="primary" icon={<ExportOutlined />}>导出</Button>
+      </Dropdown>
+    </div>
   )
 }

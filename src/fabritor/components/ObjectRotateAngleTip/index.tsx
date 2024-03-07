@@ -1,4 +1,5 @@
 import { GloablStateContext } from '@/context';
+import { Tag } from 'antd';
 import { useState, useContext, useEffect } from 'react';
 
 function ObjectRotateAngleTip () {
@@ -39,17 +40,7 @@ function ObjectRotateAngleTip () {
         ...pos
       }}
     >
-      <div
-        style={{
-          padding: '6px 6px',
-          color: '#fff',
-          backgroundColor: 'rgba(0, 0, 0, 0.85)',
-          borderRadius: 6
-        }}
-        role="tooltip"
-      >
-        {content}
-      </div>
+      <Tag color="rgba(0, 0, 0, 0.85)">{content}</Tag>
     </div>
   )
 }
