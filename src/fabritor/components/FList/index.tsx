@@ -2,7 +2,7 @@ import { List } from 'antd';
 import Center from '../Center';
 
 export default function FList (props) {
-  const { dataSource, onClick, renderItemChildren, ...rest } = props;
+  const { dataSource, renderItemChildren, ...rest } = props;
   return (
     <List
       dataSource={dataSource}
@@ -13,7 +13,7 @@ export default function FList (props) {
             border: '2px solid transparent',
             padding: '10px 16px'
           }}
-          onClick={() => { onClick?.(item) }}
+          onClick={() => { item?.onClick?.(item) }}
         >
           <Center style={{ height: 40 }}>
             {renderItemChildren(item)}

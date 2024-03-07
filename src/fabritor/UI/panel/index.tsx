@@ -6,7 +6,6 @@ import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
 import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
-import TextFx from './TextFx';
 import ImageFx from './ImageFx';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
@@ -139,9 +138,6 @@ export default function Panel () {
           })
         }
       />
-      {
-        fxType === 'text' ? <TextFx /> : null
-      }
       {
         fxType === 'image' ? <ImageFx /> : null
       }

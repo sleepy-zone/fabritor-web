@@ -1,14 +1,14 @@
 import { useContext, useEffect } from 'react';
 import { fabric } from 'fabric';
 import { Slider, Form } from 'antd';
-import Title from '@/fabritor/components/Title';
-import ColorSetter from '@/fabritor/components/ColorSetter';
+import ColorSetter from '../../ColorSetter';
 import { GloablStateContext } from '@/context';
 import TextShadow from './TextShadow';
 import TextPath from './TextPath';
 import TextPattern from './TextPattern';
 import { drawTextPath, getPathOffset, removeTextPath } from '@/editor/objects/textbox';
 import { loadImageDom } from '@/editor/objects/image';
+import { transformColors2Fill, transformFill2Colors } from '@/utils';
 
 const { Item: FormItem } = Form;
 
@@ -36,6 +36,15 @@ export default function TextFx () {
     }
   }
 
+  const handleStroke = (_stroke) => {
+    let stroke = transformColors2Fill(_stroke);
+    if (typeof stroke !== 'string') {
+      stroke = new fabric.Gradient(stroke);
+    }
+    object.set('stroke', stroke);
+    editor.canvas.requestRenderAll();
+  }
+
   const handleFxValueChange = async (values) => {
     if (!object || !editor) return;
     const keys = Object.keys(values);
@@ -61,6 +70,8 @@ export default function TextFx () {
         }
       } else if (key === 'pattern') {
         await handleTextPattern(v);
+      } else if (key === 'stroke') {
+        handleStroke(v);
       } else {
         object.set(key as (keyof fabric.Object), v);
       }
@@ -73,7 +84,7 @@ export default function TextFx () {
     if (!object) return;
     const fill = object.fill;
     form.setFieldsValue({
-      stroke: object.stroke,
+      stroke: transformFill2Colors(object.stroke),
       strokeWidth: object.strokeWidth || 0,
       textBackgroundColor: object.textBackgroundColor,
       shadow: {
@@ -102,35 +113,33 @@ export default function TextFx () {
   }, [object]);
 
   return (
-    <div className="fabritor-setter-panel">
-      <Form
-        form={form}
-        onValuesChange={handleFxValueChange}
-        style={{ padding: '0 16px' }}
-      >
-        <Title>描边</Title>
-        <FormItem label="颜色">
-          <ColorSetter effectKey="stroke" />
-        </FormItem>
-        <FormItem label="粗细" name="strokeWidth">
-          <Slider
-            min={0}
-            max={100}
-          />
-        </FormItem>
-        <Title>阴影</Title>
-        <FormItem name="shadow">
-          <TextShadow />
-        </FormItem>
-        <Title>波浪型文字</Title>
-        <FormItem name="path">
-          <TextPath />
-        </FormItem>
-        <Title>图片填充</Title>
-        <FormItem name="pattern">
-          <TextPattern />
-        </FormItem>
-      </Form>
-    </div>
+    <Form
+      form={form}
+      onValuesChange={handleFxValueChange}
+      colon={false}
+    >
+      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>描边</span>} />
+      <FormItem label="颜色">
+        <ColorSetter effectKey="stroke" />
+      </FormItem>
+      <FormItem label="粗细" name="strokeWidth">
+        <Slider
+          min={0}
+          max={100}
+        />
+      </FormItem>
+
+      <FormItem name="shadow" style={{ marginBottom: 0 }}>
+        <TextShadow />
+      </FormItem>
+      
+      <FormItem name="path" style={{ marginBottom: 0 }}>
+        <TextPath />
+      </FormItem>
+      
+      <FormItem name="pattern">
+        <TextPattern />
+      </FormItem>
+    </Form>
   )
 }

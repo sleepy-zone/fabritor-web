@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 import { Form, Select } from 'antd';
 import { FONT_PRESET_FAMILY_LIST } from '@/utils/constants';
@@ -11,20 +11,24 @@ import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 import Title from '@/fabritor/components/Title';
 import FList from '@/fabritor/components/FList';
+import MoreConfigWrapper from '../Form/MoreConfigWrapper';
+import TextFx from './TextFx';
 
 const { Item: FormItem } = Form;
-
-const TEXT_ADVANCE_CONFIG = [
-  {
-    icon: <FunctionOutlined style={{ fontSize: 22 }} />,
-    label: '特效',
-    key: 'fx'
-  }
-]
 
 export default function TextSetter () {
   const { object, editor }= useContext(GloablStateContext);
   const [form] = Form.useForm();
+  const [openFx, setOpenFx] = useState(false);
+
+  const TEXT_ADVANCE_CONFIG = [
+    {
+      icon: <FunctionOutlined style={{ fontSize: 22 }} />,
+      label: '特效',
+      key: 'fx',
+      onClick: () => { setOpenFx(true) }
+    }
+  ]
 
   const handleFontStyles = (styles) => {
     object.set({
@@ -192,6 +196,13 @@ export default function TextSetter () {
           </>
         )}
       />
+      <MoreConfigWrapper
+        open={openFx}
+        setOpen={setOpenFx}
+        title="文字特效"
+      >
+        <TextFx />
+      </MoreConfigWrapper>
     </>
   )
 }

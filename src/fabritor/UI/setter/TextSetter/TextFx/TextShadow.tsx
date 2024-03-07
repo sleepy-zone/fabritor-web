@@ -1,9 +1,10 @@
 import { Slider, Form, Switch } from 'antd';
+import ColorSetter from '../../ColorSetter/Solid';
 import { useEffect } from 'react';
 
 const { Item: FormItem } = Form;
 
-export default function TextPath (props) {
+export default function TextShadow (props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
 
@@ -21,14 +22,24 @@ export default function TextPath (props) {
   }, [value]);
 
   return (
-    <Form form={form} onValuesChange={handleChange}>
+    <Form form={form} onValuesChange={handleChange} colon={false}>
+      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>阴影</span>} />
       <FormItem label="启用" name="enable" valuePropName="checked">
         <Switch />
       </FormItem>
+      <FormItem label="颜色" name="color">
+        <ColorSetter />
+      </FormItem>
+      <FormItem label="模糊" name="blur">
+        <Slider
+          min={0}
+          max={100}
+        />
+      </FormItem>
       <FormItem label="偏移" name="offset">
         <Slider
-          min={-100}
-          max={100}
+          min={-180}
+          max={180}
         />
       </FormItem>
     </Form>
