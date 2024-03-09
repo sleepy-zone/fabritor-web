@@ -183,7 +183,6 @@ export default function TextSetter () {
           />
         </FormItem>
       </Form>
-      <Title>高级设置</Title>
       <FList 
         dataSource={TEXT_ADVANCE_CONFIG}
         renderItemChildren={(item) => (

@@ -4,11 +4,9 @@ import { Col, Form, Row } from 'antd';
 import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import ReplaceSetter from './ReplaceSetter';
 import { GloablStateContext } from '@/context';
-import FlipSetter from './FlipSetter';
 import BorderSetter from './BorderSetter';
 import { getObjectBorderType, getStrokeDashArray } from '../BorderSetter'
 import ClipSetter from './Clip';
-import Title from '@/fabritor/components/Title';
 import FList from '@/fabritor/components/FList';
 import MoreConfigWrapper from '../Form/MoreConfigWrapper';
 import ImageFx from './ImageFx';
@@ -97,9 +95,6 @@ export default function ImageSetter () {
             <ClipSetter object={object} />
           </FormItem>
         </Col>
-        {/* <FormItem name="flip">
-          <FlipSetter />
-        </FormItem> */}
         <Col span={12}>
           <FormItem name="border">
             <BorderSetter />
@@ -107,7 +102,6 @@ export default function ImageSetter () {
         </Col>
       </Row>
     </Form>
-    <Title>高级设置</Title>
     <FList 
       dataSource={IMAGE_ADVANCE_CONFIG}
       renderItemChildren={(item) => (

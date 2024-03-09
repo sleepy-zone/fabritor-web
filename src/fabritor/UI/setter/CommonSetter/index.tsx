@@ -1,19 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import { GloablStateContext } from '@/context';
-import { Form } from 'antd';
-import { DragOutlined } from '@ant-design/icons';
-import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
+import { LockOutlined, UnlockOutlined, CopyOutlined, DeleteOutlined } from '@ant-design/icons';
 import { SKETCH_ID } from '@/utils/constants';
-import OpacitySetter from '@/fabritor/components/OpacitySetter';
-import { DRAG_ICON } from '@/assets/icon';
-
-const { Item: FormItem } = Form;
+import OpacitySetter from './OpacitySetter';
+import ToolbarItem from '../../header/Toolbar/ToolbarItem';
+import { CenterV } from '@/fabritor/components/Center';
+import { copyObject, pasteObject, removeObject } from '@/utils/helper';
+import FlipSetter from './FlipSetter';
 
 export default function CommonSetter () {
-  const { object, isReady, editor } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GloablStateContext);
   const [lock, setLock] = useState(false);
   const [opacity, setOpacity] = useState(1);
-  const [panEnable, setPanEnable] = useState(false);
 
   const handleLock = () => {
     object.set({
@@ -33,58 +31,63 @@ export default function CommonSetter () {
     editor.fireCustomModifiedEvent();
   }
 
-  const enablePan = () => {
-    const enable = editor.switchEnablePan();
-    setPanEnable(enable);
+  const handleFlip = (key) => {
+    object.set(key, !object[key]);
+    editor.canvas.requestRenderAll();
+    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {
     if (object) {
-      setLock(object?.lockMovementX);
-      setOpacity(object?.opacity);
+      setLock(object.lockMovementX);
+      setOpacity(object.opacity);
     }
   }, [object]);
 
+  if (!object || object.id === SKETCH_ID) return null;
+
   return (
     <>
-      <Form
-        layout="inline"
-        className="fabritor-toolbar-form-text"
-      >
-        {
-          object && object.id !== SKETCH_ID ?
-          <FormItem>
-            <span className="fabritor-toolbar-setter-trigger" onClick={handleLock}>
-              {
-                lock ? 
-                <UnlockOutlined style={{ fontSize: 22 }} /> :
-                <LockOutlined style={{ fontSize: 22 }} />
-              }
-            </span>
-          </FormItem> : null
-        }
-        {
-          object && object.id !== SKETCH_ID ?
-          <FormItem>
-            <OpacitySetter value={opacity} onChange={handleOpacity} />
-          </FormItem> : null
-        }
-      </Form>
-      <Form
-        layout="inline"
-        className="fabritor-toolbar-form-text"
-        style={{ marginLeft: 'auto' }}
-      >
-        <FormItem>
-          <span className="fabritor-toolbar-setter-trigger" onClick={enablePan}>
-            {
-              panEnable? 
-              <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
-              <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
+      <CenterV gap={8} justify="space-between">
+        <ToolbarItem tooltipProps={{ placement: 'top' }} onClick={handleLock} title={lock ? '解锁' : '锁定'}>
+          {
+            lock ? 
+            <UnlockOutlined style={{ fontSize: 20 }} /> :
+            <LockOutlined style={{ fontSize: 20 }} />
+          }
+        </ToolbarItem>
+        <ToolbarItem tooltipProps={{ placement: 'top' }} title="透明度">
+          <OpacitySetter value={opacity} onChange={handleOpacity} />
+        </ToolbarItem>
+        <ToolbarItem
+          tooltipProps={{ placement: 'top' }}
+          title="创建副本"
+          onClick={
+            async () => {
+              await copyObject(editor.canvas, object);
+              await pasteObject(editor.canvas);
             }
-          </span>
-        </FormItem>
-      </Form>
+          }
+        >
+          <CopyOutlined style={{ fontSize: 20 }} />
+        </ToolbarItem>
+        <ToolbarItem
+          tooltipProps={{ placement: 'top' }}
+          title="删除"
+          onClick={() => { removeObject(null, editor.canvas); }}
+        >
+          <DeleteOutlined style={{ fontSize: 20 }} />
+        </ToolbarItem>
+        {
+          object.type === 'f-image' ?
+          <ToolbarItem
+            tooltipProps={{ placement: 'top' }}
+            title="翻转"
+          >
+            <FlipSetter onChange={handleFlip} />
+          </ToolbarItem> : null
+        }
+      </CenterV>
     </>
   )
 }

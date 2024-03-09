@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Layout, Typography } from 'antd';
+import { Divider, Layout, Typography } from 'antd';
 import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import SketchSetter from './SketchSetter';
@@ -7,6 +7,7 @@ import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
 import { LineSetter, ShapeSetter } from './ShapeSetter';
 import { CenterV } from '@/fabritor/components/Center';
+import CommonSetter from './CommonSetter';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -105,6 +106,8 @@ export default function Setter () {
         style={{ padding: 16 }}
       >
         {renderSetter()}
+        <Divider />
+        <CommonSetter />
       </div>
     </Sider>
   )
