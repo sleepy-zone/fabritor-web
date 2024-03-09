@@ -143,3 +143,9 @@ export const getSystemClipboard = async () => {
     return null;
   }
 }
+
+export const base64ToBlob = async (base64Data) => {
+  return fetch(base64Data).then((res) => {
+    return res.blob();
+  });
+}
