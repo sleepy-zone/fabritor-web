@@ -100,7 +100,6 @@ export default function PaintPanel () {
 
   return (
     <div className="fabritor-panel-wrapper">
-      <Title>画笔类型</Title>
       <Flex wrap="wrap" justify="space-around">
         {
           BrushList.map((item , index) => (

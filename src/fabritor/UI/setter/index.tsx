@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Layout, Typography } from 'antd';
+import { Divider, Layout, Typography } from 'antd';
 import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import SketchSetter from './SketchSetter';
@@ -7,6 +7,7 @@ import TextSetter from './TextSetter';
 import ImageSetter from './ImageSetter';
 import { LineSetter, ShapeSetter } from './ShapeSetter';
 import { CenterV } from '@/fabritor/components/Center';
+import CommonSetter from './CommonSetter';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -22,7 +23,7 @@ export default function Setter () {
   const objectType = object?.get?.('type') || '';
   console.log('objectType', objectType, object);
 
-  const renderSetter = () => {
+  const getRenderSetter = () => {
     if (!isReady) return null;
     if (!object || object.id === SKETCH_ID) return <SketchSetter />;
     switch (objectType) {
@@ -43,11 +44,24 @@ export default function Setter () {
         return <ImageSetter />;
       case 'path':
       case 'group':
-      case 'activeSelection':xw
-        return <SketchSetter />;
+      case 'activeSelection':
+        return null;
       default:
-        return <SketchSetter />;
+        return null;
     }
+  }
+
+  const renderSetter = () => {
+    const Setter = getRenderSetter();
+    if (Setter) {
+      return (
+        <>
+        {Setter}
+        <Divider />
+        </>
+      )
+    }
+    return null;
   }
 
   const getSetterTitle = () => {
@@ -70,8 +84,10 @@ export default function Setter () {
         return '线条';
       case 'f-image':
         return '图片';
-      // case 'image':
-      // case 'path':
+      case 'image':
+        return '配置'
+      case 'path':
+        return '画笔'
       case 'group':
       case 'activeSelection':
         return '组合';
@@ -105,6 +121,7 @@ export default function Setter () {
         style={{ padding: 16 }}
       >
         {renderSetter()}
+        <CommonSetter />
       </div>
     </Sider>
   )
