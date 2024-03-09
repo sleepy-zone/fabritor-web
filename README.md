@@ -1,8 +1,11 @@
 <p align="center"><img alt="logo" src="/public/logo.svg"></p>
 
-<p align="center"><strong>fabritor, A creative editor based on fabricjs.</strong></p>
+<p align="center">
+  <strong>👻 fabritor, A creative editor based on fabricjs</strong>
+  <strong>😘 快速构建属于自己的图片编辑器</strong>
+</p>
 
-<p align="center"><img alt="banner" src="/public/shot_2024_3.png"></p>
+<p align="center"><img alt="banner" src="/public/fabritor_2024_1.png"></p>
 
 ### 👻 特性
 
@@ -60,6 +63,6 @@ yarn start
 
 [https://www.photor.fun/](https://www.photor.fun/)
 
-<p align="center"><img alt="photor" src="/public/photor.jpg"></p>
+<p align="center"><img alt="photor" src="/public/photor.png"></p>
 
 欢迎提交自己的作品。
