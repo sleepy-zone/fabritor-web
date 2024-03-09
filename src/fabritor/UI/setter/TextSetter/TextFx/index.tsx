@@ -42,7 +42,6 @@ export default function TextFx () {
       stroke = new fabric.Gradient(stroke);
     }
     object.set('stroke', stroke);
-    editor.canvas.requestRenderAll();
   }
 
   const handleFxValueChange = async (values) => {
@@ -81,7 +80,6 @@ export default function TextFx () {
   }
 
   const initObjectFx = () => {
-    if (!object) return;
     const fill = object.fill;
     form.setFieldsValue({
       stroke: transformFill2Colors(object.stroke),
@@ -105,7 +103,7 @@ export default function TextFx () {
   }
 
   useEffect(() => {
-    if (!object || (object.type !== 'textbox' && object.type !== 'f-text')) {
+    if (object && object.type === 'f-text') {
       initObjectFx();
     }
   }, [object]);
@@ -118,13 +116,13 @@ export default function TextFx () {
       style={{ marginTop: 24 }}
     >
       <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>描边</span>} />
-      <FormItem label="颜色">
-        <ColorSetter effectKey="stroke" />
+      <FormItem label="颜色" name="stroke">
+        <ColorSetter />
       </FormItem>
       <FormItem label="粗细" name="strokeWidth">
         <Slider
           min={0}
-          max={100}
+          max={20}
         />
       </FormItem>
 
