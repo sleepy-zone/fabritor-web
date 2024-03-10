@@ -67,6 +67,11 @@ export default function Fabritor () {
       setActiveObject(sketch);
     }
   }
+
+  const groupHandler = () => {
+    const selection = editor.canvas.getActiveObject();
+    setActiveObject(selection);
+  }
   
   const initEvent = () => {
     editor.canvas.on('selection:created', selectionHandler);
@@ -74,6 +79,9 @@ export default function Fabritor () {
     editor.canvas.on('selection:cleared', selectionHandler);
 
     editor.canvas.on('mouse:down', clickHandler);
+
+    editor.canvas.on('fabritor:group', groupHandler);
+    editor.canvas.on('fabritor:ungroup', groupHandler);
   }
 
   const initEditor = async () => {
