@@ -51,9 +51,9 @@ export default class Editor {
   }
 
   private _initObject () {
+    initObjectPrototype();
     createCustomClass();
     initControl();
-    initObjectPrototype();
   }
 
   private _initCanvas () {

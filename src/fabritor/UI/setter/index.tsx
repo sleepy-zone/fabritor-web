@@ -8,6 +8,7 @@ import ImageSetter from './ImageSetter';
 import { LineSetter, ShapeSetter } from './ShapeSetter';
 import { CenterV } from '@/fabritor/components/Center';
 import CommonSetter from './CommonSetter';
+import GroupSetter from './GroupSetter';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -43,9 +44,10 @@ export default function Setter () {
       case 'f-image':
         return <ImageSetter />;
       case 'path':
+        return null;
       case 'group':
       case 'activeSelection':
-        return null;
+        return <GroupSetter />;
       default:
         return null;
     }

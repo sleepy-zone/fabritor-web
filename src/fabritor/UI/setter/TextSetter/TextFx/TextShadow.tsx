@@ -33,7 +33,7 @@ export default function TextShadow (props) {
       <FormItem label="模糊" name="blur">
         <Slider
           min={0}
-          max={100}
+          max={20}
         />
       </FormItem>
       <FormItem label="偏移" name="offset">

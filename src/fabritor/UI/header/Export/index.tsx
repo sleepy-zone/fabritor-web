@@ -1,9 +1,11 @@
-import { Dropdown, Button } from 'antd';
+import { Dropdown, Button, Divider, message } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { downloadFile } from '@/utils';
-import { useContext } from 'react';
+import { downloadFile, base64ToBlob } from '@/utils';
+import { useContext, useRef } from 'react';
 import { GloablStateContext } from '@/context';
+import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
+import { CenterV } from '@/fabritor/components/Center';
 
 const items: MenuProps['items'] = [
   {
@@ -21,11 +23,55 @@ const items: MenuProps['items'] = [
   {
     key: 'json',
     label: '导出为 模板'
+  },
+  {
+    key: 'none',
+    label: <Divider style={{ margin: 0 }} />
+  },
+  {
+    key: 'clipboard',
+    label: '复制到剪贴板'
   }
 ]
 
 export default function Export () {
-  const { editor } = useContext(GloablStateContext);
+  const { editor, setReady, setActiveObject } = useContext(GloablStateContext);
+  const localFileSelectorRef = useRef<any>();
+
+  const selectJsonFile = () => {
+    localFileSelectorRef.current?.start?.();
+  }
+
+  const handleFileChange = (file) => {
+    setReady(false);
+    const reader = new FileReader();
+    reader.onload = (async (evt) => {
+      const json = evt.target?.result as string;
+      if (json) {
+        editor.canvas.clear();
+        await editor.loadFromJSON(json);
+        editor.fhistory.clear();
+        setReady(true);
+        setActiveObject(null);
+      }
+    });
+    reader.readAsText(file);
+  }
+
+  const copyImage = async () => {
+    try {
+      const png = editor.export2Img({ format: 'png' });
+      const blob = await base64ToBlob(png);
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'image/png': blob
+        })
+      ]);
+      message.success('复制成功');
+    } catch(e) {
+      message.error('复制失败，请选择导出到本地');
+    }
+  }
 
   const handleClick = ({ key }) => {
     const { sketch } = editor;
@@ -48,18 +94,25 @@ export default function Export () {
         const json = editor.export2Json();
         downloadFile(json, 'json', name);
         break;
+      case 'clipboard':
+        copyImage();
+        break;
       default:
         break;
     }
   }
   return (
-    <div
+    <CenterV
+      justify="flex-end"
+      gap={16}
       style={{
         width: 280,
-        textAlign: 'right',
         paddingRight: 16
       }}
     >
+      <Button onClick={selectJsonFile}>
+        加载模板
+      </Button>
       <Dropdown 
         menu={{ items, onClick: handleClick }} 
         arrow={{ pointAtCenter: true }}
@@ -67,6 +120,7 @@ export default function Export () {
       >
         <Button type="primary" icon={<ExportOutlined />}>导出</Button>
       </Dropdown>
-    </div>
+      <LocalFileSelector accept="application/json" ref={localFileSelectorRef} onChange={handleFileChange} />
+    </CenterV>
   )
 }

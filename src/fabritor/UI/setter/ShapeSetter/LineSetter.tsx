@@ -72,7 +72,7 @@ export default function LineSetter () {
                   style={{ 
                     display: 'inline-flex',
                     alignItems: 'center',
-                    marginTop: 3
+                    marginTop: 6
                   }}
                 />
               </Radio.Button>
