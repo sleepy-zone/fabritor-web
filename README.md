@@ -43,7 +43,7 @@
 
 #### 🛠 导出
 
-导出 JPG、PNG、SVG和 模板（JSON），基于 JSON 可以构建模板库。
+导出 JPG、PNG、SVG 和模板（JSON），基于 JSON 可以构建模板库。
 
 #### 安全
 
@@ -67,4 +67,4 @@ yarn start
 
 <p align="center"><img alt="photor" src="/public/photor.png"></p>
 
-欢迎提交自己的作品。
+欢迎提交自己的作品或者项目。
