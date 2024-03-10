@@ -1,7 +1,12 @@
 import { fabric } from 'fabric';
 import { OBJECT_DEFAULT_CONFIG } from '@/utils/constants';
+import { IMAGE_CLIPPATH_QUALITY } from '@/config';
 
 export const initObjectPrototype = () => {
+  if (IMAGE_CLIPPATH_QUALITY) {
+    fabric.Object.prototype.needsItsOwnCache = () => false
+  }
+
   // Text global config
   Object.keys(OBJECT_DEFAULT_CONFIG).forEach(key => {
     fabric.Object.prototype[key] = OBJECT_DEFAULT_CONFIG[key];
