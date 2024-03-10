@@ -1,70 +1,46 @@
-import { Tooltip, Flex, Form, Button } from 'antd';
+import { Tooltip, Flex, Button } from 'antd';
 import Title from '@/fabritor/components/Title';
 import { useContext, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 import { DRAW_MODE_CURSOR, DRAG_ICON } from '@/assets/icon';
-import ColorSetter from '@/fabritor/UI/setter/ColorSetter/Solid';
 import BrushList from './brush-list';
 import { GloablStateContext } from '@/context';
-import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
-
-const { Item: FormItem } = Form;
+import PathSetterForm from '../../setter/PathSetter/PathSetterForm';
 
 export default function PaintPanel () {
-  const [penForm] = Form.useForm();
-  const [shadowForm] = Form.useForm();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const { editor } = useContext(GloablStateContext);
+  const [penFormValues, setPenFormValues] = useState({});
 
   const handleBrushChange = (options) => {
     if (options.color) {
       editor.canvas.freeDrawingBrush.color = options.color;
-      penForm.setFieldValue('color', options.color);
     }
     if (options.width) {
       editor.canvas.freeDrawingBrush.width = options.width;
-      penForm.setFieldValue('width', options.width);
     }
     if (options.strokeLineCap) {
       editor.canvas.freeDrawingBrush.strokeLineCap = options.strokeLineCap;
     }
     if (options.shadow) {
-      editor.canvas.freeDrawingBrush.shadow = new fabric.Shadow({
-        blur: options.shadow.width,
-        offsetX: options.shadow.offset,
-        offsetY: options.shadow.offset,
+      const shadow = editor.canvas.freeDrawingBrush.shadow;
+      const originalShadowObject = shadow ? shadow.toObject() : {};
+      const newShadowObject = {
+        blur: options.shadow.width || originalShadowObject.blur,
+        offsetX: options.shadow.offset || originalShadowObject.offsetX,
+        offsetY: options.shadow.offset || originalShadowObject.offsetY,
         affectStroke: true,
-        color: options.shadow.color,
-      });
+        color: options.shadow.color || originalShadowObject.color,
+      }
+      editor.canvas.freeDrawingBrush.shadow = new fabric.Shadow(newShadowObject);
     }
-  }
-
-  const handlePenChange = (values) => {
-    handleBrushChange(values);
-  }
-
-  const handleShadowChange = () => {
-    handleBrushChange({
-      shadow: shadowForm.getFieldsValue()
-    });
   }
 
   const stopFreeDrawMode = () => {
     editor.canvas.isDrawingMode = !editor.canvas.isDrawingMode;
     setIsDrawingMode(!isDrawingMode);
   }
-
-  // const startClearMode = () => {
-  //   const { canvas } = editor;
-  //   if (!isClearMode) {
-  //     canvas.freeDrawingBrush = new fabric.EraserBrush(canvas);
-  //     canvas.isDrawingMode = true;
-  //   } else {
-  //     new fabric.PencilBrush(editor.canvas);
-  //   }
-  //   setIsClearMode(!isClearMode);
-  // }
 
   const initBrush = () => {
     if (editor) {
@@ -75,15 +51,22 @@ export default function PaintPanel () {
       const { color, width } = BrushList[0].options;
       freeDrawingBrush.color = color;
       freeDrawingBrush.width = width;
-
-      penForm.setFieldsValue({
-        color,
-        width
-      });
-      shadowForm.setFieldsValue({
+      freeDrawingBrush.shadow = new fabric.Shadow({
+        blur: 0,
+        offsetX: 0,
+        offsetY: 0,
+        affectStroke: true,
         color: '#000000',
-        width: 0,
-        offset: 0
+      });
+
+      setPenFormValues({
+        color,
+        width,
+        shadow: {
+          color: '#000000',
+          width: 0,
+          offset: 0
+        }
       });
     }
 
@@ -107,7 +90,14 @@ export default function PaintPanel () {
               <div
                 key={item.key}
                 className="fabritor-panel-shape-item"
-                onClick={() => { handleBrushChange(item.options); setActiveIndex(index); }}
+                onClick={() => {
+                  handleBrushChange(item.options);
+                  setActiveIndex(index); 
+                  setPenFormValues({
+                    ...penFormValues,
+                    ...item.options
+                  });
+                }}
                 style={{ 
                   padding: '4px 8px',
                   backgroundColor: activeIndex === index ? '#eeeeee' : 'rgba(0,0,0,0)',
@@ -120,54 +110,14 @@ export default function PaintPanel () {
           ))
         }
       </Flex>
-      <Form
-        form={penForm}
-        onValuesChange={handlePenChange}
-        style={{ marginBottom: 0, marginTop: 16 }}
-        colon={false}
-      >
-        <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>画笔</span>} />
-        <FormItem
-          label="颜色"
-          name="color"
-        >
-          <ColorSetter />
-        </FormItem>
-        <FormItem
-          label="线宽"
-          name="width"
-        >
-          <SliderInputNumber min={1} max={100} />
-        </FormItem>
-      </Form>
-      <Form
-        form={shadowForm}
-        onValuesChange={handleShadowChange}
-        colon={false}
-      >
-        <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>阴影</span>} />
-        <FormItem
-          label="颜色"
-          name="color"
-        >
-          <ColorSetter />
-        </FormItem>
-        <FormItem
-          label="宽度"
-          name="width"
-        >
-          <SliderInputNumber min={0} max={50} />
-        </FormItem>
-        <FormItem
-          label="偏移"
-          name="offset"
-        >
-          <SliderInputNumber min={0} max={50} />
-        </FormItem>
-      </Form>
+      <PathSetterForm
+        onChange={handleBrushChange}
+        value={penFormValues}
+        showPenTip
+      />
       <Title>操作</Title>
       <Flex wrap="wrap" justify="space-around">
-        <Button style={{ width: 64 }} onClick={stopFreeDrawMode} type={isDrawingMode ? "default" : "primary"} title="停止绘图">
+        <Button style={{ width: 64 }} onClick={stopFreeDrawMode} type={isDrawingMode ? 'default' : 'primary'} title="停止绘图">
           <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
         </Button>
       </Flex>
