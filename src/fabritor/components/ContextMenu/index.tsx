@@ -1,9 +1,30 @@
 import { useImperativeHandle, forwardRef, useState, useContext } from 'react';
 import type { MenuProps } from 'antd';
-import { Dropdown } from 'antd';
+import { Dropdown, Flex } from 'antd';
 import { SKETCH_ID } from '@/utils/constants';
 import { copyObject, pasteObject, removeObject, groupSelection, ungroup, changeLayerLevel } from '@/utils/helper';
 import { GloablStateContext } from '@/context';
+
+// ⌘ C
+const ContextMenuItem = (props) => {
+  const { label, keyboard, cmdKey = false } = props;
+  const isMac = navigator.userAgent.indexOf('Mac OS X') > -1;
+
+  const getCmdkey = () => {
+    if (cmdKey) {
+      if (isMac) return '⌘';
+      return 'Ctrl'
+    }
+    return '';
+  }
+
+  return (
+    <Flex gap={68} justify="space-between">
+      <span>{label}</span>
+      <span>{`${getCmdkey()} ${keyboard}`}</span>
+    </Flex>
+  )
+}
 
 const ContextMenu = (props, ref) => {
   const { object, noCareOpen } = props;
@@ -14,7 +35,7 @@ const ContextMenu = (props, ref) => {
     if (!object || object.id === SKETCH_ID) {
       return [
         {
-          label: '粘贴',
+          label: <ContextMenuItem label="粘贴" keyboard="V" cmdKey />,
           key: 'paste',
         }
       ]
@@ -22,11 +43,11 @@ const ContextMenu = (props, ref) => {
 
     const menuItems: MenuProps['items']  = [
       {
-        label: '复制',
+        label: <ContextMenuItem label="复制" keyboard="C" cmdKey />,
         key: 'copy',
       },
       {
-        label: '粘贴',
+        label: <ContextMenuItem label="粘贴" keyboard="V" cmdKey />,
         key: 'paste',
       },
       {
@@ -34,7 +55,7 @@ const ContextMenu = (props, ref) => {
         key: 'copy&paste',
       },
       {
-        label: '删除',
+        label: <ContextMenuItem label="删除" keyboard="DEL" />,
         key: 'del',
       },
     ]
