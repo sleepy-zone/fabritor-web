@@ -161,7 +161,7 @@ export default function CommonSetter () {
         }
       </CenterV>
       <Divider style={{ margin: '16px 0' }} />
-      <span style={{ fontWeight: 'bold' }}>页面对齐</span>
+      <span style={{ fontWeight: 'bold' }}>画布对齐</span>
       <CenterV height={30} gap={8} justify="space-between" style={{ marginTop: 16 }}>
         {
           ALIGH_TYPES.map(item => (
