@@ -14,7 +14,7 @@ export default function Toolbar () {
 
   const clearCanvas = () => {
     Modal.confirm({
-      title: '确认清空画布？',
+      title: '确认清空画布，同时清空历史操作记录？',
       icon: <ExclamationCircleFilled />,
       async onOk () {
         await editor.clearCanvas();
