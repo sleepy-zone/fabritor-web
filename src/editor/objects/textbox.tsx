@@ -77,12 +77,12 @@ export const createTextbox = async (options) => {
     }
   });
 
-  canvas.add(textBox);
   if (options.left == null && options.top == null) {
     canvas.viewportCenterObject(textBox);
   } else if (options.left == null) {
     canvas.viewportCenterObjectH(textBox);
   }
+  canvas.add(textBox);
   canvas.setActiveObject(textBox);
   canvas.requestRenderAll();
 

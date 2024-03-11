@@ -14,8 +14,6 @@ export const drawLine = (options) => {
     ...rest
   });
 
-  canvas.add(line);
-  canvas.setActiveObject(line);
   canvas.viewportCenterObject(line);
   line.set({
     x1: line.left,
@@ -23,6 +21,8 @@ export const drawLine = (options) => {
     x2: line.left + 300,
     y2: line.top
   });
+  canvas.add(line);
+  canvas.setActiveObject(line);
   canvas.requestRenderAll();
   return line;
 }
@@ -40,8 +40,6 @@ export const drawArrowLine = (options) => {
     ...rest
   });
 
-  canvas.add(arrow);
-  canvas.setActiveObject(arrow);
   canvas.viewportCenterObject(arrow);
   arrow.set({
     x1: arrow.left,
@@ -49,6 +47,8 @@ export const drawArrowLine = (options) => {
     x2: arrow.left + 300,
     y2: arrow.top
   });
+  canvas.add(arrow);
+  canvas.setActiveObject(arrow);
   canvas.requestRenderAll();
   return arrow;
 }
@@ -66,8 +66,6 @@ export const drawTriArrowLine = (options) => {
     ...rest
   });
 
-  canvas.add(arrow);
-  canvas.setActiveObject(arrow);
   canvas.viewportCenterObject(arrow);
   arrow.set({
     x1: arrow.left,
@@ -75,6 +73,9 @@ export const drawTriArrowLine = (options) => {
     x2: arrow.left + 300,
     y2: arrow.top
   });
+
+  canvas.add(arrow);
+  canvas.setActiveObject(arrow);
   canvas.requestRenderAll();
   return arrow;
 }

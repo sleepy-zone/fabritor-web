@@ -16,8 +16,8 @@ export default function createShape (ShapeClass, options) {
     });
   }
 
-  canvas.add(object);
   canvas.viewportCenterObject(object);
+  canvas.add(object);
   canvas.setActiveObject(object);
   canvas.requestRenderAll();
   return object;
