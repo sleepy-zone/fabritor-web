@@ -10,3 +10,5 @@ export const HOVER_OBJECT_CONTROL = true;
 // https://github.com/fabricjs/fabric.js/issues/5639
 // but will cause low performance
 export const IMAGE_CLIPPATH_QUALITY = false;
+
+export const MAX_HISTORY_LENGTH = 100;

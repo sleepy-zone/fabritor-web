@@ -72,6 +72,14 @@ export default function Fabritor () {
     const selection = editor.canvas.getActiveObject();
     setActiveObject(selection);
   }
+
+  const loadJsonHandler = (opt) => {
+    const { lastActiveObject } = opt;
+    if (lastActiveObject) {
+      editor.canvas.setActiveObject(lastActiveObject);
+      setActiveObject(lastActiveObject);
+    }
+  }
   
   const initEvent = () => {
     editor.canvas.on('selection:created', selectionHandler);
@@ -82,6 +90,8 @@ export default function Fabritor () {
 
     editor.canvas.on('fabritor:group', groupHandler);
     editor.canvas.on('fabritor:ungroup', groupHandler);
+
+    editor.canvas.on('fabritor:load:json', loadJsonHandler);
   }
 
   const initEditor = async () => {
