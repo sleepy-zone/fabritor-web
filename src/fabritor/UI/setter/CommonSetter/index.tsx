@@ -160,8 +160,9 @@ export default function CommonSetter () {
           </ToolbarItem> : null
         }
       </CenterV>
-      <Divider />
-      <CenterV height={30} gap={8} justify="space-between">
+      <Divider style={{ margin: '16px 0' }} />
+      <span style={{ fontWeight: 'bold' }}>页面对齐</span>
+      <CenterV height={30} gap={8} justify="space-between" style={{ marginTop: 16 }}>
         {
           ALIGH_TYPES.map(item => (
             <ToolbarItem
