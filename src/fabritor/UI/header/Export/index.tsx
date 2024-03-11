@@ -25,8 +25,7 @@ const items: MenuProps['items'] = [
     label: '导出为 模板'
   },
   {
-    key: 'none',
-    label: <Divider style={{ margin: 0 }} />
+    type: 'divider'
   },
   {
     key: 'clipboard',
@@ -91,8 +90,10 @@ export default function Export () {
         downloadFile(svg, 'svg', name);
         break;
       case 'json':
-        const json = editor.export2Json();
-        downloadFile(json, 'json', name);
+        const json = editor.canvas2Json();
+        downloadFile(`data:text/json;charset=utf-8,${encodeURIComponent(
+          JSON.stringify(json, null, 2)
+        )}`, 'json', name);
         break;
       case 'clipboard':
         copyImage();
