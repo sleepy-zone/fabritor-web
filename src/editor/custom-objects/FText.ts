@@ -11,7 +11,7 @@ export const createFTextClass = () => {
   fabric.FText = fabric.util.createClass(fabric.Textbox, {
     type: 'f-text',
 
-    padding: 4,
+    padding: 0,
 
     paintFirst: 'stroke',
 
