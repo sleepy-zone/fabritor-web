@@ -1,23 +1,4 @@
 import { fabric } from 'fabric';
-import { message } from 'antd';
-
-export const loadImage = async (imageSource) => {
-  if (typeof imageSource === 'string') {
-    return new Promise<fabric.Image>((resolve, reject) => {
-      fabric.Image.fromURL(imageSource, (img) => {
-        if (!img) {
-          message.error('加载远程图片失败');
-          reject();
-          return;
-        }
-        resolve(img);
-      }, {
-        crossOrigin: 'anonymous'
-      });
-    });
-  }
-  return Promise.resolve(new fabric.Image(imageSource));
-}
 
 export const createFImageClass = () => {
   // @ts-ignore custom image
