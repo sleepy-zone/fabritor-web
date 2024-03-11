@@ -69,8 +69,8 @@ export const createImage = async (options) => {
     id: uuid()
   });
 
-  canvas.add(img);
   canvas.viewportCenterObject(img);
+  canvas.add(img);
   canvas.setActiveObject(img);
   canvas.requestRenderAll();
 
@@ -92,8 +92,8 @@ export const createFImage = async (options) => {
     id: uuid()
   });
 
-  canvas.add(fimg);
   canvas.viewportCenterObject(fimg);
+  canvas.add(fimg);
   canvas.setActiveObject(fimg);
   canvas.requestRenderAll();
 }
@@ -108,8 +108,8 @@ export const createSvg = async (options) => {
     id: uuid()
   });
 
-  canvas.add(svg);
   canvas.viewportCenterObject(svg);
+  canvas.add(svg);
   canvas.setActiveObject(svg);
   canvas.requestRenderAll();
 

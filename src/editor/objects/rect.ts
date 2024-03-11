@@ -10,8 +10,8 @@ export default function createRect (options) {
     ...rest,
   });
 
-  canvas.add(rect);
   canvas.viewportCenterObject(rect);
+  canvas.add(rect);
   canvas.setActiveObject(rect);
   canvas.requestRenderAll();
   return rect;

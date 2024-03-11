@@ -8,10 +8,11 @@ import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
 import initHotKey from './hotkey';
 import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '@/utils/constants';
-import FabricHistory from './history';
+import FabricHistory from './extensions/history';
+import AutoSave from './extensions/autosave';
 import { createGroup } from './objects/group';
 import createCustomClass from './custom-objects';
-import { LOAD_FROM_LOCAL_WHEN_INIT, AUTO_SAVE_WHEN_CHANGE, HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL } from '@/config';
+import { HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL } from '@/config';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -21,13 +22,12 @@ export default class Editor {
   private _resizeObserver: ResizeObserver | null;
   private _pan;
   public fhistory;
-  public canSaveLocal: boolean;
+  public autoSave;
 
   constructor (options) {
     const { template, ...rest } = options;
     this._options = rest;
     this._template = template;
-    this.canSaveLocal = false;
     this._pan = {
       enable: false,
       isDragging: false,
@@ -43,13 +43,13 @@ export default class Editor {
     this._initSketch();
     this._initGuidelines();
 
-    await this._loadLocal();
+    this.autoSave = new AutoSave(this);
+    await this.autoSave.loadFromLocal();
 
     this.fhistory = new FabricHistory(this);
     initHotKey(this.canvas, this.fhistory);
 
-    this.canSaveLocal = true;
-    this._save2Local();
+    this.autoSave.init();
   }
 
   private _initObject () {
@@ -326,6 +326,12 @@ export default class Editor {
       // @ts-ignore
       this.canvas = null;
     }
+    if (this.fhistory) {
+      this.fhistory.dispose();
+    }
+    if (this.autoSave) {
+      this.autoSave.dispose();
+    }
     const { workspaceEl } = this._options;
     if (this._resizeObserver) {
       this._resizeObserver.unobserve(workspaceEl);
@@ -366,42 +372,6 @@ export default class Editor {
     return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   }
 
-  public export2Json () {
-    const json = this.canvas2Json();
-    return `data:text/json;charset=utf-8,${encodeURIComponent(
-      JSON.stringify(json, null, 2)
-    )}`;
-  }
-
-  private async _loadLocal () {
-    if (LOAD_FROM_LOCAL_WHEN_INIT) {
-      try {
-        const jsonStr = localStorage.getItem('fabritor_web_json')
-        if (jsonStr) {
-          const json = JSON.parse(jsonStr);
-          const res = await this.loadFromJSON(json, false, false);
-          if (!res) {
-            localStorage.setItem('fabritor_web_json', null);
-          }
-        }
-      } catch(e) {  console.log(e) }
-    }
-  }
-
-  // @TODO save2local when change
-  private _save2Local () {
-    if (AUTO_SAVE_WHEN_CHANGE) {
-      setInterval(() => {
-        try {
-          if (this.canSaveLocal) {
-            const json = this.canvas2Json();
-            localStorage.setItem('fabritor_web_json', JSON.stringify(json));
-          }
-        } catch(e) {  console.log(e) }
-      }, 2000);
-    }
-  }
-
   public canvas2Json () {
     const json = this.canvas.toJSON(FABRITOR_CUSTOM_PROPS);
     json[SCHEMA_VERSION_KEY] = SCHEMA_VERSION;
@@ -433,10 +403,14 @@ export default class Editor {
     const lastActiveObject = this.canvas.getActiveObject();
     let nowActiveObject;
 
+    // disabled auto save when load json
+    this.autoSave.setCanSave(false);
+
     return new Promise((resolve) => {
       this.canvas.loadFromJSON(json, () => {
         this.canvas.requestRenderAll();
 
+        this.autoSave.setCanSave(true);
         this.canvas.fire('fabritor:load:json', { lastActiveObject: nowActiveObject });
         resolve(true);
       }, (o, obj) => {
