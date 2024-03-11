@@ -6,7 +6,7 @@ import { initObjectPrototype } from './objects/init';
 import { throttle } from 'lodash-es';
 import { loadFont } from '@/utils';
 import { initAligningGuidelines, initCenteringGuidelines } from './guide-lines';
-import initHotKey from './hotkey';
+import initHotKey from './extensions/hotkey';
 import { SKETCH_ID, FABRITOR_CUSTOM_PROPS, SCHEMA_VERSION, SCHEMA_VERSION_KEY } from '@/utils/constants';
 import FabricHistory from './extensions/history';
 import AutoSave from './extensions/autosave';

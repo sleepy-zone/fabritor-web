@@ -43,7 +43,7 @@
 
 #### 🛠 导出
 
-导出 JPG、PNG、SVG 和模板（JSON），基于 JSON 可以构建模板库。
+导出到剪贴板，导出 JPG、PNG、SVG 和模板（JSON），基于 JSON 可以构建模板库。
 
 #### 安全可靠
 
@@ -59,7 +59,7 @@ yarn start
 
 访问: http://localhost:3000
 
-### 哪些项目在试用 fabritor
+### 哪些项目在使用 fabritor
 
 #### 截图美化工具
 
