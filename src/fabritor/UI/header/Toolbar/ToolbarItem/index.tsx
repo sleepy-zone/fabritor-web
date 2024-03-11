@@ -1,7 +1,14 @@
 import { Tooltip } from 'antd';
 
 export default function ToolbarItem (props) {
-  const { onClick, title, tooltipProps, children } = props;
+  const { onClick, title, disabled, tooltipProps, children } = props;
+
+  const handleClick = () => {
+    if (!disabled) {
+      onClick?.();
+    }
+  }
+
   return (
     <Tooltip
       placement="bottom"
@@ -10,7 +17,13 @@ export default function ToolbarItem (props) {
       }
       {...tooltipProps}
     >
-      <span className="fabritor-toolbar-item" onClick={onClick}>
+      <span
+        className="fabritor-toolbar-item"
+        style={{
+          color: disabled ? '#cccccc' : 'rgba(0, 0, 0, 0.88)'
+        }}
+        onClick={handleClick}
+      >
         {children}
       </span>
     </Tooltip>

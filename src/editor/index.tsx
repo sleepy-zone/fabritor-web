@@ -430,14 +430,23 @@ export default class Editor {
       }
     }
 
+    const lastActiveObject = this.canvas.getActiveObject();
+    let nowActiveObject;
+
     return new Promise((resolve) => {
       this.canvas.loadFromJSON(json, () => {
         this.canvas.requestRenderAll();
+
+        this.canvas.fire('fabritor:load:json', { lastActiveObject: nowActiveObject });
         resolve(true);
       }, (o, obj) => {
         if (obj.id === SKETCH_ID) {
           this.sketch = obj;
           this.setSketchSize({ width: obj.width, height: obj.height });
+        }
+        // after undo/redo record last active object
+        if (obj.id === lastActiveObject?.id) {
+          nowActiveObject = obj;
         }
       });
     });

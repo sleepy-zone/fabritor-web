@@ -4,6 +4,9 @@ import { MAX_HISTORY_LENGTH } from '@/config';
 
 // https://github.com/alimozdemir/fabric-history/blob/master/src/index.js
 
+// @TODO
+// 对于 slider 类的配置，可以 onChangeEnd 触发历史记录，否则过于频繁
+
 export default class FabricHistory {
   private historyUndo: string[];
   private historyRedo: string[];
