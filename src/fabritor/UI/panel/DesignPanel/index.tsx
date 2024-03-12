@@ -1,12 +1,13 @@
-import { Flex, List, Empty } from 'antd';
+import { Flex, List, Empty, Button, Divider } from 'antd';
 import { useEffect, useContext, useState } from 'react';
 import { GloablStateContext } from '@/context';
 import { SKETCH_ID } from '@/utils/constants';
 import { GroupOutlined, HeartTwoTone } from '@ant-design/icons';
 import ContextMenu from '@/fabritor/components/ContextMenu';
+import DEMOJSON from '@/assets/demo.json';
 
 export default function Layer () {
-  const { isReady, object: activeObject, editor } = useContext(GloablStateContext);
+  const { isReady, setReady, object: activeObject, setActiveObject, editor } = useContext(GloablStateContext);
   const [layers, setLayers] = useState([]);
 
   const getCanvasLayers = (objects) => {
@@ -36,6 +37,16 @@ export default function Layer () {
       }
     }
     setLayers(_layers);
+  }
+
+  const loadDemo = async () => {
+    setReady(false);
+    editor.canvas.clear();
+    await editor.loadFromJSON(DEMOJSON, true);
+    editor.fhistory.reset();
+    setReady(true);
+    setActiveObject(null);
+    editor.fireCustomModifiedEvent();
   }
 
   const handleItemClick = (item) => {
@@ -110,6 +121,8 @@ export default function Layer () {
             <div>
               <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 40 }} />
               <p style={{ color: '#aaa', fontSize: 16 }}>开始挥洒你的创意 ~</p>
+              <Divider />
+              <Button onClick={loadDemo}>或者从一个简单的 DEMO 开始</Button>
             </div>
           }
         />

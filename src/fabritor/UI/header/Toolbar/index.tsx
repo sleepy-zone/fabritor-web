@@ -22,6 +22,7 @@ export default function Toolbar () {
       async onOk () {
         await editor.clearCanvas();
         setActiveObject(editor.sketch);
+        editor.fireCustomModifiedEvent();
       },
       okText: '确认',
       cancelText: '取消'
