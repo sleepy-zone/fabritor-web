@@ -11,6 +11,8 @@
 
 使用 fabritor，快速构建属于自己的图片编辑器。
 
+在线体验：[https://fabritor.surge.sh/](https://fabritor.surge.sh/)
+
 <p align="center"><img alt="banner" src="/public/fabritor_editor.png"></p>
 
 #### 📚 文本
