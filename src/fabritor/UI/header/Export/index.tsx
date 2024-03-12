@@ -52,6 +52,7 @@ export default function Export () {
         editor.fhistory.reset();
         setReady(true);
         setActiveObject(null);
+        editor.fireCustomModifiedEvent();
       }
     });
     reader.readAsText(file);
