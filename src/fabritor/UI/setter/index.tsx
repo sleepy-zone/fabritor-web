@@ -90,6 +90,9 @@ export default function Setter () {
       case 'image':
         return '配置'
       case 'path':
+        if (object?.sub_type) {
+          return '形状';
+        }
         return '画笔'
       case 'group':
       case 'activeSelection':

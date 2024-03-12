@@ -32,15 +32,6 @@ export const loadImage = async (imageSource) => {
   return Promise.resolve(new fabric.Image(imageSource));
 }
 
-export const loadSvgFromUrl = async (url) => {
-  return new Promise((resolve) => {
-    fabric.loadSVGFromURL(url, (objects, options) => {
-      const svg = fabric.util.groupSVGElements(objects, options);
-      resolve(svg);
-    });
-  });
-}
-
 export const createClipRect = (object, options = {}) => {
   const width = object.getScaledWidth();
   const height = object.getScaledHeight();
@@ -96,22 +87,4 @@ export const createFImage = async (options) => {
   canvas.add(fimg);
   canvas.setActiveObject(fimg);
   canvas.requestRenderAll();
-}
-
-export const createSvg = async (options) => {
-  const { url, canvas, ...rest } = options || {};
-
-  const svg = await loadSvgFromUrl(url) as fabric.Group;
-
-  svg.set({
-    ...rest,
-    id: uuid()
-  });
-
-  canvas.viewportCenterObject(svg);
-  canvas.add(svg);
-  canvas.setActiveObject(svg);
-  canvas.requestRenderAll();
-
-  return svg;
 }

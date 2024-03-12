@@ -84,9 +84,7 @@ export default [
     options: { points: getRightPolygonPoints(8), fill: '#555555' }
   },
   {
-    key: 'trapezoid',
-    elem: '<svg width="48" height="46" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M31.7944 8H16.2056C14.8934 8 13.7335 8.85275 13.3421 10.1052L5.21713 36.1052C4.61345 38.037 6.05665 40 8.08057 40H39.9194C41.9433 40 43.3866 38.037 42.7829 36.1052L34.6579 10.1052C34.2665 8.85275 33.1066 8 31.7944 8Z" fill="#555" stroke="#555" stroke-width="4"/></svg>',
-    shape: fabric.Polygon,
-    options: { points: [{ x: 50, y: 0 }, { x: 0, y: 100 }, { x: 200, y: 100 }, { x: 150, y: 0 }], fill: '#555555' }
+    key: 'star',
+    elem: '<svg width="200" height="200" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.9986 5L17.8856 17.4776L4 19.4911L14.0589 29.3251L11.6544 43L23.9986 36.4192L36.3454 43L33.9586 29.3251L44 19.4911L30.1913 17.4776L23.9986 5Z" fill="#ffffff" stroke="#555555" stroke-width="4" stroke-linejoin="round"/></svg>'
   },
 ]
