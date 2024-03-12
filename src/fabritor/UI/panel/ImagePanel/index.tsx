@@ -13,10 +13,6 @@ export default function ImagePanel () {
     });
   }
 
-  // const addSvg = async (options) => {
-  //   await createSvg(options);
-  // }
-
   return (
     <div className="fabritor-panel-wrapper">
       <ImageSelector onChange={addImage} />

@@ -7,6 +7,7 @@ import createRect from '@/editor/objects/rect';
 import createShape from '@/editor/objects/shape';
 import { useContext } from 'react';
 import { GloablStateContext } from '@/context';
+import { createPathFromSvg } from '@/editor/objects/path';
 
 export default function ShapePanel () {
   const { editor } = useContext(GloablStateContext);
@@ -30,12 +31,15 @@ export default function ShapePanel () {
   }
 
   const addShape = (item) => {
-    const { key, options } = item;
+    const { key, elem, options } = item;
     const canvas = editor.canvas;
     switch(key) {
       case 'rect':
       case 'rect-r':
         createRect({ ...options, canvas });
+        break;
+      case 'star':
+        createPathFromSvg({ svgString: elem, canvas, sub_type: 'star', strokeWidth: 20 });
         break;
       default:
         createShape(item.shape, { ...options, canvas });
