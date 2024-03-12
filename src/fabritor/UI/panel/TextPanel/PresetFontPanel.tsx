@@ -3,10 +3,10 @@ import Title from '@/fabritor/components/Title';
 
 const PRESET_FONT_LIST = [
   {
-    label: <div style={{ fontSize: 30, fontFamily: '胡晓波男神体', fontWeight: 'bold' }}>添加标题</div>,
+    label: <div style={{ fontSize: 30, fontFamily: 'SmileySans', fontWeight: 'bold' }}>添加标题</div>,
     key: 'title',
     config: {
-      fontFamily: '胡晓波男神体',
+      fontFamily: 'SmileySans',
       fontWeight: 'bold',
       fontSize: 120,
       text: '添加标题',

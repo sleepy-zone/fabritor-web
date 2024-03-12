@@ -35,8 +35,32 @@ export const TEXTBOX_DEFAULT_CONFIG = {
 
 export const FONT_PRESET_FAMILY_LIST = [
   { 
+    label: <span style={{ fontFamily: 'SmileySans', fontSize: 16 }}>得意黑</span>, 
+    value: 'SmileySans' 
+  },
+  { 
+    label: <span style={{ fontFamily: '霞鹜新晰黑', fontSize: 16 }}>霞鹜新晰黑</span>, 
+    value: '霞鹜新晰黑' 
+  },
+  { 
+    label: <span style={{ fontFamily: '霞鹜文楷', fontSize: 16 }}>霞鹜文楷</span>, 
+    value: '霞鹜文楷' 
+  },
+  { 
+    label: <span style={{ fontFamily: '小赖字体', fontSize: 16 }}>小赖字体</span>, 
+    value: '小赖字体' 
+  },
+  { 
+    label: <span style={{ fontFamily: '悠哉字体', fontSize: 16 }}>悠哉字体</span>, 
+    value: '悠哉字体' 
+  },
+  { 
     label: <span style={{ fontFamily: 'AlibabaPuHuiTi', fontSize: 16 }}>阿里巴巴普惠体</span>, 
     value: 'AlibabaPuHuiTi'
+  },
+  { 
+    label: <span style={{ fontFamily: '霞鹜尚智黑', fontSize: 16 }}>霞鹜尚智黑</span>, 
+    value: '霞鹜尚智黑' 
   },
   { 
     label: <span style={{ fontFamily: 'SourceHanSans', fontSize: 16 }}>思源黑体</span>, 
@@ -55,14 +79,6 @@ export const FONT_PRESET_FAMILY_LIST = [
     value: '包图小白体' 
   },
   { 
-    label: <span style={{ fontFamily: '沐瑶软笔手写体', fontSize: 16 }}>沐瑶软笔手写体</span>, 
-    value: '沐瑶软笔手写体' 
-  },
-  { 
-    label: <span style={{ fontFamily: '站酷高端黑', fontSize: 16 }}>站酷高端黑</span>, 
-    value: '站酷高端黑' 
-  },
-  { 
     label: <span style={{ fontFamily: '手写杂字体', fontSize: 16 }}>手写杂字体</span>, 
     value: '手写杂字体' 
   },
@@ -75,18 +91,6 @@ export const FONT_PRESET_FAMILY_LIST = [
     value: '胡晓波骚包体' 
   },
   { 
-    label: <span style={{ fontFamily: '沐瑶随心手写体', fontSize: 16 }}>沐瑶随心手写体</span>, 
-    value: '沐瑶随心手写体' 
-  },
-  { 
-    label: <span style={{ fontFamily: '清松手寫體', fontSize: 16 }}>清松手寫體</span>, 
-    value: '清松手寫體' 
-  },
-  { 
-    label: <span style={{ fontFamily: '站酷酷黑体', fontSize: 16 }}>站酷酷黑体</span>, 
-    value: '站酷酷黑体' 
-  },
-  { 
     label: <span style={{ fontFamily: '站酷快乐体', fontSize: 16 }}>站酷快乐体</span>, 
     value: '站酷快乐体' 
   },
@@ -97,27 +101,7 @@ export const FONT_PRESET_FAMILY_LIST = [
   { 
     label: <span style={{ fontFamily: '站酷小薇LOGO体', fontSize: 16 }}>站酷小薇LOGO体</span>, 
     value: '站酷小薇LOGO体' 
-  },
-  { 
-    label: <span style={{ fontFamily: '霞鹜新晰黑', fontSize: 16 }}>霞鹜新晰黑</span>, 
-    value: '霞鹜新晰黑' 
-  },
-  { 
-    label: <span style={{ fontFamily: '霞鹜尚智黑', fontSize: 16 }}>霞鹜尚智黑</span>, 
-    value: '霞鹜尚智黑' 
-  },
-  { 
-    label: <span style={{ fontFamily: '霞鹜文楷', fontSize: 16 }}>霞鹜文楷</span>, 
-    value: '霞鹜文楷' 
-  },
-  { 
-    label: <span style={{ fontFamily: '小赖字体', fontSize: 16 }}>小赖字体</span>, 
-    value: '小赖字体' 
-  },
-  { 
-    label: <span style={{ fontFamily: '悠哉字体', fontSize: 16 }}>悠哉字体</span>, 
-    value: '悠哉字体' 
-  },
+  }
 ]
 
 export const SKETCH_ID = 'fabritor-sketch';
