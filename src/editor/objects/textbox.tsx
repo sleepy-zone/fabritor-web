@@ -54,6 +54,7 @@ export const createTextbox = async (options) => {
   const textBox = new fabric.FText(text || '这是一段文本', {
     ...TEXTBOX_DEFAULT_CONFIG,
     ...rest,
+    fontFamily,
     pathAlign: 'center',
     id: uuid()
   });
