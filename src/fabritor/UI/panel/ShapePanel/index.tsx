@@ -39,7 +39,8 @@ export default function ShapePanel () {
         createRect({ ...options, canvas });
         break;
       case 'star':
-        createPathFromSvg({ svgString: elem, canvas, sub_type: 'star', strokeWidth: 20 });
+      case 'heart':
+        createPathFromSvg({ svgString: elem, canvas, sub_type: key, strokeWidth: 20 });
         break;
       default:
         createShape(item.shape, { ...options, canvas });
