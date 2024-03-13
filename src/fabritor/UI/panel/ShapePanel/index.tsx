@@ -2,6 +2,7 @@ import { Flex } from 'antd';
 import Title from '@/fabritor/components/Title';
 import LineTypeList from './line-type-list';
 import ShapeTypeList from './shape-type-list';
+import RoughTypeList from './rough-type-list';
 import { drawArrowLine, drawLine, drawTriArrowLine } from '@/editor/objects/line';
 import createRect from '@/editor/objects/rect';
 import createShape from '@/editor/objects/shape';
@@ -10,7 +11,7 @@ import { GloablStateContext } from '@/context';
 import { createPathFromSvg } from '@/editor/objects/path';
 
 export default function ShapePanel () {
-  const { editor } = useContext(GloablStateContext);
+  const { editor, roughSvg } = useContext(GloablStateContext);
 
   const addLine = (item) => {
     const { type, options = {} } = item;
@@ -48,6 +49,22 @@ export default function ShapePanel () {
     }
   }
 
+  const addRough = (item) => {
+    const { key, elem, options } = item;
+    const canvas = editor.canvas;
+
+    const r = roughSvg.rectangle(0, 0, 400, 400, {
+      fill: '#F6C445',
+      stroke: '#EC6A52',
+      hachureGap: 16,
+      fillWeight: 6,
+      strokeWidth: 6
+    });
+    console.log(r)
+    const svgString = `<svg fill="none" xmlns="http://www.w3.org/2000/svg">${r.innerHTML}</svg>`
+    createPathFromSvg({ svgString, canvas, sub_type: key });
+  }
+
   return (
     <div className="fabritor-panel-wrapper">
       <Title>线条</Title>
@@ -74,6 +91,20 @@ export default function ShapePanel () {
               className="fabritor-panel-shape-item"
             >
               <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 64, height: 64 }} />
+            </div>
+          ))
+        }
+      </Flex>
+      <Title>手绘风格形状</Title>
+      <Flex gap={10} wrap="wrap" justify="space-around">
+        {
+          RoughTypeList.map(item => (
+            <div
+              key={item.key}
+              onClick={() => { addRough(item) }}
+              className="fabritor-panel-shape-item"
+            >
+              {item.elem}
             </div>
           ))
         }

@@ -12,7 +12,7 @@ import FabricHistory from './extensions/history';
 import AutoSave from './extensions/autosave';
 import { createGroup } from './objects/group';
 import createCustomClass from './custom-objects';
-import { HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL } from '@/config';
+import { HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL, CAPTURE_SUBTARGET_WHEN_DBLCLICK } from '@/config';
 
 export default class Editor {
   public canvas: fabric.Canvas;
@@ -222,10 +222,12 @@ export default class Editor {
         if (subTarget.type === 'f-text') {
           this._editTextInGroup(target, subTarget);
         } else {
-          subTarget.set('hasControls', false);
-          this.canvas.discardActiveObject();
-          this.canvas.setActiveObject(subTarget);
-          this.canvas.requestRenderAll();
+          if (CAPTURE_SUBTARGET_WHEN_DBLCLICK) {
+            subTarget.set('hasControls', false);
+            this.canvas.discardActiveObject();
+            this.canvas.setActiveObject(subTarget);
+            this.canvas.requestRenderAll();
+          }
         }
       }
     });
