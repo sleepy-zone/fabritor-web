@@ -2,6 +2,7 @@ import Cropper from 'cropperjs';
 import { useRef, useState, useEffect } from 'react';
 import { Button, Space } from 'antd';
 import { CloseOutlined, CheckOutlined, ExpandOutlined } from '@ant-design/icons';
+import { PANEL_WIDTH } from '@/config';
 
 import 'cropperjs/dist/cropper.css';
 
@@ -19,7 +20,7 @@ export default function ClipSetter (props) {
       src: object.getSrc(),
       width: boundingRect.width,
       height: boundingRect.height,
-      left: boundingRect.left + 420, // 420 is panel width
+      left: boundingRect.left + PANEL_WIDTH,
       top: boundingRect.top + 50 // 50 is setter toolbar height
     });
     setTimeout(() => {

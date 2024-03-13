@@ -58,7 +58,7 @@ export default function ShapePanel () {
               onClick={() => { addLine(item) }}
               className="fabritor-panel-shape-item"
             >
-              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 64, height: 64 }} />
+              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 48, height: 48 }} />
             </div>
           ))
         }

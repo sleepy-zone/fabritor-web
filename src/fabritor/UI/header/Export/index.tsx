@@ -6,6 +6,7 @@ import { useContext, useRef } from 'react';
 import { GloablStateContext } from '@/context';
 import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
 import { CenterV } from '@/fabritor/components/Center';
+import { SETTER_WIDTH } from '@/config';
 
 const items: MenuProps['items'] = [
   {
@@ -108,7 +109,7 @@ export default function Export () {
       justify="flex-end"
       gap={16}
       style={{
-        width: 280,
+        width: SETTER_WIDTH,
         paddingRight: 16
       }}
     >
