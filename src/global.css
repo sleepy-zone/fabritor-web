@@ -38,3 +38,9 @@ html, body {
     background-color: rgba(64,87,109,.07);
   }
 }
+
+#fabritor-rough-svg {
+  position: fixed;
+  left: 99999999;
+  top: 99999999;
+}

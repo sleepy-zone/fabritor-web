@@ -9,6 +9,7 @@ import { GloablStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
 import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
+import rough from 'roughjs';
 
 import '../font.css';
 
@@ -31,7 +32,9 @@ const contentStyle: React.CSSProperties = {
 export default function Fabritor () {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const workspaceEl = useRef<HTMLDivElement>(null);
+  const roughSvgEl = useRef(null);
   const [editor, setEditor] = useState<Editor | null>(null);
+  const [roughSvg, setRoughSvg] = useState<any>();
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
   const contextMenuRef = useRef<any>(null);
@@ -110,9 +113,15 @@ export default function Fabritor () {
     setActiveObject(_editor.sketch);
   }
 
+  const initRoughSvg = () => {
+    // @ts-ignore rough svg
+    setRoughSvg(rough.svg(roughSvgEl.current));
+  }
+
   useEffect(() => {
     if (editor) {
       initEvent();
+      initRoughSvg();
     }
   }, [editor]);
 
@@ -133,7 +142,8 @@ export default function Fabritor () {
         setActiveObject,
         isReady,
         setReady,
-        editor
+        editor,
+        roughSvg
       }}
     >
       <Layout style={{ height: '100%' }} className="fabritor-layout">
@@ -151,6 +161,8 @@ export default function Fabritor () {
           </Content>
           <Setter />
         </Layout>
+
+        <svg id="fabritor-rough-svg" ref={roughSvgEl} />
       </Layout>
     </GloablStateContext.Provider>
   )

@@ -7,6 +7,7 @@ export interface IGloablStateContext {
   isReady?: boolean;
   setReady?: (o: boolean) => void;
   editor?: Editor;
+  roughSvg?: any;
 }
 
 export const GloablStateContext = createContext<IGloablStateContext>(null);
