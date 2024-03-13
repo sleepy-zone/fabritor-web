@@ -10,6 +10,7 @@ import { CenterV } from '@/fabritor/components/Center';
 import CommonSetter from './CommonSetter';
 import GroupSetter from './GroupSetter';
 import PathSetter from './PathSetter';
+import { SETTER_WIDTH } from '@/config';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -119,7 +120,7 @@ export default function Setter () {
   return (
     <Sider
       style={siderStyle}
-      width={280}
+      width={SETTER_WIDTH}
       className="fabritor-sider"
     >
       {renderSetterTitle()}

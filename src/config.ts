@@ -12,3 +12,6 @@ export const HOVER_OBJECT_CONTROL = true;
 export const IMAGE_CLIPPATH_QUALITY = false;
 
 export const MAX_HISTORY_LENGTH = 100;
+
+export const PANEL_WIDTH = 360;
+export const SETTER_WIDTH = 280;

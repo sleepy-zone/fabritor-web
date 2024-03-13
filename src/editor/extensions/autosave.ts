@@ -13,6 +13,7 @@ export default class AutoSave {
     this.editor = editor;
 
     this.saving = false;
+    this.canSave = true;
 
     this.init();
   }

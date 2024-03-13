@@ -1,6 +1,7 @@
 import { Button, Drawer } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
+import { SETTER_WIDTH } from '@/config';
 
 export default function MoreConfigWrapper (props) {
   const { open, setOpen, title = '', children, ...rest } = props;
@@ -21,7 +22,7 @@ export default function MoreConfigWrapper (props) {
       open={open}
       mask={false}
       maskClosable={false}
-      width={280}
+      width={SETTER_WIDTH}
       rootStyle={{ top: 50, outline: 'none', }}
       contentWrapperStyle={{ boxShadow: 'none' }}
       bodyStyle={{ padding: 16 }}

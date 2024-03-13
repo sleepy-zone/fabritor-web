@@ -39,7 +39,8 @@ export default function ShapePanel () {
         createRect({ ...options, canvas });
         break;
       case 'star':
-        createPathFromSvg({ svgString: elem, canvas, sub_type: 'star', strokeWidth: 20 });
+      case 'heart':
+        createPathFromSvg({ svgString: elem, canvas, sub_type: key, strokeWidth: 20 });
         break;
       default:
         createShape(item.shape, { ...options, canvas });
@@ -58,7 +59,7 @@ export default function ShapePanel () {
               onClick={() => { addLine(item) }}
               className="fabritor-panel-shape-item"
             >
-              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 64, height: 64 }} />
+              <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 48, height: 48 }} />
             </div>
           ))
         }

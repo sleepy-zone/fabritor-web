@@ -8,9 +8,9 @@ import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
+import { PANEL_WIDTH } from '@/config';
 
 import './index.scss';
-import { useState } from 'react';
 
 const { Sider } = Layout;
 
@@ -102,7 +102,7 @@ export default function Panel () {
   return (
     <Sider
       style={siderStyle}
-      width={420}
+      width={PANEL_WIDTH}
       className="fabritor-sider"
     >
       <Tabs
