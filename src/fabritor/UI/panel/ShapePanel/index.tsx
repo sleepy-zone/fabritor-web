@@ -9,6 +9,7 @@ import createShape from '@/editor/objects/shape';
 import { useContext } from 'react';
 import { GloablStateContext } from '@/context';
 import { createPathFromSvg } from '@/editor/objects/path';
+import Center from '@/fabritor/components/Center';
 
 export default function ShapePanel () {
   const { editor, roughSvg } = useContext(GloablStateContext);
@@ -50,19 +51,23 @@ export default function ShapePanel () {
   }
 
   const addRough = (item) => {
-    const { key, elem, options } = item;
+    const { key, options } = item;
     const canvas = editor.canvas;
+    let svg;
+    switch (key) {
+      case 'rough-line':
+        svg = roughSvg.line(0, 0, 300, 0, options);
+        break;
+      case 'rough-rect':
+        svg = roughSvg.rectangle(0, 0, 400, 400, options);
+        break;
+      default:
+        break;
+    }
 
-    const r = roughSvg.rectangle(0, 0, 400, 400, {
-      fill: '#F6C445',
-      stroke: '#EC6A52',
-      hachureGap: 16,
-      fillWeight: 6,
-      strokeWidth: 6
-    });
-    console.log(r)
-    const svgString = `<svg fill="none" xmlns="http://www.w3.org/2000/svg">${r.innerHTML}</svg>`
-    createPathFromSvg({ svgString, canvas, sub_type: key });
+    console.log(svg)
+    const svgString = `<svg fill="none" xmlns="http://www.w3.org/2000/svg">${svg.innerHTML}</svg>`
+    createPathFromSvg({ svgString, canvas, sub_type: 'rough' });
   }
 
   return (
@@ -95,7 +100,7 @@ export default function ShapePanel () {
           ))
         }
       </Flex>
-      <Title>手绘风格形状</Title>
+      <Title>手绘风格</Title>
       <Flex gap={10} wrap="wrap" justify="space-around">
         {
           RoughTypeList.map(item => (
@@ -104,7 +109,9 @@ export default function ShapePanel () {
               onClick={() => { addRough(item) }}
               className="fabritor-panel-shape-item"
             >
-              {item.elem}
+              <Center style={{ width: 64, height: 64 }}>
+                <img src={item.elem} style={{ width: 64 }} />
+              </Center>
             </div>
           ))
         }

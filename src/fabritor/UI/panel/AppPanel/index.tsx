@@ -38,7 +38,7 @@ export default function AppPanel () {
           APP_LIST.map(item => (
             <Card
               hoverable
-              style={{ width: 150, paddingTop: 12 }}
+              style={{ width: 120, paddingTop: 12 }}
               key={item.key}
               cover={item.icon}
               bodyStyle={{ padding: 12 }}

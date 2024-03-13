@@ -41,6 +41,7 @@ html, body {
 
 #fabritor-rough-svg {
   position: fixed;
-  left: 99999999;
-  top: 99999999;
+  left: 99999999px;
+  top: 99999999px;
+  z-index: -1;
 }
