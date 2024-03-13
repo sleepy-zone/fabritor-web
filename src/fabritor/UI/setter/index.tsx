@@ -10,6 +10,7 @@ import { CenterV } from '@/fabritor/components/Center';
 import CommonSetter from './CommonSetter';
 import GroupSetter from './GroupSetter';
 import PathSetter from './PathSetter';
+import RoughSetter from './RoughSetter';
 import { SETTER_WIDTH } from '@/config';
 
 const { Sider } = Layout;
@@ -46,8 +47,15 @@ export default function Setter () {
       case 'f-image':
         return <ImageSetter />;
       case 'path':
+        if (object?.sub_type === 'rough') {
+          return <RoughSetter />
+        }
         return <PathSetter />;
       case 'group':
+        if (object?.sub_type === 'rough') {
+          return <RoughSetter />
+        }
+        return <GroupSetter />;
       case 'activeSelection':
         return <GroupSetter />;
       default:
@@ -92,10 +100,17 @@ export default function Setter () {
         return '配置'
       case 'path':
         if (object?.sub_type) {
+          if (object?.sub_type === 'rough') {
+            return '手绘风格';
+          }
           return '形状';
         }
         return '画笔'
       case 'group':
+        if (object?.sub_type === 'rough') {
+          return '手绘风格';
+        }
+        return '组合';
       case 'activeSelection':
         return '组合';
       default:
