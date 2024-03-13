@@ -1,4 +1,4 @@
-import { Flex } from 'antd';
+import { Flex, Tag } from 'antd';
 import Title from '@/fabritor/components/Title';
 import LineTypeList from './line-type-list';
 import ShapeTypeList from './shape-type-list';
@@ -61,6 +61,17 @@ export default function ShapePanel () {
       case 'rough-rect':
         svg = roughSvg.rectangle(0, 0, 400, 400, options);
         break;
+      case 'rough-circle':
+        svg = roughSvg.circle(0, 0, 300, options);
+        break;
+      case 'rough-ellipse':
+        svg = roughSvg.ellipse(0, 0, 300, 150, options);
+        break;
+      case 'rough-right-angle':
+        svg = roughSvg.polygon([[0, 0], [0, 300], [300, 300]], options);
+        break;
+      case 'rough-diamond':
+        svg = roughSvg.polygon([[0, 150], [150, 300], [300, 150], [150, 0]], options);
       default:
         break;
     }
@@ -100,7 +111,12 @@ export default function ShapePanel () {
           ))
         }
       </Flex>
-      <Title>手绘风格</Title>
+      <Title>
+        <div style={{ position: 'relative' }}>
+          <span>手绘风格</span>
+          <Tag color='#f50' style={{ position: 'absolute', right: -48, top: -5, padding: '0 4px' }}>beta</Tag>
+        </div>
+      </Title>
       <Flex gap={10} wrap="wrap" justify="space-around">
         {
           RoughTypeList.map(item => (
