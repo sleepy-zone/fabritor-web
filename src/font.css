@@ -48,12 +48,6 @@
 }
 
 @font-face {
-  font-family: "江西拙楷";
-  src: url("./assets/fonts/江西拙楷.ttf");
-  font-display: swap;
-}
-
-@font-face {
   font-family: "悠哉字体";
   src: url("./assets/fonts/Yozai-Regular.ttf");
   font-display: swap;
@@ -86,12 +80,6 @@
 @font-face {
   font-family: "站酷快乐体";
   src: url("./assets/fonts/站酷快乐体.ttf");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "站酷庆科黄油体";
-  src: url("./assets/fonts/站酷庆科黄油体.ttf");
   font-display: swap;
 }
 
