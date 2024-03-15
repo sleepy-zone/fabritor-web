@@ -48,7 +48,6 @@ export default function Export () {
     reader.onload = (async (evt) => {
       const json = evt.target?.result as string;
       if (json) {
-        editor.canvas.clear();
         await editor.loadFromJSON(json, true);
         editor.fhistory.reset();
         setReady(true);

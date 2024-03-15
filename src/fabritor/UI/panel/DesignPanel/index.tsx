@@ -41,7 +41,6 @@ export default function Layer () {
 
   const loadDemo = async () => {
     setReady(false);
-    editor.canvas.clear();
     await editor.loadFromJSON(DEMOJSON, true);
     editor.fhistory.reset();
     setReady(true);
