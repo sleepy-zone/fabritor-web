@@ -87,7 +87,7 @@ export default function TextFx () {
       textBackgroundColor: object.textBackgroundColor,
       shadow: {
         enable: !!object.shadow,
-        color: object.shadow?.color || object.stroke,
+        color: object.shadow?.color || object.stroke || '#000000',
         blur: object.shadow?.blur || 0,
         offset: object.shadow?.offsetX || 0
       },
