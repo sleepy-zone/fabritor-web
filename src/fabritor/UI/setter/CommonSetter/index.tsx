@@ -8,6 +8,7 @@ import { CenterV } from '@/fabritor/components/Center';
 import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 import FlipSetter from './FlipSetter';
 import { Divider } from 'antd';
+import PositionSetter from './PositionSetter';
 
 const ALIGH_TYPES = [
   {
@@ -176,6 +177,8 @@ export default function CommonSetter () {
           ))
         }
       </CenterV>
+      <Divider style={{ margin: '16px 0' }} />
+      <PositionSetter />
     </>
   )
 }
