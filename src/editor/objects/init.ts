@@ -4,7 +4,9 @@ import { IMAGE_CLIPPATH_QUALITY } from '@/config';
 
 export const initObjectPrototype = () => {
   if (IMAGE_CLIPPATH_QUALITY) {
-    fabric.Object.prototype.needsItsOwnCache = () => false
+    fabric.Object.prototype.needsItsOwnCache = () => false;
+    // @ts-ignore
+    fabric.perfLimitSizeTotal = 16777216; // allows for up to 4096x4096 cache
   }
 
   // Text global config
