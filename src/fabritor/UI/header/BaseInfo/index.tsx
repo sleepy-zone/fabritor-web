@@ -15,6 +15,8 @@ export default function BaseInfo () {
     const { sketch } = editor;
     // @ts-ignore custom desc
     sketch.set('fabritor_desc', _v);
+
+    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export default function BaseInfo () {
     const { sketch } = editor;
     // @ts-ignore custom desc
     setDesc(sketch.fabritor_desc);
-  }, [editor]);
+  }, [editor?.sketch]);
 
   return (
     <Text

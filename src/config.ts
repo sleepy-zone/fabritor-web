@@ -9,7 +9,7 @@ export const HOVER_OBJECT_CONTROL = true;
 // Image ClipPath bug?
 // https://github.com/fabricjs/fabric.js/issues/5639
 // but will cause low performance
-export const IMAGE_CLIPPATH_QUALITY = false;
+export const IMAGE_CLIPPATH_QUALITY = true;
 
 export const MAX_HISTORY_LENGTH = 100;
 
