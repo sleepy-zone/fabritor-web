@@ -6,13 +6,23 @@ import { GloablStateContext } from '@/context';
 const { Item: FormItem } = Form;
 
 const PxInputNumber = (props) => {
-  const { ...rest } = props;
+  const { value, onChange, ...rest } = props;
+  const [innerValue, setInnerValue] = useState(value);
+
+  useEffect(() => {
+    setInnerValue(value);
+  }, [value]);
+
   return (
     <InputNumber
       style={{ width: '100%' }}
       controls={false}
       step={1}
       precision={2}
+      changeOnBlur
+      value={innerValue}
+      onChange={setInnerValue}
+      onPressEnter={() => { onChange?.(innerValue) }}
       {...rest}
     />
   )
@@ -27,25 +37,26 @@ export default function PositionSetter () {
   const [form] = Form.useForm();
 
   const handleSize = (key, value) => {
+    const realValue = value - object.strokeWidth;
     if (key === 'width') {
       if (isNoScaledSizeTypeRef.current) {
         object.set({
-          width: value,
+          width: realValue,
           scaleX: 1,
           scaleY: 1
         });
       } else {
-        object.scaleToWidth(value, true);
+        object.scaleToWidth(realValue, true);
       }
     } else if (key === 'height') {
       if (isNoScaledSizeTypeRef.current) {
         object.set({
-          height: value,
+          height: realValue,
           scaleX: 1,
           scaleY: 1
         });
       } else {
-        object.scaleToHeight(value, true);
+        object.scaleToHeight(realValue, true);
       }
     }
   }
@@ -92,10 +103,10 @@ export default function PositionSetter () {
   }
 
   useEffect(() => {
-    if (object && !object.group || object.type !== 'activeSelection') {
+    if (showMore && object && !object.group || object.type !== 'activeSelection') {
       init();
     }
-  }, [object]);
+  }, [object, showMore]);
 
   return (
     <>
@@ -111,7 +122,6 @@ export default function PositionSetter () {
             layout="vertical"
             colon={false}
             onValuesChange={handleChange}
-            validateTrigger="onBlur"
           >
             <Row gutter={8}>
               <Col span={8}>
@@ -125,7 +135,7 @@ export default function PositionSetter () {
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem label="锁定比例" name="lockRatio">
+                <FormItem label="锁定比例" name="lockRatio" valuePropName="checked">
                   <Switch disabled />
                 </FormItem>
               </Col>
