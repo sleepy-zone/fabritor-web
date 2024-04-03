@@ -68,7 +68,6 @@ export default function CommonSetter () {
     object.set('opacity', v);
     setOpacity(v);
     editor.canvas.requestRenderAll();
-    editor.fireCustomModifiedEvent();
   }
 
   const handleFlip = (key) => {
@@ -130,7 +129,11 @@ export default function CommonSetter () {
           }
         </ToolbarItem>
         <ToolbarItem tooltipProps={{ placement: 'top' }} title="透明度">
-          <OpacitySetter value={opacity} onChange={handleOpacity} />
+          <OpacitySetter
+            value={opacity}
+            onChange={handleOpacity}
+            onChangeComplete={() => { editor.fireCustomModifiedEvent(); }}
+          />
         </ToolbarItem>
         <ToolbarItem
           tooltipProps={{ placement: 'top' }}

@@ -36,6 +36,7 @@ export default function ShapeSetter () {
     object.setCoords();
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
+    // TODO editor.fireCustomModifiedEvent();
   }
 
   const handleValuesChange = (values) => {

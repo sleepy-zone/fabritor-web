@@ -37,6 +37,7 @@ export default function PathSetter () {
 
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
+    // TODO editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {

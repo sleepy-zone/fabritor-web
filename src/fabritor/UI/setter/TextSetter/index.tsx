@@ -97,10 +97,7 @@ export default function TextSetter () {
    
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
-  }
-
-  const handleTextAdvanceConfigClick = (itemConfig) => {
-
+    // TODO editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {

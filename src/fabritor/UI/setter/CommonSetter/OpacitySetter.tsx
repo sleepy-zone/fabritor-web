@@ -2,7 +2,7 @@ import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 import { Popover } from 'antd';
 
 export default function OpacitySetter (props) {
-  const { value, onChange } = props;
+  const { value, onChange, onChangeComplete } = props;
 
   return (
     <Popover
@@ -14,6 +14,7 @@ export default function OpacitySetter (props) {
           step={0.01}
           value={value}
           onChange={onChange}
+          onChangeComplete={onChangeComplete}
         />
       }
       placement="bottom"

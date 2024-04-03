@@ -39,6 +39,7 @@ export default function LineSetter () {
 
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
+    // TODO editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {

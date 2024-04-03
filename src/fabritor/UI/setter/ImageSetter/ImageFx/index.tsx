@@ -22,7 +22,7 @@ const handleFilterValue = (filter) => {
 }
 
 export default function ImageFx () {
-  const { object } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleFxValueChange = (values) => {
@@ -51,6 +51,7 @@ export default function ImageFx () {
       }
       object.applyFilter(filter);
       object.canvas.requestRenderAll();
+      editor.fireCustomModifiedEvent();
     }
   }
 
