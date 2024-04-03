@@ -31,6 +31,7 @@ export default function ImageSetter () {
     if (base64) {
       (object as fabric.Image).setSrc(base64, () => {
         editor.canvas.requestRenderAll();
+        editor.fireCustomModifiedEvent();
       });
     }
   }
@@ -58,11 +59,11 @@ export default function ImageSetter () {
     if (values.flip) {
       object.set(values.flip, !object[values.flip]);
       editor.canvas.requestRenderAll();
+      editor.fireCustomModifiedEvent();
     }
     if (values.border) {
       handleBorder(values.border);
     }
-    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {

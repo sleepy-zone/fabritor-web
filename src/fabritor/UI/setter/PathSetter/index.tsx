@@ -36,7 +36,6 @@ export default function PathSetter () {
     }
 
     editor.canvas.requestRenderAll();
-    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {
@@ -58,6 +57,11 @@ export default function PathSetter () {
   if (!object || object.type !== 'path') return null;
 
   return (
-    <PathSetterForm showFillConfig={object?.sub_type} value={value} onChange={handleChange} />
+    <PathSetterForm
+      showFillConfig={object?.sub_type}
+      shouldFireEvent
+      value={value}
+      onChange={handleChange}
+    />
   )
 }

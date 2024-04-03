@@ -20,15 +20,18 @@ export default function LineSetter () {
       switch (key) {
         case 'stroke':
           object.set('stroke', values[key]);
+          editor.fireCustomModifiedEvent();
           break;
         case 'strokeWidth':
           object.setStrokeWidth(values[key]);
           break;
         case 'round':
           object.set('strokeLineCap', values[key] ? 'round' : 'butt');
+          editor.fireCustomModifiedEvent();
           break;
         case 'type':
           object.set('strokeDashArray', getStrokeDashArray({ type: values[key], strokeWidth: object.strokeWidth }));
+          editor.fireCustomModifiedEvent();
           break;
         default:
           break;
@@ -38,7 +41,6 @@ export default function LineSetter () {
     object.setCoords();
 
     editor.canvas.requestRenderAll();
-    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {
@@ -87,6 +89,7 @@ export default function LineSetter () {
         <SliderInputNumber
           min={1}
           max={50}
+          onChangeComplete={() => { editor.fireCustomModifiedEvent(); }}
         />
       </FormItem>
       <FormItem

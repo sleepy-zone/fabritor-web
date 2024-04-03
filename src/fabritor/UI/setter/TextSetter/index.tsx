@@ -39,13 +39,6 @@ export default function TextSetter () {
     });
   }
 
-  const handleTextStroke = (border) => {
-    object.set({
-      stroke: border.stroke,
-      strokeWidth: border.strokeWidth
-    });
-  }
-
   const handleFill = (_fill) => {
     let fill = transformColors2Fill(_fill);
     // text gradient nor support percentage https://github.com/fabricjs/fabric.js/issues/8168  
@@ -80,8 +73,6 @@ export default function TextSetter () {
         } finally {
           object.set(key, values[key]);
         }
-      } else if (key === 'border') {
-        handleTextStroke(values[key]);
       } else if (key === 'fill') {
         handleFill(values[key]);
       } else {
@@ -93,14 +84,13 @@ export default function TextSetter () {
           object.set(key, values[key]);
         }
       }
+
+      if (key !== 'fontSize' && key !== 'lineHeight' && key !== 'charSpacing') {
+        editor.fireCustomModifiedEvent();
+      }
     }
    
     editor.canvas.requestRenderAll();
-    editor.fireCustomModifiedEvent();
-  }
-
-  const handleTextAdvanceConfigClick = (itemConfig) => {
-
   }
 
   useEffect(() => {
@@ -116,10 +106,6 @@ export default function TextSetter () {
         italic: object.fontStyle === 'italic',
         underline: object.underline,
         linethrough: object.linethrough
-      },
-      border: {
-        stroke: object.stroke,
-        strokeWidth: object.strokeWidth
       }
     });
   }, [object]);
@@ -143,7 +129,7 @@ export default function TextSetter () {
           name="fontSize"
           label="字号"
         >
-          <SliderInputNumber max={400} />
+          <SliderInputNumber max={400} onChangeComplete={() =>{ editor.fireCustomModifiedEvent() }} />
         </FormItem>
         <FormItem
           name="fill"
@@ -170,6 +156,7 @@ export default function TextSetter () {
           <SliderInputNumber
             min={-200}
             max={800}
+            onChangeComplete={() =>{ editor.fireCustomModifiedEvent() }}
           />
         </FormItem>
         <FormItem
@@ -180,6 +167,7 @@ export default function TextSetter () {
             min={0.5}
             max={2.5}
             step={0.01}
+            onChangeComplete={() =>{ editor.fireCustomModifiedEvent() }}
           />
         </FormItem>
       </Form>
