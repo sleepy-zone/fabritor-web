@@ -56,7 +56,7 @@ export default function PathSetterForm (props) {
         label="颜色"
         name={['shadow', 'color']}
       >
-        <ColorSetter onChange={fireEvent} />
+        <SolidColorSetter onChange={fireEvent} />
       </FormItem>
       <FormItem
         label="宽度"
