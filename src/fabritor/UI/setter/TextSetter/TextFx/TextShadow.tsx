@@ -24,9 +24,6 @@ export default function TextShadow (props) {
   return (
     <Form form={form} onValuesChange={handleChange} colon={false}>
       <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>阴影</span>} />
-      <FormItem label="启用" name="enable" valuePropName="checked">
-        <Switch />
-      </FormItem>
       <FormItem label="颜色" name="color">
         <ColorSetter />
       </FormItem>

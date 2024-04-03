@@ -1,3 +1,4 @@
+import { fabric } from 'fabric';
 import * as FontFaceObserver from 'fontfaceobserver';
 import { v4 as uuidv4 } from 'uuid';
 import { FONT_PRESET_FAMILY_LIST, LOG_PREFIX } from './constants';
@@ -57,7 +58,7 @@ const transformCoords2Angel = (coords) => {
 }
 
 export const transformFill2Colors = (v) => {
-  if (!v || typeof v === 'string') {
+  if (!v || typeof v === 'string' || v instanceof fabric.Pattern) {
     return { type: 'solid', color: v || '#ffffff' };
   }
   return {

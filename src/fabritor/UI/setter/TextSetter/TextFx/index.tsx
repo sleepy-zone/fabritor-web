@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { fabric } from 'fabric';
-import { Slider, Form } from 'antd';
+import { Divider, Form } from 'antd';
 import ColorSetter from '../../ColorSetter';
 import { GloablStateContext } from '@/context';
 import TextShadow from './TextShadow';
@@ -9,6 +9,7 @@ import TextPattern from './TextPattern';
 import { drawTextPath, getPathOffset, removeTextPath } from '@/editor/objects/textbox';
 import { loadImageDom } from '@/editor/objects/image';
 import { transformColors2Fill, transformFill2Colors } from '@/utils';
+import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 
 const { Item: FormItem } = Form;
 
@@ -50,17 +51,13 @@ export default function TextFx () {
     for (let key of keys) {
       const v = values[key];
       if (key === 'shadow') {
-        if (v.enable) {
-          // @ts-ignore object shadow
-          object.shadow = {
-            color: v.color,
-            blur: v.blur,
-            offsetX: v.offset,
-            offsetY: v.offset
-          };
-        } else {
-          object.shadow = undefined;
-        }
+        // @ts-ignore object shadow
+        object.shadow = {
+          color: v.color,
+          blur: v.blur,
+          offsetX: v.offset,
+          offsetY: v.offset
+        };
       } else if (key === 'path') {
         if (v.enable) {
           drawTextPath(object, v.offset);
@@ -86,7 +83,6 @@ export default function TextFx () {
       strokeWidth: object.strokeWidth || 0,
       textBackgroundColor: object.textBackgroundColor,
       shadow: {
-        enable: !!object.shadow,
         color: object.shadow?.color || object.stroke || '#000000',
         blur: object.shadow?.blur || 0,
         offset: object.shadow?.offsetX || 0
@@ -120,7 +116,7 @@ export default function TextFx () {
         <ColorSetter />
       </FormItem>
       <FormItem label="粗细" name="strokeWidth">
-        <Slider
+        <SliderInputNumber
           min={0}
           max={20}
         />
@@ -130,6 +126,7 @@ export default function TextFx () {
         <TextShadow />
       </FormItem>
       
+      {/* warning: text path conflict with gradient fill */}
       <FormItem name="path" style={{ marginBottom: 0 }}>
         <TextPath />
       </FormItem>
