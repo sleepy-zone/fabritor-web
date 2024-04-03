@@ -49,7 +49,6 @@ export default function ImageSetter () {
       });
     }
 
-    // TODO editor.fireCustomModifiedEvent();
     editor.canvas.requestRenderAll();
   }
 

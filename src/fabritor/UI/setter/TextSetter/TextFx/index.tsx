@@ -77,7 +77,6 @@ export default function TextFx () {
     }
     editor.canvas.requestRenderAll();
     editor.fireCustomModifiedEvent();
-    // TODO editor.fireCustomModifiedEvent();
   }
 
   const initObjectFx = () => {

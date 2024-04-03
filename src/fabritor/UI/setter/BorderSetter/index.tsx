@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Radio, Form } from 'antd';
 import ColorSetter from '../ColorSetter/Solid';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
+import { GloablStateContext } from '@/context';
 
 const { Item: FormItem } = Form;
 
@@ -54,6 +55,7 @@ export const BORDER_TYPES = [
 
 export default function BorderSetter (props) {
   const { value, onChange } = props;
+  const { editor } = useContext(GloablStateContext);
   const [form] = Form.useForm();
 
   const handleChange = (v) => {
@@ -61,6 +63,10 @@ export default function BorderSetter (props) {
       ...value,
       ...v
     });
+  }
+
+  const fireEvent = () => {
+    editor.fireCustomModifiedEvent();
   }
 
   useEffect(() => {
@@ -74,7 +80,7 @@ export default function BorderSetter (props) {
       colon={false}
     >
       <FormItem name="type" label="样式" labelCol={{ span: 24 }}>
-        <Radio.Group>
+        <Radio.Group onChange={fireEvent}>
         {
           BORDER_TYPES.map(item => (
             <Radio.Button key={item.key} value={item.key}>
@@ -92,18 +98,20 @@ export default function BorderSetter (props) {
         </Radio.Group>
       </FormItem>
       <FormItem name="stroke" label="颜色">
-        <ColorSetter />
+        <ColorSetter onChange={fireEvent} />
       </FormItem>
       <FormItem name="strokeWidth" label="粗细">
         <SliderInputNumber
           min={1}
           max={100}
+          onChangeComplete={fireEvent}
         />
       </FormItem>
       <FormItem name="borderRadius" label="圆角">
         <SliderInputNumber
           min={0}
           max={200}
+          onChangeComplete={fireEvent}
         />
       </FormItem>
     </Form>
