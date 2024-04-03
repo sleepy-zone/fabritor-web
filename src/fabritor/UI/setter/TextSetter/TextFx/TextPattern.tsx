@@ -1,4 +1,4 @@
-import { Form, Switch } from 'antd';
+import { Form, Switch, Row, Col } from 'antd';
 import { useEffect } from 'react';
 import ImageSelector from '@/fabritor/components/ImageSelector';
 
@@ -23,10 +23,16 @@ export default function TextPattern (props) {
 
   return (
     <Form form={form} onValuesChange={handleChange} colon={false}>
-      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>图片填充</span>} />
-      <FormItem label="启用" name="enable" valuePropName="checked">
-        <Switch />
-      </FormItem>
+      <Row gutter={16}>
+        <Col>
+          <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>图片填充</span>} />
+        </Col>
+        <Col>
+          <FormItem name="enable" valuePropName="checked">
+            <Switch />
+          </FormItem>
+        </Col>
+      </Row>
       <FormItem name="url">
         <ImageSelector size="middle" type="default" />
       </FormItem>
