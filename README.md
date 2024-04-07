@@ -7,7 +7,7 @@
 
 <p align="center"><img alt="banner" src="/public/fabritor_2024_1.png"></p>
 
-### 文档
+### 🔥 文档
 
 <strong>正在编写 [fabritor 手册](https://sleepy-zone.github.io/fabritor-handbook)，跟着 faritor 一起学习 fabric.js</strong>
 
