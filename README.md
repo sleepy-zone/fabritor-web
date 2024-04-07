@@ -1,11 +1,17 @@
 <p align="center"><img alt="logo" src="/public/logo.svg"></p>
 
 <p align="center">
-  <strong>👻 fabritor, A creative editor based on fabricjs</strong>
+  <strong>👻 fabritor, A creative editor based on fabricjs</strong><br/>
   <strong>😘 快速构建属于自己的图片编辑器</strong>
 </p>
 
 <p align="center"><img alt="banner" src="/public/fabritor_2024_1.png"></p>
+
+### 文档
+
+<strong>正在编写 [fabritor 手册](https://sleepy-zone.github.io/fabritor-handbook)，跟着 faritor 一起学习 fabric.js</strong>
+
+手册内覆盖几乎所有的 fabritor 特性，也是一本 fabric.js 学习手册！
 
 ### 👻 特性
 
