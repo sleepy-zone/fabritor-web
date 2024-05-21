@@ -1,4 +1,26 @@
 {
+  "header": {
+    "fabritor_desc": "我的画板 by fabritor",
+    "export": {
+      "jpg": "导出为 JPG",
+      "png": "导出为 PNG",
+      "svg": "导出为 SVG",
+      "json": "导出为 JSON",
+      "clipboard": "复制到剪贴板",
+      "load": "加载模板",
+      "export": "导出",
+      "copy_success": "复制成功",
+      "copy_failed": "复制失败，请选择导出到本地"
+    },
+    "toolbar": {
+      "undo": "撤销",
+      "redo": "重做",
+      "select": "选择元素",
+      "pan": "拖拽画布",
+      "clear": "清空画布",
+      "clear_confirm": "确认清空画布，同时清空历史操作记录？"
+    }
+  },
   "panel": {
     "design": "图层"
   },
