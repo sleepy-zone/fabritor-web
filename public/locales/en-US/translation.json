@@ -1,4 +1,26 @@
 {
+  "header": {
+    "fabritor_desc": "My drawing by fabritor",
+    "export": {
+      "jpg": "Export as JPG",
+      "png": "Export as PNG",
+      "svg": "Export as SVG",
+      "json": "Export as JSON",
+      "clipboard": "Copy to Clipboard",
+      "load": "Load",
+      "export": "Export",
+      "copy_success": "Copied successfully",
+      "copy_failed": "Copy failed, please choose to export to local"
+    },
+    "toolbar": {
+      "undo": "Undo",
+      "redo": "Redo",
+      "select": "Select",
+      "pan": "Pan",
+      "clear": "Clear",
+      "clear_confirm": "Confirm to clear the canvas and clear the historical operation records?"
+    }
+  },
   "panel": {
     "design": "Design"
   },
