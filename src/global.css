@@ -11,6 +11,10 @@ html, body {
   padding: 8px 18px;
 }
 
+.fabritor-layout .ant-tabs-tab-btn {
+  width: 100%;
+}
+
 .ant-tabs-content-holder {
   overflow: auto !important;
 }
