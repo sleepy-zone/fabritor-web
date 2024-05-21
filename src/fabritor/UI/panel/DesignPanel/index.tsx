@@ -5,7 +5,7 @@ import { SKETCH_ID } from '@/utils/constants';
 import { GroupOutlined, HeartTwoTone } from '@ant-design/icons';
 import ContextMenu from '@/fabritor/components/ContextMenu';
 import DEMOJSON from '@/assets/demo.json';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@/i18n/utils';
 
 export default function Layer () {
   const { isReady, setReady, object: activeObject, setActiveObject, editor } = useContext(GloablStateContext);
