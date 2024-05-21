@@ -2,6 +2,7 @@ import { fabric } from 'fabric';
 import * as FontFaceObserver from 'fontfaceobserver';
 import { v4 as uuidv4 } from 'uuid';
 import { FONT_PRESET_FAMILY_LIST, LOG_PREFIX } from './constants';
+import i18n from '@/i18n';
 
 export const loadFont = async (f: string) => {
   if (!f) return Promise.resolve();
@@ -149,4 +150,8 @@ export const base64ToBlob = async (base64Data) => {
   return fetch(base64Data).then((res) => {
     return res.blob();
   });
+}
+
+export const translate = (key) => {
+  return i18n.t(key);
 }

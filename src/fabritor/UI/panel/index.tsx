@@ -9,6 +9,7 @@ import DesignPanel from './DesignPanel';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
 import { PANEL_WIDTH } from '@/config';
+import { translate } from '@/utils';
 
 import './index.scss';
 
@@ -24,7 +25,7 @@ const iconStyle = { fontSize: 18, marginRight: 0 };
 
 const OBJECT_TYPES = [
   {
-    label: '图层',
+    label: translate('panel.design'),
     value: 'design',
     icon: <AlertOutlined style={iconStyle} />
   },
