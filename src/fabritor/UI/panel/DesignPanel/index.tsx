@@ -5,10 +5,12 @@ import { SKETCH_ID } from '@/utils/constants';
 import { GroupOutlined, HeartTwoTone } from '@ant-design/icons';
 import ContextMenu from '@/fabritor/components/ContextMenu';
 import DEMOJSON from '@/assets/demo.json';
+import { useTranslation } from 'react-i18next';
 
 export default function Layer () {
   const { isReady, setReady, object: activeObject, setActiveObject, editor } = useContext(GloablStateContext);
   const [layers, setLayers] = useState([]);
+  const { t } = useTranslation();
 
   const getCanvasLayers = (objects) => {
     const _layers: any = [];
@@ -119,7 +121,7 @@ export default function Layer () {
           description={
             <div>
               <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 40 }} />
-              <p style={{ color: '#aaa', fontSize: 16 }}>开始挥洒你的创意 ~</p>
+              <p style={{ color: '#aaa', fontSize: 16 }}>{t('design.start')}</p>
               <Divider />
               <Button onClick={loadDemo}>或者从一个简单的 DEMO 开始</Button>
             </div>
