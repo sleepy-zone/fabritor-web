@@ -22,9 +22,19 @@
     }
   },
   "panel": {
-    "design": "图层"
-  },
-  "design": {
-    "start": "开始挥洒你的创意 ~"
+    "design": {
+      "title": "图层",
+      "start": "开始挥洒你的创意 ~",
+      "startFromDemo": "或者从一个简单 DEMO 开始"
+    },
+    "text": {
+      "title": "文字",
+      "add": "添加文本框",
+      "addTitle": "添加标题",
+      "addSubTitle": "添加副标题",
+      "addContent": "添加一段正文",
+      "addTextWithBorder": "文字边框",
+      "preset": "默认文字样式"
+    }
   }
 }

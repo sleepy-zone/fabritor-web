@@ -121,9 +121,9 @@ export default function Layer () {
           description={
             <div>
               <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 40 }} />
-              <p style={{ color: '#aaa', fontSize: 16 }}>{t('design.start')}</p>
+              <p style={{ color: '#aaa', fontSize: 16 }}>{t('panel.design.start')}</p>
               <Divider />
-              <Button onClick={loadDemo}>或者从一个简单的 DEMO 开始</Button>
+              <Button onClick={loadDemo}>{t('panel.design.start_demo')}</Button>
             </div>
           }
         />

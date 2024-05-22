@@ -22,9 +22,19 @@
     }
   },
   "panel": {
-    "design": "Design"
-  },
-  "design": {
-    "start": "Start"
+    "design": {
+      "title": "Design",
+      "start": "Start with your creativity",
+      "start_demo": "Or start with a simple DEMO"
+    },
+    "text": {
+      "title": "Text",
+      "add": "Add Text Box",
+      "add_title": "Add title",
+      "add_subtitle": "Add subtitle",
+      "add_body_text": "Add a body of text",
+      "add_text_border": "Text with border",
+      "presets": "Presets"
+    }
   }
 }
