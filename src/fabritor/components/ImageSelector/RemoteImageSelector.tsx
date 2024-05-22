@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Button, Input, Popover, Space } from 'antd';
+import { useTranslation } from '@/i18n/utils';
 
 export default function RemoteImageSelector (props) {
   const { onChange, ...rest } = props;
   const [url, setUrl] = useState('');
+  const { t } = useTranslation();
 
   const handleClick = () => {
     if (url) {
@@ -16,14 +18,14 @@ export default function RemoteImageSelector (props) {
       content={
         <Space.Compact>
           <Input value={url} onChange={(e) => { setUrl(e.target.value) }} style={{ width: 260 }} />
-          <Button onClick={handleClick}>确认</Button>
+          <Button onClick={handleClick}>{t('common.ok')}</Button>
         </Space.Compact>
       }
-      title="请输入地址："
+      title={t('panel.image.remote_placeholder')}
       trigger="click"
     >
       <Button type="primary" size="large" {...rest}>
-        添加远程图片
+        {t('panel.image.remote')}
       </Button>
     </Popover>
   );

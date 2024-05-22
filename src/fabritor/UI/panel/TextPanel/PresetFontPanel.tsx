@@ -4,7 +4,7 @@ import { Trans, useTranslation } from '@/i18n/utils';
 
 const PRESET_FONT_LIST = [
   {
-    label: <div style={{ fontSize: 30, fontFamily: 'SmileySans', fontWeight: 'bold' }}><Trans i18nKey="panel.text.add_title" />,</div>,
+    label: <div style={{ fontSize: 30, fontFamily: 'SmileySans', fontWeight: 'bold' }}><Trans i18nKey="panel.text.add_title" /></div>,
     key: 'title',
     config: {
       fontFamily: 'SmileySans',
@@ -15,7 +15,7 @@ const PRESET_FONT_LIST = [
     }
   },
   {
-    label: <div style={{ fontSize: 24, fontFamily: 'AlibabaPuHuiTi' }}><Trans i18nKey="panel.text.add_subtitle" />,</div>,
+    label: <div style={{ fontSize: 24, fontFamily: 'AlibabaPuHuiTi' }}><Trans i18nKey="panel.text.add_subtitle" /></div>,
     key: 'sub-title',
     config: {
       fontFamily: 'AlibabaPuHuiTi',
@@ -26,7 +26,7 @@ const PRESET_FONT_LIST = [
     }
   },
   {
-    label: <div style={{ fontSize: 16, fontFamily: 'SourceHanSerif' }}><Trans i18nKey="panel.text.add_body_text" />,</div>,
+    label: <div style={{ fontSize: 16, fontFamily: 'SourceHanSerif' }}><Trans i18nKey="panel.text.add_body_text" /></div>,
     key: 'content',
     config: {
       fontFamily: 'SourceHanSerif',

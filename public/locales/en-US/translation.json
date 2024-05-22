@@ -1,4 +1,7 @@
 {
+  "common": {
+    "ok": "OK"
+  },
   "header": {
     "fabritor_desc": "My drawing by fabritor",
     "export": {
@@ -33,8 +36,14 @@
       "add_title": "Add title",
       "add_subtitle": "Add subtitle",
       "add_body_text": "Add a body of text",
-      "add_text_border": "Text with border",
+      "add_text_border": "Text border",
       "presets": "Presets"
+    },
+    "image": {
+      "title": "Image",
+      "local": "Local Image",
+      "remote": "Remote Image",
+      "remote_placeholder": "Please input url"
     }
   }
 }
