@@ -43,7 +43,7 @@
       "title": "Image",
       "local": "Local Image",
       "remote": "Remote Image",
-      "remote_placeholder": "Please input url"
+      "remote_placeholder": "Remote Image Url"
     }
   }
 }
