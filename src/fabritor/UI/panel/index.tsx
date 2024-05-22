@@ -25,12 +25,12 @@ const iconStyle = { fontSize: 18, marginRight: 0 };
 
 const OBJECT_TYPES = [
   {
-    label: <Trans i18nKey="panel.design" />,
+    label: <Trans i18nKey="panel.design.title" />,
     value: 'design',
     icon: <AlertOutlined style={iconStyle} />
   },
   {
-    label: '文字',
+    label: <Trans i18nKey="panel.text.title" />,
     value: 'text',
     icon: <FileTextOutlined style={iconStyle} />
   },
