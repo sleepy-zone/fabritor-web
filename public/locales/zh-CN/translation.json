@@ -1,4 +1,7 @@
 {
+  "common": {
+    "ok": "确认"
+  },
   "header": {
     "fabritor_desc": "我的画板 by fabritor",
     "export": {
@@ -35,6 +38,12 @@
       "addContent": "添加一段正文",
       "addTextWithBorder": "文字边框",
       "preset": "默认文字样式"
+    },
+    "image": {
+      "title": "图片",
+      "local": "添加本地图片",
+      "remote": "添加远程图片",
+      "remote_placeholder": "请输入地址："
     }
   }
 }
