@@ -1,4 +1,4 @@
-import { Space, Button, Popover } from 'antd';
+import { Space, Button } from 'antd';
 import { BoldOutlined, ItalicOutlined, UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
 
 const FONT_STYLES = [

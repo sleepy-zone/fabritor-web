@@ -90,6 +90,18 @@
       "size": "Canvas Size",
       "fill": "Canvas Background Color"
     },
+    "text": {
+      "font_family": "Font",
+      "font_size": "Font Size",
+      "fill": "Color",
+      "text_align": "Alignment",
+      "font_styles": "Style",
+      "char_spacing": "Char Space",
+      "line_height": "Line Height",
+      "fx": {
+        "title": "Effects"
+      }
+    },
     "group": {
       "title": "Group"
     }

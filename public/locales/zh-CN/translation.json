@@ -10,7 +10,10 @@
     "text": "文本",
     "size": "大小",
     "background_color": "背景色",
-    "fill": "填充"
+    "fill": "填充",
+    "stroke": "描边",
+    "stroke_color": "颜色",
+    "stroke_width": "粗细"
   },
   "header": {
     "fabritor_desc": "我的画板 by fabritor",
@@ -89,6 +92,18 @@
       "title": "画布",
       "size": "画布尺寸",
       "fill": "画布背景色"
+    },
+    "text": {
+      "font_family": "字体",
+      "font_size": "字号",
+      "fill": "颜色",
+      "text_align": "对齐",
+      "font_styles": "样式",
+      "char_spacing": "字间距",
+      "line_height": "行间距",
+      "fx": {
+        "title": "特效"
+      }
     },
     "group": {
       "title": "组合"
