@@ -40,12 +40,12 @@ const OBJECT_TYPES = [
     icon: <PictureOutlined style={iconStyle} />
   },
   {
-    label: '素材',
+    label: <Trans i18nKey="panel.material.title" />,
     value: 'shape',
     icon: <BorderOutlined style={iconStyle} />
   },
   {
-    label: '画笔',
+    label: <Trans i18nKey="panel.paint.title" />,
     value: 'paint',
     icon: <BulbOutlined style={iconStyle} />
   },

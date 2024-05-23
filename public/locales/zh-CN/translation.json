@@ -1,6 +1,12 @@
 {
   "common": {
-    "ok": "确认"
+    "ok": "确认",
+    "shadow": "阴影",
+    "color": "颜色",
+    "line_width": "线宽",
+    "width": "宽度",
+    "offset": "偏移",
+    "operate": "操作"
   },
   "header": {
     "fabritor_desc": "我的画板 by fabritor",
@@ -44,6 +50,19 @@
       "local": "添加本地图片",
       "remote": "添加远程图片",
       "remote_placeholder": "请输入地址："
+    },
+    "material": {
+      "title": "素材",
+      "line": "线条",
+      "shape": "形状",
+      "hand_drawn": "手绘风格"
+    },
+    "paint": {
+      "title": "画笔",
+      "stop": "停止绘图",
+      "start": "开始绘图",
+      "pencil": "铅笔",
+      "marker_pen": "马克笔"
     }
   }
 }
