@@ -9,7 +9,8 @@
     "operate": "Operate",
     "text": "Text",
     "size": "Size",
-    "background_color": "BackgroundColor"
+    "background_color": "BackgroundColor",
+    "fill": "Fill"
   },
   "header": {
     "fabritor_desc": "My drawing by fabritor",
@@ -77,6 +78,20 @@
       "only_image_url": "Only Support Image Url",
       "add": "Add",
       "more": "More Config"
+    }
+  },
+  "setter": {
+    "size": {
+      "width": "W",
+      "height": "H"
+    },
+    "sketch": {
+      "title": "Canvas",
+      "size": "Canvas Size",
+      "fill": "Canvas Background Color"
+    },
+    "group": {
+      "title": "Group"
     }
   }
 }
