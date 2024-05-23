@@ -9,7 +9,8 @@
     "operate": "操作",
     "text": "文本",
     "size": "大小",
-    "background_color": "背景色"
+    "background_color": "背景色",
+    "fill": "填充"
   },
   "header": {
     "fabritor_desc": "我的画板 by fabritor",
@@ -77,6 +78,20 @@
       "only_image_url": "仅支持图片链接",
       "add": "添加到画布",
       "more": "更多设置"
+    }
+  },
+  "setter": {
+    "size": {
+      "width": "宽",
+      "height": "高"
+    },
+    "sketch": {
+      "title": "画布",
+      "size": "画布尺寸",
+      "fill": "画布背景色"
+    },
+    "group": {
+      "title": "组合"
     }
   }
 }
