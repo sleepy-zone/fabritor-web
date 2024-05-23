@@ -10,7 +10,11 @@
     "text": "Text",
     "size": "Size",
     "background_color": "BackgroundColor",
-    "fill": "Fill"
+    "fill": "Fill",
+    "stroke": "Stroke",
+    "stroke_color": "Color",
+    "stroke_width": "StrokeWidth",
+    "blur": "Blur"
   },
   "header": {
     "fabritor_desc": "My drawing by fabritor",
@@ -99,7 +103,9 @@
       "char_spacing": "Char Space",
       "line_height": "Line Height",
       "fx": {
-        "title": "Effects"
+        "title": "Effects",
+        "fill_image": "Fill Image",
+        "text_path": "Wavy Text"
       }
     },
     "group": {

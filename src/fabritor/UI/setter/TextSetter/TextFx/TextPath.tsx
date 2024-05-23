@@ -1,11 +1,13 @@
 import { Slider, Form, Switch, Row, Col } from 'antd';
 import { useEffect } from 'react';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function TextPath (props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
+  const { t } = useTranslation();
 
   const handleChange = (v) => {
     onChange && onChange({
@@ -24,7 +26,7 @@ export default function TextPath (props) {
     <Form form={form} onValuesChange={handleChange} colon={false}>
       <Row gutter={16}>
         <Col>
-          <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>波浪型文字</span>} />
+          <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>{t('setter.text.fx.text_path')}</span>} />
         </Col>
         <Col>
           <FormItem name="enable" valuePropName="checked">
@@ -32,7 +34,7 @@ export default function TextPath (props) {
           </FormItem>
         </Col>
       </Row>
-      <FormItem label="偏移" name="offset">
+      <FormItem label={t('common.offset')} name="offset">
         <Slider
           min={-100}
           max={100}

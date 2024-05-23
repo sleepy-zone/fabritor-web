@@ -1,12 +1,14 @@
 import { Form, Switch, Row, Col } from 'antd';
 import { useEffect } from 'react';
 import ImageSelector from '@/fabritor/components/ImageSelector';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function TextPattern (props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
+  const { t } = useTranslation();
 
   const handleChange = (v) => {
     onChange && onChange({
@@ -25,7 +27,7 @@ export default function TextPattern (props) {
     <Form form={form} onValuesChange={handleChange} colon={false}>
       <Row gutter={16}>
         <Col>
-          <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>图片填充</span>} />
+          <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>{t('setter.text.fx.fill_image')}</span>} />
         </Col>
         <Col>
           <FormItem name="enable" valuePropName="checked">
