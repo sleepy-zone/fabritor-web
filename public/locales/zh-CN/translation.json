@@ -6,7 +6,10 @@
     "line_width": "线宽",
     "width": "宽度",
     "offset": "偏移",
-    "operate": "操作"
+    "operate": "操作",
+    "text": "文本",
+    "size": "大小",
+    "background_color": "背景色"
   },
   "header": {
     "fabritor_desc": "我的画板 by fabritor",
@@ -63,6 +66,17 @@
       "start": "开始绘图",
       "pencil": "铅笔",
       "marker_pen": "马克笔"
+    },
+    "app": {
+      "title": "应用",
+      "qrcode": "二维码",
+      "emoji": "Emoji",
+      "error_level": "纠错等级",
+      "image": "内置图片",
+      "image_size": "内置图片大小",
+      "only_image_url": "仅支持图片链接",
+      "add": "添加到画布",
+      "more": "更多设置"
     }
   }
 }

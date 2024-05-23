@@ -50,7 +50,7 @@ const OBJECT_TYPES = [
     icon: <BulbOutlined style={iconStyle} />
   },
   {
-    label: '应用',
+    label: <Trans i18nKey="panel.app.title" />,
     value: 'app',
     icon: <AppstoreOutlined style={iconStyle} />
   }
