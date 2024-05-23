@@ -113,11 +113,11 @@ export default function TextFx () {
       colon={false}
       style={{ marginTop: 24 }}
     >
-      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>描边</span>} />
-      <FormItem label="颜色" name="stroke">
+      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>{t('common.stroke')}</span>} />
+      <FormItem label={t('common.stroke_color')} name="stroke">
         <ColorSetter />
       </FormItem>
-      <FormItem label="粗细" name="strokeWidth">
+      <FormItem label={t('common.stroke_width')} name="strokeWidth">
         <SliderInputNumber
           min={0}
           max={20}

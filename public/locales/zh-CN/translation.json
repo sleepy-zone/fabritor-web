@@ -13,7 +13,8 @@
     "fill": "填充",
     "stroke": "描边",
     "stroke_color": "颜色",
-    "stroke_width": "粗细"
+    "stroke_width": "粗细",
+    "blur": "模糊"
   },
   "header": {
     "fabritor_desc": "我的画板 by fabritor",
@@ -102,7 +103,9 @@
       "char_spacing": "字间距",
       "line_height": "行间距",
       "fx": {
-        "title": "特效"
+        "title": "特效",
+        "fill_image": "图片填充",
+        "text_path": "波浪形文字"
       }
     },
     "group": {
