@@ -10,9 +10,11 @@ import { useContext } from 'react';
 import { GloablStateContext } from '@/context';
 import { createPathFromSvg } from '@/editor/objects/path';
 import Center from '@/fabritor/components/Center';
+import { useTranslation } from '@/i18n/utils';
 
 export default function ShapePanel () {
   const { editor, roughSvg } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   const addLine = (item) => {
     const { type, options = {} } = item;
@@ -83,7 +85,7 @@ export default function ShapePanel () {
 
   return (
     <div className="fabritor-panel-wrapper">
-      <Title>线条</Title>
+      <Title>{t('panel.material.line')}</Title>
       <Flex gap={10} wrap="wrap" justify="space-around">
         {
           LineTypeList.map(item => (
@@ -97,7 +99,7 @@ export default function ShapePanel () {
           ))
         }
       </Flex>
-      <Title>形状</Title>
+      <Title>{t('panel.material.shape')}</Title>
       <Flex gap={10} wrap="wrap" justify="space-around">
         {
           ShapeTypeList.map(item => (
@@ -113,7 +115,7 @@ export default function ShapePanel () {
       </Flex>
       <Title>
         <div style={{ position: 'relative' }}>
-          <span>手绘风格</span>
+          <span>{t('panel.material.hand_drawn')}</span>
           <Tag color='#f50' style={{ position: 'absolute', right: -48, top: -5, padding: '0 4px' }}>beta</Tag>
         </div>
       </Title>

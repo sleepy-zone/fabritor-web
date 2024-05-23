@@ -1,6 +1,12 @@
 {
   "common": {
-    "ok": "OK"
+    "ok": "OK",
+    "shadow": "Shadow",
+    "color": "Color",
+    "line_width": "LineWidth",
+    "width": "Width",
+    "offset": "Offset",
+    "operate": "Operate"
   },
   "header": {
     "fabritor_desc": "My drawing by fabritor",
@@ -44,6 +50,19 @@
       "local": "Local Image",
       "remote": "Remote Image",
       "remote_placeholder": "Remote Image Url"
+    },
+    "material": {
+      "title": "Material",
+      "line": "Line",
+      "shape": "Shape",
+      "hand_drawn": "Hand-Drawn"
+    },
+    "paint": {
+      "title": "Paint",
+      "stop": "Stop Drawing",
+      "start": "Start Drawing",
+      "pencil": "Pencil",
+      "marker_pen": "Marker Pen"
     }
   }
 }

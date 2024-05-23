@@ -6,12 +6,14 @@ import { DRAW_MODE_CURSOR, DRAG_ICON } from '@/assets/icon';
 import BrushList from './brush-list';
 import { GloablStateContext } from '@/context';
 import PathSetterForm from '../../setter/PathSetter/PathSetterForm';
+import { useTranslation } from '@/i18n/utils';
 
 export default function PaintPanel () {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const { editor } = useContext(GloablStateContext);
   const [penFormValues, setPenFormValues] = useState({});
+  const { t } = useTranslation();
 
   const handleBrushChange = (options) => {
     if (options.color) {
@@ -115,9 +117,14 @@ export default function PaintPanel () {
         value={penFormValues}
         showPenTip
       />
-      <Title>操作</Title>
+      <Title>{t('common.operate')}</Title>
       <Flex wrap="wrap" justify="space-around">
-        <Button style={{ width: 64 }} onClick={stopFreeDrawMode} type={isDrawingMode ? 'default' : 'primary'} title="停止绘图">
+        <Button
+          style={{ width: 64 }}
+          onClick={stopFreeDrawMode}
+          type={isDrawingMode ? 'default' : 'primary'} 
+          title={isDrawingMode ? t('panel.paint.stop') : t('panel.paint.start')}
+        >
           <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
         </Button>
       </Flex>
