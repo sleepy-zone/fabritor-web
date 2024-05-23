@@ -6,7 +6,10 @@
     "line_width": "LineWidth",
     "width": "Width",
     "offset": "Offset",
-    "operate": "Operate"
+    "operate": "Operate",
+    "text": "Text",
+    "size": "Size",
+    "background_color": "BackgroundColor"
   },
   "header": {
     "fabritor_desc": "My drawing by fabritor",
@@ -63,6 +66,17 @@
       "start": "Start Drawing",
       "pencil": "Pencil",
       "marker_pen": "Marker Pen"
+    },
+    "app": {
+      "title": "App",
+      "qrcode": "QRCode",
+      "emoji": "Emoji",
+      "error_level": "Error Level",
+      "image": "Image",
+      "image_size": "Image Size",
+      "only_image_url": "Only Support Image Url",
+      "add": "Add",
+      "more": "More Config"
     }
   }
 }
