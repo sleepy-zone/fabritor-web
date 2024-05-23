@@ -9,10 +9,10 @@ import ColorSetter from '../ColorSetter';
 import { loadFont, transformColors2Fill, transformFill2Colors } from '@/utils';
 import { FunctionOutlined, RightOutlined } from '@ant-design/icons';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
-import Title from '@/fabritor/components/Title';
 import FList from '@/fabritor/components/FList';
 import MoreConfigWrapper from '../Form/MoreConfigWrapper';
 import TextFx from './TextFx';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
@@ -20,11 +20,12 @@ export default function TextSetter () {
   const { object, editor }= useContext(GloablStateContext);
   const [form] = Form.useForm();
   const [openFx, setOpenFx] = useState(false);
+  const { t } = useTranslation();
 
   const TEXT_ADVANCE_CONFIG = [
     {
       icon: <FunctionOutlined style={{ fontSize: 22 }} />,
-      label: '特效',
+      label: t('setter.text.fx.title'),
       key: 'fx',
       onClick: () => { setOpenFx(true) }
     }
@@ -119,7 +120,7 @@ export default function TextSetter () {
       >
         <FormItem
           name="fontFamily"
-          label="字体"
+          label={t('setter.text.font_family')}
         >
           <Select
             options={FONT_PRESET_FAMILY_LIST}
@@ -127,31 +128,31 @@ export default function TextSetter () {
         </FormItem>
         <FormItem
           name="fontSize"
-          label="字号"
+          label={t('setter.text.font_size')}
         >
           <SliderInputNumber max={400} onChangeComplete={() =>{ editor.fireCustomModifiedEvent() }} />
         </FormItem>
         <FormItem
           name="fill"
-          label="颜色"
+          label={t('setter.text.fill')}
         >
           <ColorSetter type="fontColor" defaultColor="#000000" />
         </FormItem>
         <FormItem
           name="textAlign"
-          label="对齐"
+          label={t('setter.text.text_align')}
         >
           <AlignSetter />
         </FormItem>
         <FormItem
           name="fontStyles"
-          label="样式"
+          label={t('setter.text.font_styles')}
         >
           <FontStyleSetter />
         </FormItem>
         <FormItem
           name="charSpacing"
-          label="字间距"
+          label={t('setter.text.char_spacing')}
         >
           <SliderInputNumber
             min={-200}
@@ -161,7 +162,7 @@ export default function TextSetter () {
         </FormItem>
         <FormItem
           name="lineHeight"
-          label="行间距"
+          label={t('setter.text.line_height')}
         >
           <SliderInputNumber
             min={0.5}
@@ -186,7 +187,7 @@ export default function TextSetter () {
       <MoreConfigWrapper
         open={openFx}
         setOpen={setOpenFx}
-        title="文字特效"
+        title={`${t('panel.text.title')} ${t('setter.text.fx.title')}`}
       >
         <TextFx />
       </MoreConfigWrapper>

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { fabric } from 'fabric';
-import { Divider, Form } from 'antd';
+import { Form } from 'antd';
 import ColorSetter from '../../ColorSetter';
 import { GloablStateContext } from '@/context';
 import TextShadow from './TextShadow';
@@ -10,12 +10,14 @@ import { drawTextPath, getPathOffset, removeTextPath } from '@/editor/objects/te
 import { loadImageDom } from '@/editor/objects/image';
 import { transformColors2Fill, transformFill2Colors } from '@/utils';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function TextFx () {
   const [form] = Form.useForm();
   const { object, editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   const handleTextPattern = async (pattern) => {
     if (!object) return;
