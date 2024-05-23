@@ -1,6 +1,7 @@
 import { fabric } from 'fabric';
 import { TEXTBOX_DEFAULT_CONFIG } from '@/utils/constants';
 import { uuid, loadFont } from '@/utils';
+import { translate } from '@/i18n/utils';
 
 export const getTextboxWidth = (textbox) => {
   const textLines = textbox.textLines || [];
@@ -47,11 +48,15 @@ export const removeTextPath = (textbox) => {
 }
 
 export const createTextbox = async (options) => {
-  const { text = '', fontFamily, canvas, ...rest } = options || {};
+  let { text = '', fontFamily = TEXTBOX_DEFAULT_CONFIG.fontFamily, canvas, ...rest } = options || {};
+
+  if (typeof text === 'function') {
+    text = text();
+  }
 
   let tmpPathInfo = { hasPath: false, offset: 100 };
 
-  const textBox = new fabric.FText(text || '这是一段文本', {
+  const textBox = new fabric.FText(text || translate('panel.text.add'), {
     ...TEXTBOX_DEFAULT_CONFIG,
     ...rest,
     fontFamily,

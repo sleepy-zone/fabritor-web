@@ -32,10 +32,10 @@
     },
     "text": {
       "title": "Text",
-      "add": "Add Text Box",
-      "add_title": "Add title",
-      "add_subtitle": "Add subtitle",
-      "add_body_text": "Add a body of text",
+      "add": "Text Box",
+      "add_title": "Title",
+      "add_subtitle": "Subtitle",
+      "add_body_text": "a body of text",
       "add_text_border": "Text border",
       "presets": "Presets"
     },
