@@ -1,6 +1,6 @@
 import { Flex, Card } from 'antd';
 import Title from '@/fabritor/components/Title';
-import { Trans, useTranslation } from '@/i18n/utils';
+import { Trans, useTranslation, translate } from '@/i18n/utils';
 
 const PRESET_FONT_LIST = [
   {
@@ -10,7 +10,7 @@ const PRESET_FONT_LIST = [
       fontFamily: 'SmileySans',
       fontWeight: 'bold',
       fontSize: 120,
-      text: <Trans i18nKey="panel.text.add_title" />,
+      text: () => translate('panel.text.add_title'),
       top: 100
     }
   },
@@ -21,7 +21,7 @@ const PRESET_FONT_LIST = [
       fontFamily: 'AlibabaPuHuiTi',
       fontWeight: 'bold',
       fontSize: 100,
-      text: <Trans i18nKey="panel.text.add_subtitle" />,
+      text: () => translate('panel.text.add_subtitle'),
       top: 400
     }
   },
@@ -31,7 +31,7 @@ const PRESET_FONT_LIST = [
     config: {
       fontFamily: 'SourceHanSerif',
       fontSize: 80,
-      text: <Trans i18nKey="panel.text.add_body_text" />,
+      text: () => translate('panel.text.add_body_text'),
     }
   },
   {
@@ -40,7 +40,7 @@ const PRESET_FONT_LIST = [
     config: {
       fontFamily: '霞鹜文楷',
       fontSize: 100,
-      text: <Trans i18nKey="panel.text.add_text_border" />,
+      text: () => translate('panel.text.add_text_border'),
       fill: '#ffffff',
       stroke: '#ff5757',
       strokeWidth: 12
