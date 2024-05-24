@@ -4,10 +4,12 @@ import { Dropdown, Flex } from 'antd';
 import { SKETCH_ID } from '@/utils/constants';
 import { copyObject, pasteObject, removeObject, groupSelection, ungroup, changeLayerLevel } from '@/utils/helper';
 import { GloablStateContext } from '@/context';
+import { useTranslation } from '@/i18n/utils';
 
 // ⌘ C
 const ContextMenuItem = (props) => {
   const { label, keyboard, cmdKey = false } = props;
+  const { t } = useTranslation();
   const isMac = navigator.userAgent.indexOf('Mac OS X') > -1;
 
   const getCmdkey = () => {
@@ -30,12 +32,13 @@ const ContextMenu = (props, ref) => {
   const { object, noCareOpen } = props;
   const [open, setOpen] = useState(false);
   const { editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   const renderMenuItems = () => {
     if (!object || object.id === SKETCH_ID) {
       return [
         {
-          label: <ContextMenuItem label="粘贴" keyboard="V" cmdKey />,
+          label: <ContextMenuItem label={t('setter.common.paste')} keyboard="V" cmdKey />,
           key: 'paste',
         }
       ]
@@ -43,19 +46,19 @@ const ContextMenu = (props, ref) => {
 
     const menuItems: MenuProps['items']  = [
       {
-        label: <ContextMenuItem label="复制" keyboard="C" cmdKey />,
+        label: <ContextMenuItem label={t('setter.common.copy')} keyboard="C" cmdKey />,
         key: 'copy',
       },
       {
-        label: <ContextMenuItem label="粘贴" keyboard="V" cmdKey />,
+        label: <ContextMenuItem label={t('setter.common.paste')} keyboard="V" cmdKey />,
         key: 'paste',
       },
       {
-        label: '创建副本',
+        label: <span>{t('setter.common.create_a_copy')}</span>,
         key: 'copy&paste',
       },
       {
-        label: <ContextMenuItem label="删除" keyboard="DEL" />,
+        label: <ContextMenuItem label={t('setter.common.del')} keyboard="DEL" />,
         key: 'del',
       },
     ]
@@ -65,7 +68,7 @@ const ContextMenu = (props, ref) => {
         type: 'divider',
       });
       menuItems.push({
-        label: '建组',
+        label: t('setter.group.g'),
         key: 'group',
       });
     }
@@ -75,7 +78,7 @@ const ContextMenu = (props, ref) => {
         type: 'divider',
       });
       menuItems.push({
-        label: '取消建组',
+        label: t('setter.group.ung'),
         key: 'ungroup',
       });
     }
@@ -85,23 +88,23 @@ const ContextMenu = (props, ref) => {
         type: 'divider',
       });
       menuItems.push({
-        label: '图层',
+        label: t('setter.common.layer'),
         key: 'layer',
         children: [
           {
-            label: '上移',
+            label: t('setter.common.layer_up'),
             key: 'layer-up',
           },
           {
-            label: '置顶',
+            label:  t('setter.common.layer_top'),
             key: 'layer-top',
           },
           {
-            label: '下移',
+            label:  t('setter.common.layer_down'),
             key: 'layer-down',
           },
           {
-            label: '置底',
+            label:  t('setter.common.layer_bottom'),
             key: 'layer-bottom'
           }
         ]
