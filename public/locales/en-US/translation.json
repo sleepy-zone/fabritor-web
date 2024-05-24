@@ -134,6 +134,7 @@
       "unlock": "UnLock",
       "opacity": "Opacity",
       "copy": "Copy",
+      "paste": "Paste",
       "create_a_copy": "Create a copy",
       "del": "Delete",
       "flip": "Flip",
@@ -142,7 +143,12 @@
       "adjust_position": "Adjust Position",
       "px": "PX",
       "lock_ratio": "Lock Ratio",
-      "rotate": "Rotate"
+      "rotate": "Rotate",
+      "layer": "Layer",
+      "layer_up": "Move Up",
+      "layer_top": "Move to Top",
+      "layer_down": "Move Down",
+      "layer_bottom": "Move to Bottom"
     }
   }
 }

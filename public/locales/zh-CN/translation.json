@@ -134,6 +134,7 @@
       "unlock": "解锁",
       "opacity": "透明度",
       "copy": "复制",
+      "paste": "粘贴",
       "create_a_copy": "创建副本",
       "del": "删除",
       "flip": "翻转",
@@ -142,7 +143,12 @@
       "adjust_position": "调整位置",
       "px": "像素",
       "lock_ratio": "锁定比例",
-      "rotate": "旋转"
+      "rotate": "旋转",
+      "layer": "图层",
+      "layer_up": "上移",
+      "layer_top": "置顶",
+      "layer_down": "下移",
+      "layer_bottom": "置底"
     }
   }
 }
