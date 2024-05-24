@@ -14,7 +14,10 @@
     "stroke": "描边",
     "stroke_color": "颜色",
     "stroke_width": "粗细",
-    "blur": "模糊"
+    "blur": "模糊",
+    "border": "边框",
+    "style": "样式",
+    "round": "圆角"
   },
   "header": {
     "fabritor_desc": "我的画板 by fabritor",
@@ -108,8 +111,38 @@
         "text_path": "波浪形文字"
       }
     },
+    "image": {
+      "filter": "滤镜",
+      "replace": "替换图片",
+      "crop": "裁剪"
+    },
     "group": {
-      "title": "组合"
+      "title": "组合",
+      "g": "建组",
+      "ung": "取消建组"
+    },
+    "common": {
+      "align": "对齐",
+      "center": "居中",
+      "align_left": "左对齐",
+      "center_h": "水平居中",
+      "align_right": "右对齐",
+      "align_top": "顶部对齐",
+      "center_v": "垂直居中",
+      "align_bottom": "底部对齐",
+      "lock": "锁定",
+      "unlock": "解锁",
+      "opacity": "透明度",
+      "copy": "复制",
+      "create_a_copy": "创建副本",
+      "del": "删除",
+      "flip": "翻转",
+      "flip_x": "水平翻转",
+      "flip_y": "垂直翻转",
+      "adjust_position": "调整位置",
+      "px": "像素",
+      "lock_ratio": "锁定比例",
+      "rotate": "旋转"
     }
   }
 }

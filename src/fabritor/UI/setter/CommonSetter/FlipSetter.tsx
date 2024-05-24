@@ -1,14 +1,15 @@
 import { Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
+import { Trans } from '@/i18n/utils';
 
 const items: MenuProps['items'] = [
   {
     key: 'flipX',
-    label: '水平翻转'
+    label: <Trans i18nKey="setter.common.flip_x" />
   },
   {
     key: 'flipY',
-    label: '垂直翻转'
+    label: <Trans i18nKey="setter.common.flip_y" />
   }
 ]
 
