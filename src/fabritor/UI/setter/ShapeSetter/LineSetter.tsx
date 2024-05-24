@@ -4,6 +4,7 @@ import { GloablStateContext } from '@/context';
 import ColorSetter from '../ColorSetter/Solid';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 import { BORDER_TYPES, getObjectBorderType, getStrokeDashArray } from '../BorderSetter';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
@@ -11,6 +12,7 @@ const LINE_BORDER_TYPES = BORDER_TYPES.slice(1);
 
 export default function LineSetter () {
   const { object, editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   const handleValuesChange = (values) => {
@@ -60,11 +62,11 @@ export default function LineSetter () {
     >
       <FormItem
         name="stroke"
-        label="颜色"
+        label={t('common.stroke_color')}
       >
         <ColorSetter />
       </FormItem>
-      <FormItem name="type" label="样式" labelCol={{ span: 24 }}>
+      <FormItem name="type" label={t('common.style')} labelCol={{ span: 24 }}>
         <Radio.Group>
           {
             LINE_BORDER_TYPES.map(item => (
@@ -84,7 +86,7 @@ export default function LineSetter () {
       </FormItem>
       <FormItem
         name="strokeWidth"
-        label="粗细"
+        label={t('common.stroke_width')}
       >
         <SliderInputNumber
           min={1}
@@ -94,7 +96,7 @@ export default function LineSetter () {
       </FormItem>
       <FormItem
         name="round"
-        label="圆角"
+        label={t('common.round')}
         valuePropName="checked"
       >
         <Switch />

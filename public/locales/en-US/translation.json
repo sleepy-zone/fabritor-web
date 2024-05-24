@@ -14,7 +14,10 @@
     "stroke": "Stroke",
     "stroke_color": "Color",
     "stroke_width": "StrokeWidth",
-    "blur": "Blur"
+    "blur": "Blur",
+    "border": "Border",
+    "style": "Style",
+    "round": "Round"
   },
   "header": {
     "fabritor_desc": "My drawing by fabritor",
@@ -108,8 +111,38 @@
         "text_path": "Wavy Text"
       }
     },
+    "image": {
+      "filter": "Filter",
+      "replace": "Replace Image",
+      "crop": "Crop"
+    },
     "group": {
-      "title": "Group"
+      "title": "Group",
+      "g": "Group",
+      "ung": "UnGroup"
+    },
+    "common": {
+      "align": "Align",
+      "center": "Center",
+      "align_left": "Align Left",
+      "center_h": "Horizontal Center",
+      "align_right": "Align Right",
+      "align_top": "Align Top",
+      "center_v": "Vertical Center",
+      "align_bottom": "Align Bottom",
+      "lock": "Lock",
+      "unlock": "UnLock",
+      "opacity": "Opacity",
+      "copy": "Copy",
+      "create_a_copy": "Create a copy",
+      "del": "Delete",
+      "flip": "Flip",
+      "flip_x": "Flip X",
+      "flip_y": "Flip Y",
+      "adjust_position": "Adjust Position",
+      "px": "PX",
+      "lock_ratio": "Lock Ratio",
+      "rotate": "Rotate"
     }
   }
 }
