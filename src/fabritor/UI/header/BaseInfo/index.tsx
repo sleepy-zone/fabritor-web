@@ -1,15 +1,17 @@
 import { useState, useEffect, useContext } from 'react';
 import { Typography } from 'antd';
 import { GloablStateContext } from '@/context';
+import { useTranslation } from '@/i18n/utils';
 
 const { Text } = Typography;
 
 export default function BaseInfo () {
   const [desc, setDesc] = useState('');
   const { editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   const handleChange = (v) => {
-    const _v = v || '我的画板 by fabritor';
+    const _v = v || t('header.fabritor_desc');
     setDesc(_v);
     if (!editor) return;
     const { sketch } = editor;
