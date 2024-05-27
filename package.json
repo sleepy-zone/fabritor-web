@@ -9,6 +9,7 @@
     "@ice/runtime": "^1.2.7",
     "antd": "^5.11.0",
     "cropperjs": "^1.6.1",
+    "dayjs": "^1.11.11",
     "emoji-mart": "^5.5.2",
     "fabric": "^5.3.0",
     "fontfaceobserver": "^2.3.0",
@@ -51,5 +52,5 @@
     "access": "public"
   },
   "license": "MIT",
-  "repository": "git@github.com:ice-lab/react-materials.git"
+  "repository": "https://github.com/sleepy-zone/fabritor-web"
 }

@@ -10,6 +10,7 @@ import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
 import { PANEL_WIDTH } from '@/config';
 import { Trans } from '@/i18n/utils';
+import LocalesSwitch from '@/fabritor/components/LocalesSwitch';
 
 import './index.scss';
 
@@ -121,12 +122,14 @@ export default function Panel () {
           })
         }
       />
-      <FloatButton
-        icon={<GithubFilled />}
-        style={{ left: 10, bottom: 14 }}
-        href="https://github.com/sleepy-zone/fabritor-web"
-        target="_blank"
-      />
+      <FloatButton.Group shape="circle" style={{ left: 10, bottom: 14, right: 'auto' }}>
+        <FloatButton
+          icon={<GithubFilled />}
+          href="https://github.com/sleepy-zone/fabritor-web"
+          target="_blank"
+        />
+        <LocalesSwitch />
+      </FloatButton.Group>
     </Sider>
   )
 }
