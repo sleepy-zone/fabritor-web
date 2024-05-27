@@ -4,6 +4,7 @@ import ColorSetter from '../ColorSetter';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 import { useContext, useEffect } from 'react';
 import { GloablStateContext } from '@/context';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
@@ -11,6 +12,7 @@ export default function PathSetterForm (props) {
   const { value, onChange, shouldFireEvent, showPenTip, showFillConfig } = props;
   const [form] = Form.useForm();
   const { editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   const fireEvent = () => {
     if (shouldFireEvent) {
@@ -29,15 +31,15 @@ export default function PathSetterForm (props) {
       style={{ marginBottom: 0, marginTop: 16 }}
       colon={false}
     >
-      {showPenTip ? <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>画笔</span>} /> : null }
+      {showPenTip ? <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>{t('panel.paint.title')}</span>} /> : null }
       <FormItem
-        label={showFillConfig ? '描边' : '颜色'}
+        label={showFillConfig ? t('common.stroke') : t('common.stroke_color')}
         name="color"
       >
         <SolidColorSetter onChange={fireEvent} />
       </FormItem>
       <FormItem
-        label="线宽"
+        label={t('common.line_width')}
         name="width"
       >
         <SliderInputNumber min={1} max={100} onChangeComplete={fireEvent} />
@@ -45,27 +47,27 @@ export default function PathSetterForm (props) {
       {
         showFillConfig ?
         <FormItem
-          label="填充"
+          label={t('common.fill')}
           name="fill"
         >
           <ColorSetter onChange={fireEvent} />
         </FormItem> : null
       }
-      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>阴影</span>} />
+      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>{t('common.shadow')}</span>} />
       <FormItem
-        label="颜色"
+        label={t('common.color')}
         name={['shadow', 'color']}
       >
         <SolidColorSetter onChange={fireEvent} />
       </FormItem>
       <FormItem
-        label="宽度"
+        label={t('common.width')}
         name={['shadow', 'width']}
       >
         <SliderInputNumber min={0} max={50} onChangeComplete={fireEvent} />
       </FormItem>
       <FormItem
-        label="偏移"
+        label={t('common.offset')}
         name={['shadow', 'offset']}
       >
         <SliderInputNumber min={0} max={20} onChangeComplete={fireEvent} />

@@ -5,7 +5,7 @@ export default function AppSubPanel (props) {
   const { title, children, back } = props;
 
   const back2AppList = () => {
-    back && back();
+    back?.();
   }
 
   return (

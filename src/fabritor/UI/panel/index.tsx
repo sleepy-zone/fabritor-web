@@ -9,6 +9,7 @@ import DesignPanel from './DesignPanel';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
 import { PANEL_WIDTH } from '@/config';
+import { Trans } from '@/i18n/utils';
 
 import './index.scss';
 
@@ -24,32 +25,32 @@ const iconStyle = { fontSize: 18, marginRight: 0 };
 
 const OBJECT_TYPES = [
   {
-    label: '图层',
+    label: <Trans i18nKey="panel.design.title" />,
     value: 'design',
     icon: <AlertOutlined style={iconStyle} />
   },
   {
-    label: '文字',
+    label: <Trans i18nKey="panel.text.title" />,
     value: 'text',
     icon: <FileTextOutlined style={iconStyle} />
   },
   {
-    label: '图片',
+    label: <Trans i18nKey="panel.image.title" />,
     value: 'image',
     icon: <PictureOutlined style={iconStyle} />
   },
   {
-    label: '素材',
+    label: <Trans i18nKey="panel.material.title" />,
     value: 'shape',
     icon: <BorderOutlined style={iconStyle} />
   },
   {
-    label: '画笔',
+    label: <Trans i18nKey="panel.paint.title" />,
     value: 'paint',
     icon: <BulbOutlined style={iconStyle} />
   },
   {
-    label: '应用',
+    label: <Trans i18nKey="panel.app.title" />,
     value: 'app',
     icon: <AppstoreOutlined style={iconStyle} />
   }

@@ -3,10 +3,12 @@ import { useRef, useState, useEffect } from 'react';
 import { Button, Space } from 'antd';
 import { CloseOutlined, CheckOutlined, ExpandOutlined } from '@ant-design/icons';
 import { PANEL_WIDTH } from '@/config';
+import { useTranslation } from '@/i18n/utils';
 
 import 'cropperjs/dist/cropper.css';
 
 export default function ClipSetter (props) {  
+  const { t } = useTranslation();
   const { object } = props;
   const imgRef = useRef<HTMLImageElement>();
   const cropperRef = useRef<Cropper | null>(null);
@@ -73,7 +75,7 @@ export default function ClipSetter (props) {
 
   return (
     <div>
-      <Button block icon={<ExpandOutlined />} onClick={startCrop}>裁剪</Button>
+      <Button block icon={<ExpandOutlined />} onClick={startCrop}>{t('setter.image.crop')}</Button>
 
       {
         showCrop ?

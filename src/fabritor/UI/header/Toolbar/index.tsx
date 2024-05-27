@@ -6,8 +6,11 @@ import { ClearOutlined, DragOutlined, ExclamationCircleFilled, UndoOutlined, Red
 import { CenterV } from '@/fabritor/components/Center';
 import ToolbarItem from './ToolbarItem';
 import ToolbarDivider from '@/fabritor/components/ToolbarDivider';
+import { Trans } from '@/i18n/utils';
 
 import './index.scss';
+
+const i18nKeySuffix = 'header.toolbar';
 
 export default function Toolbar () {
   const { setActiveObject, editor } = useContext(GloablStateContext);
@@ -17,15 +20,13 @@ export default function Toolbar () {
 
   const clearCanvas = () => {
     Modal.confirm({
-      title: '确认清空画布，同时清空历史操作记录？',
+      title: <Trans i18nKey={`${i18nKeySuffix}.clear_confirm`} />,
       icon: <ExclamationCircleFilled />,
       async onOk () {
         await editor.clearCanvas();
         setActiveObject(editor.sketch);
         editor.fireCustomModifiedEvent();
-      },
-      okText: '确认',
-      cancelText: '取消'
+      }
     });
   }
 
@@ -43,21 +44,32 @@ export default function Toolbar () {
 
   return (
     <CenterV gap={4} style={{ borderRight: '1px solid #e8e8e8', paddingRight: 12 }}>
-      <ToolbarItem disabled={!canUndo} title="撤销" onClick={() => { editor.fhistory.undo() }}>
+      <ToolbarItem
+        disabled={!canUndo} 
+        title={<Trans i18nKey={`${i18nKeySuffix}.undo`} />} 
+        onClick={() => { editor.fhistory.undo() }}
+      >
         <UndoOutlined style={{ fontSize: 20 }} />
       </ToolbarItem>
-      <ToolbarItem disabled={!canRedo} title="重做" onClick={() => { editor.fhistory.redo() }}>
+      <ToolbarItem
+        disabled={!canRedo}
+        title={<Trans i18nKey={`${i18nKeySuffix}.redo`} />} 
+        onClick={() => { editor.fhistory.redo() }}
+      >
         <RedoOutlined style={{ fontSize: 20 }} />
       </ToolbarItem>
       <ToolbarDivider />
-      <ToolbarItem onClick={enablePan} title={panEnable ? '选择元素' : '拖拽画布'}>
+      <ToolbarItem
+        onClick={enablePan}
+        title={panEnable ? <Trans i18nKey={`${i18nKeySuffix}.select`} /> : <Trans i18nKey={`${i18nKeySuffix}.pan`} />}
+      >
         {
           panEnable? 
           <DragOutlined style={{ fontSize: 22, color: panEnable ? '#000' : '#ccc' }} /> :
           <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(DRAG_ICON)}`} style={{ width: 22, height: 22 }} />
         }
       </ToolbarItem>
-      <ToolbarItem onClick={clearCanvas} title="清空画布">
+      <ToolbarItem onClick={clearCanvas} title={<Trans i18nKey={`${i18nKeySuffix}.clear`} />}>
         <ClearOutlined style={{ fontSize: 20 }} />
       </ToolbarItem>
     </CenterV>

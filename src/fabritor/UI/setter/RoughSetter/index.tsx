@@ -3,12 +3,14 @@ import { fabric } from 'fabric';
 import { Form } from 'antd';
 import ColorSetter from '../ColorSetter/Solid';
 import { GloablStateContext } from '@/context';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function RoughSetter() {
   const [form] = Form.useForm();
   const { editor, object } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   const handleValuesChange = (values) => {
     Object.keys(values).forEach((key) => {
@@ -50,7 +52,7 @@ export default function RoughSetter() {
       onValuesChange={handleValuesChange}
     >
       <FormItem
-        label="描边"
+        label={t('common.stroke')}
         name="stroke"
       >
         <ColorSetter />
@@ -58,7 +60,7 @@ export default function RoughSetter() {
       {
         object?.type === 'group' ?
         <FormItem
-          label="填充"
+          label={t('common.fill')}
           name="fill"
         >
           <ColorSetter />

@@ -5,11 +5,13 @@ import { GloablStateContext } from '@/context';
 import ColorSetter from '../ColorSetter';
 import BorderSetter, { getObjectBorderType, getStrokeDashArray } from '../BorderSetter';
 import { transformColors2Fill, transformFill2Colors } from '@/utils';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function ShapeSetter () {
   const { object, editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   const handleBorder = (border) => {
@@ -72,12 +74,12 @@ export default function ShapeSetter () {
       onValuesChange={handleValuesChange}
       colon={false}
     >
-      <FormItem name="fill" label="颜色">
+      <FormItem name="fill" label={t('common.color')}>
         <ColorSetter defaultColor="#000000" />
       </FormItem>
       <FormItem
         name="border"
-        label={<span style={{ fontWeight: 'bold', fontSize: 15 }}>边框</span>}
+        label={<span style={{ fontWeight: 'bold', fontSize: 15 }}>{t('common.border')}</span>}
         labelCol={{ span: 24 }}
       >
         <BorderSetter />

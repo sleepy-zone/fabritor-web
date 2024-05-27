@@ -1,0 +1,154 @@
+{
+  "common": {
+    "ok": "OK",
+    "shadow": "Shadow",
+    "color": "Color",
+    "line_width": "LineWidth",
+    "width": "Width",
+    "offset": "Offset",
+    "operate": "Operate",
+    "text": "Text",
+    "size": "Size",
+    "background_color": "BackgroundColor",
+    "fill": "Fill",
+    "stroke": "Stroke",
+    "stroke_color": "Color",
+    "stroke_width": "StrokeWidth",
+    "blur": "Blur",
+    "border": "Border",
+    "style": "Style",
+    "round": "Round"
+  },
+  "header": {
+    "fabritor_desc": "My drawing by fabritor",
+    "export": {
+      "jpg": "Export as JPG",
+      "png": "Export as PNG",
+      "svg": "Export as SVG",
+      "json": "Export as JSON",
+      "clipboard": "Copy to Clipboard",
+      "load": "Load",
+      "export": "Export",
+      "copy_success": "Copied successfully",
+      "copy_failed": "Copy failed, please choose to export to local"
+    },
+    "toolbar": {
+      "undo": "Undo",
+      "redo": "Redo",
+      "select": "Select",
+      "pan": "Pan",
+      "clear": "Clear",
+      "clear_confirm": "Confirm to clear the canvas and clear the historical operation records?"
+    }
+  },
+  "panel": {
+    "design": {
+      "title": "Design",
+      "start": "Start with your creativity",
+      "start_demo": "Or start with a simple DEMO"
+    },
+    "text": {
+      "title": "Text",
+      "add": "Text Box",
+      "add_title": "Title",
+      "add_subtitle": "Subtitle",
+      "add_body_text": "a body of text",
+      "add_text_border": "Text border",
+      "presets": "Presets"
+    },
+    "image": {
+      "title": "Image",
+      "local": "Local Image",
+      "remote": "Remote Image",
+      "remote_placeholder": "Remote Image Url"
+    },
+    "material": {
+      "title": "Material",
+      "line": "Line",
+      "shape": "Shape",
+      "hand_drawn": "Hand-Drawn"
+    },
+    "paint": {
+      "title": "Paint",
+      "stop": "Stop Drawing",
+      "start": "Start Drawing",
+      "pencil": "Pencil",
+      "marker_pen": "Marker Pen"
+    },
+    "app": {
+      "title": "App",
+      "qrcode": "QRCode",
+      "emoji": "Emoji",
+      "error_level": "Error Level",
+      "image": "Image",
+      "image_size": "Image Size",
+      "only_image_url": "Only Support Image Url",
+      "add": "Add",
+      "more": "More Config"
+    }
+  },
+  "setter": {
+    "size": {
+      "width": "W",
+      "height": "H"
+    },
+    "sketch": {
+      "title": "Canvas",
+      "size": "Canvas Size",
+      "fill": "Canvas Background Color"
+    },
+    "text": {
+      "font_family": "Font",
+      "font_size": "Font Size",
+      "fill": "Color",
+      "text_align": "Alignment",
+      "font_styles": "Style",
+      "char_spacing": "Char Space",
+      "line_height": "Line Height",
+      "fx": {
+        "title": "Effects",
+        "fill_image": "Fill Image",
+        "text_path": "Wavy Text"
+      }
+    },
+    "image": {
+      "filter": "Filter",
+      "replace": "Replace Image",
+      "crop": "Crop"
+    },
+    "group": {
+      "title": "Group",
+      "g": "Group",
+      "ung": "UnGroup"
+    },
+    "common": {
+      "align": "Align",
+      "center": "Center",
+      "align_left": "Align Left",
+      "center_h": "Horizontal Center",
+      "align_right": "Align Right",
+      "align_top": "Align Top",
+      "center_v": "Vertical Center",
+      "align_bottom": "Align Bottom",
+      "lock": "Lock",
+      "unlock": "UnLock",
+      "opacity": "Opacity",
+      "copy": "Copy",
+      "paste": "Paste",
+      "create_a_copy": "Create a copy",
+      "del": "Delete",
+      "flip": "Flip",
+      "flip_x": "Flip X",
+      "flip_y": "Flip Y",
+      "adjust_position": "Adjust Position",
+      "px": "PX",
+      "lock_ratio": "Lock Ratio",
+      "rotate": "Rotate",
+      "layer": "Layer",
+      "layer_up": "Move Up",
+      "layer_top": "Move to Top",
+      "layer_down": "Move Down",
+      "layer_bottom": "Move to Bottom"
+    }
+  }
+}

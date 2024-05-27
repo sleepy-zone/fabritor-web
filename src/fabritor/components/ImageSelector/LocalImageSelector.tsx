@@ -1,10 +1,12 @@
 import { useRef } from 'react';
 import { Button } from 'antd';
 import LocalFileSelector from '../LocalFileSelector';
+import { useTranslation } from '@/i18n/utils';
 
 export default function LocalImageSelector (props) {
   const { onChange, ...rest } = props;
   const localFileSelectorRef = useRef<any>();
+  const { t } = useTranslation();
 
   const handleClick = () => {
     localFileSelectorRef.current?.start?.();
@@ -27,7 +29,7 @@ export default function LocalImageSelector (props) {
   return (
     <div>
       <Button type="primary" size="large" onClick={handleClick} {...rest}>
-        添加本地图片
+        {t('panel.image.local')}
       </Button>
 
       <LocalFileSelector accept="image/*" ref={localFileSelectorRef} onChange={handleFileChange} />

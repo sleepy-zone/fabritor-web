@@ -2,9 +2,11 @@ import { Button } from 'antd';
 import { useContext } from 'react';
 import { GloablStateContext } from '@/context';
 import { groupSelection, ungroup } from '@/utils/helper';
+import { useTranslation } from '@/i18n/utils';
 
 export default function GroupSetter () {
   const { object, editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   if (!object || (object.type !== 'group' && object.type !== 'activeSelection')) return null;
 
@@ -12,8 +14,8 @@ export default function GroupSetter () {
     <div>
       {
         object.type === 'group' ?
-        <Button type="primary" block onClick={() => { ungroup(editor.canvas, object); }}>取消建组</Button> :
-        <Button type="primary" block onClick={() => { groupSelection(editor.canvas, object); }}>建组</Button>
+        <Button type="primary" block onClick={() => { ungroup(editor.canvas, object); }}>{t('setter.group.ung')}</Button> :
+        <Button type="primary" block onClick={() => { groupSelection(editor.canvas, object); }}>{t('setter.group.g')}</Button>
       }
     </div>
   )

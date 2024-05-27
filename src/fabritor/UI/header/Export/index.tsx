@@ -1,5 +1,5 @@
-import { Dropdown, Button, Divider, message } from 'antd';
-import { ExportOutlined } from '@ant-design/icons';
+import { Dropdown, Button, message } from 'antd';
+import { ExportOutlined, FileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { downloadFile, base64ToBlob } from '@/utils';
 import { useContext, useRef } from 'react';
@@ -7,36 +7,18 @@ import { GloablStateContext } from '@/context';
 import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
 import { CenterV } from '@/fabritor/components/Center';
 import { SETTER_WIDTH } from '@/config';
+import { Trans, useTranslation } from '@/i18n/utils';
 
-const items: MenuProps['items'] = [
-  {
-    key: 'jpg',
-    label: '导出为 JPG'
-  },
-  {
-    key: 'png',
-    label: '导出为 PNG'
-  },
-  {
-    key: 'svg',
-    label: '导出为 SVG'
-  },
-  {
-    key: 'json',
-    label: '导出为 模板'
-  },
-  {
-    type: 'divider'
-  },
-  {
-    key: 'clipboard',
-    label: '复制到剪贴板'
-  }
-]
+const i18nKeySuffix = 'header.export';
+
+const items: MenuProps['items'] = ['jpg', 'png', 'svg', 'json', 'divider', 'clipboard'].map(
+  item => item === 'divider' ? ({ type: 'divider' }) : ({ key: item, label: <Trans i18nKey={`${i18nKeySuffix}.${item}`} /> })
+)
 
 export default function Export () {
   const { editor, setReady, setActiveObject } = useContext(GloablStateContext);
   const localFileSelectorRef = useRef<any>();
+  const { t } = useTranslation();
 
   const selectJsonFile = () => {
     localFileSelectorRef.current?.start?.();
@@ -67,9 +49,9 @@ export default function Export () {
           'image/png': blob
         })
       ]);
-      message.success('复制成功');
+      message.success(translate(`${i18nKeySuffix}.copy_success`));
     } catch(e) {
-      message.error('复制失败，请选择导出到本地');
+      message.error(translate(`${i18nKeySuffix}.copy_fail`));
     }
   }
 
@@ -112,15 +94,15 @@ export default function Export () {
         paddingRight: 16
       }}
     >
-      <Button onClick={selectJsonFile}>
-        加载模板
+      <Button onClick={selectJsonFile} icon={<FileOutlined />}>
+        {t(`${i18nKeySuffix}.load`)}
       </Button>
       <Dropdown 
         menu={{ items, onClick: handleClick }} 
         arrow={{ pointAtCenter: true }}
         placement="bottom"
       >
-        <Button type="primary" icon={<ExportOutlined />}>导出</Button>
+        <Button type="primary" icon={<ExportOutlined />}>{t(`${i18nKeySuffix}.export`)}</Button>
       </Dropdown>
       <LocalFileSelector accept="application/json" ref={localFileSelectorRef} onChange={handleFileChange} />
     </CenterV>

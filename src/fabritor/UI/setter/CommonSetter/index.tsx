@@ -9,40 +9,41 @@ import { copyObject, pasteObject, removeObject } from '@/utils/helper';
 import FlipSetter from './FlipSetter';
 import { Divider } from 'antd';
 import PositionSetter from './PositionSetter';
+import { useTranslation, Trans } from '@/i18n/utils';
 
 const ALIGH_TYPES = [
   {
-    label: '居中',
+    label: <Trans i18nKey="setter.common.center" />,
     icon: PicCenterOutlined,
     key: 'center'
   },
   {
-    label: '左对齐',
+    label: <Trans i18nKey="setter.common.align_left" />,
     icon: AlignLeftOutlined,
     key: 'left'
   },
   {
-    label: '水平居中',
+    label: <Trans i18nKey="setter.common.center_h" />,
     icon: AlignCenterOutlined,
     key: 'centerH'
   },
   {
-    label: '右对齐',
+    label: <Trans i18nKey="setter.common.align_right" />,
     icon: AlignRightOutlined,
     key: 'right'
   },
   {
-    label: '顶部对齐',
+    label: <Trans i18nKey="setter.common.align_top" />,
     icon: VerticalAlignTopOutlined,
     key: 'top'
   },
   {
-    label: '垂直居中',
+    label: <Trans i18nKey="setter.common.center_v" />,
     icon: VerticalAlignMiddleOutlined,
     key: 'centerV'
   },
   {
-    label: '底部对齐',
+    label: <Trans i18nKey="setter.common.align_bottom" />,
     icon: VerticalAlignBottomOutlined,
     key: 'bottom'
   }
@@ -50,6 +51,7 @@ const ALIGH_TYPES = [
 
 export default function CommonSetter () {
   const { object, editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
   const [lock, setLock] = useState(false);
   const [opacity, setOpacity] = useState(1);
 
@@ -121,14 +123,17 @@ export default function CommonSetter () {
   return (
     <>
       <CenterV height={30} gap={8} justify="space-between">
-        <ToolbarItem tooltipProps={{ placement: 'top' }} onClick={handleLock} title={lock ? '解锁' : '锁定'}>
+        <ToolbarItem
+          tooltipProps={{ placement: 'top' }}
+          onClick={handleLock} title={lock ? t('setter.common.unlock') : t('setter.common.lock')}
+        >
           {
             lock ? 
             <UnlockOutlined style={{ fontSize: 20 }} /> :
             <LockOutlined style={{ fontSize: 20 }} />
           }
         </ToolbarItem>
-        <ToolbarItem tooltipProps={{ placement: 'top' }} title="透明度">
+        <ToolbarItem tooltipProps={{ placement: 'top' }} title={t('setter.common.opacity')}>
           <OpacitySetter
             value={opacity}
             onChange={handleOpacity}
@@ -137,7 +142,7 @@ export default function CommonSetter () {
         </ToolbarItem>
         <ToolbarItem
           tooltipProps={{ placement: 'top' }}
-          title="创建副本"
+          title={t('setter.common.create_a_copy')}
           onClick={
             async () => {
               await copyObject(editor.canvas, object);
@@ -149,7 +154,7 @@ export default function CommonSetter () {
         </ToolbarItem>
         <ToolbarItem
           tooltipProps={{ placement: 'top' }}
-          title="删除"
+          title={t('setter.common.del')}
           onClick={() => { removeObject(null, editor.canvas); }}
         >
           <DeleteOutlined style={{ fontSize: 20 }} />
@@ -158,14 +163,14 @@ export default function CommonSetter () {
           object.type === 'f-image' ?
           <ToolbarItem
             tooltipProps={{ placement: 'top' }}
-            title="翻转"
+            title={t('setter.common.flip')}
           >
             <FlipSetter onChange={handleFlip} />
           </ToolbarItem> : null
         }
       </CenterV>
       <Divider style={{ margin: '16px 0' }} />
-      <span style={{ fontWeight: 'bold' }}>画布对齐</span>
+      <span style={{ fontWeight: 'bold' }}>{t('setter.common.align')}</span>
       <CenterV height={30} gap={8} justify="space-between" style={{ marginTop: 16 }}>
         {
           ALIGH_TYPES.map(item => (

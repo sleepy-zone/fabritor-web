@@ -4,6 +4,7 @@ import ColorSetter from '@/fabritor/UI/setter/ColorSetter/Solid';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { createImage } from '@/editor/objects/image';
 import { GloablStateContext } from '@/context';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
@@ -14,6 +15,7 @@ export default function QRCodePanel (props) {
   const [QRCodeConfig, setQRCodeConfig] = useState({ value: 'fabritor' });
   const qrRef = useRef<HTMLDivElement>(null);
   const { editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
 
   const handleValuesChange = (values) => {
     setQRCodeConfig({
@@ -50,15 +52,15 @@ export default function QRCodePanel (props) {
   }, []);
 
   return (
-    <AppSubPanel title="二维码" back={back}>
+    <AppSubPanel title={t('panel.app.qrcode')} back={back}>
       <Form
         form={form}
         onValuesChange={handleValuesChange}
       >
-        <FormItem name="value" label="文本">
+        <FormItem name="value" label={t('common.text')}>
           <Input />
         </FormItem>
-        <FormItem name="size" label="大小">
+        <FormItem name="size" label={t('common.size')}>
           <InputNumber />
         </FormItem>
       </Form>
@@ -66,25 +68,25 @@ export default function QRCodePanel (props) {
         items={[
           {
             key: '1',
-            label: '其他设置',
+            label: t('panel.app.more'),
             children: (
               <Form
                 form={form2}
                 onValuesChange={handleValuesChange}
               >
-                <FormItem name="color" label="颜色">
+                <FormItem name="color" label={t('common.color')}>
                   <ColorSetter />
                 </FormItem>
-                <FormItem name="bgColor" label="背景色">
+                <FormItem name="bgColor" label={t('common.background_color')}>
                   <ColorSetter />
                 </FormItem>
-                <FormItem name="errorLevel" label="纠错等级">
+                <FormItem name="errorLevel" label={t('panel.app.error_level')}>
                   <Radio.Group options={['L', 'M', 'Q', 'H']} />
                 </FormItem>
-                <FormItem name="icon" label="内置图片">
-                  <Input placeholder="仅支持图片链接" />
+                <FormItem name="icon" label={t('panel.app.image')}>
+                  <Input placeholder={t('panel.app.only_image_url')} />
                 </FormItem>
-                <FormItem name="iconSize" label="内置图片大小">
+                <FormItem name="iconSize" label={t('panel.app.image_size')}>
                   <InputNumber />
                 </FormItem>
               </Form>
@@ -100,7 +102,7 @@ export default function QRCodePanel (props) {
             {...QRCodeConfig}
             style={{ maxWidth: 200 }}
           />
-          <Button type="primary" onClick={add2Canvas}>添加至画布</Button>
+          <Button type="primary" onClick={add2Canvas}>{t('panel.app.add')}</Button>
         </Flex> : null
       }
     </AppSubPanel>

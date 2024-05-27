@@ -2,6 +2,7 @@ import { Button, Form, Row, Col, InputNumber, Switch } from 'antd';
 import { useContext, useEffect, useRef, useState } from 'react';
 import MoreConfigWrapper from '../Form/MoreConfigWrapper';
 import { GloablStateContext } from '@/context';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
@@ -32,6 +33,7 @@ const noScaledSizeTypes = ['textbox', 'f-text', 'rect'];
 
 export default function PositionSetter () {
   const { editor, object } = useContext(GloablStateContext);
+  const { t } = useTranslation();
   const [showMore, setShowMore] = useState(false);
   const isNoScaledSizeTypeRef = useRef(false);
   const [form] = Form.useForm();
@@ -110,11 +112,11 @@ export default function PositionSetter () {
 
   return (
     <>
-      <Button block onClick={() => { setShowMore(true) }}>调整位置</Button>
+      <Button block onClick={() => { setShowMore(true) }}>{t('setter.common.adjust_position')}</Button>
       <MoreConfigWrapper
         open={showMore}
         setOpen={setShowMore}
-        title="调整位置"
+        title={t('setter.common.adjust_position')}
       >
         <div style={{ marginTop: 24 }}>
           <Form
@@ -125,34 +127,34 @@ export default function PositionSetter () {
           >
             <Row gutter={8}>
               <Col span={8}>
-                <FormItem label="宽(像素)" name="width">
+                <FormItem label={`${t('setter.size.width')}(${t('setter.common.px')})`} name="width">
                   <PxInputNumber min={1} />
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem label="高(像素)" name="height">
+                <FormItem label={`${t('setter.size.height')}(${t('setter.common.px')})`} name="height">
                   <PxInputNumber min={1} />
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem label="锁定比例" name="lockRatio" valuePropName="checked">
+                <FormItem label={t('setter.common.lock_ratio')} name="lockRatio" valuePropName="checked">
                   <Switch disabled />
                 </FormItem>
               </Col>
             </Row>
             <Row gutter={8}>
               <Col span={8}>
-                <FormItem label="X(像素)" name="left">
+                <FormItem label={`X(${t('setter.common.px')})`} name="left">
                   <PxInputNumber />
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem label="Y(像素)" name="top">
+                <FormItem label={`Y(${t('setter.common.px')})`} name="top">
                   <PxInputNumber />
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem label="旋转(°)" name="angle">
+                <FormItem label={`${t('setter.common.rotate')}(°)`} name="angle">
                   <PxInputNumber min={-360} max={360} precision={0} />
                 </FormItem>
               </Col>

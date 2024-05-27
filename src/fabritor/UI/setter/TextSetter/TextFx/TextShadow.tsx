@@ -1,12 +1,14 @@
-import { Slider, Form, Switch } from 'antd';
+import { Slider, Form } from 'antd';
 import ColorSetter from '../../ColorSetter/Solid';
 import { useEffect } from 'react';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function TextShadow (props) {
   const [form] = Form.useForm();
   const { value, onChange } = props;
+  const { t } = useTranslation();
 
   const handleChange = (v) => {
     onChange && onChange({
@@ -23,17 +25,17 @@ export default function TextShadow (props) {
 
   return (
     <Form form={form} onValuesChange={handleChange} colon={false}>
-      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>阴影</span>} />
-      <FormItem label="颜色" name="color">
+      <FormItem label={<span style={{ fontSize: 15, fontWeight: 'bold' }}>{t('common.shadow')}</span>} />
+      <FormItem label={t('common.color')} name="color">
         <ColorSetter />
       </FormItem>
-      <FormItem label="模糊" name="blur">
+      <FormItem label={t('common.blur')} name="blur">
         <Slider
           min={0}
           max={20}
         />
       </FormItem>
-      <FormItem label="偏移" name="offset">
+      <FormItem label={t('common.offset')} name="offset">
         <Slider
           min={-180}
           max={180}

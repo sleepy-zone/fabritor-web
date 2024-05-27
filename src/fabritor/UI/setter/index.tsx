@@ -12,6 +12,7 @@ import GroupSetter from './GroupSetter';
 import PathSetter from './PathSetter';
 import RoughSetter from './RoughSetter';
 import { SETTER_WIDTH } from '@/config';
+import { useTranslation } from '@/i18n/utils';
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -24,6 +25,8 @@ const siderStyle: React.CSSProperties = {
 
 export default function Setter () {
   const { object, isReady } = useContext(GloablStateContext);
+  const { t } = useTranslation();
+
   const objectType = object?.get?.('type') || '';
   console.log('objectType', objectType, object);
 
@@ -78,43 +81,42 @@ export default function Setter () {
 
   const getSetterTitle = () => {
     if (!isReady) return null;
-    if (!object || object.id === SKETCH_ID) return '画布';
+    if (!object || object.id === SKETCH_ID) return t('setter.sketch.title');
     switch (objectType) {
       case 'textbox':
       case 'f-text':
-        return '文字';
+        return t('panel.text.title');
       case 'rect':
       case 'circle':
       case 'triangle':
       case 'polygon':
       case 'ellipse':  
-        return '形状';
+        return t('panel.material.shape');
       case 'line':
       case 'f-line':
       case 'f-arrow':
       case 'f-tri-arrow':
-        return '线条';
+        return t('panel.material.line');
       case 'f-image':
-        return '图片';
       case 'image':
-        return '配置'
+        return t('panel.image.title');
       case 'path':
         if (object?.sub_type) {
           if (object?.sub_type === 'rough') {
-            return '手绘风格';
+            return t('panel.material.hand_drawn');
           }
-          return '形状';
+          return t('panel.material.shape');
         }
-        return '画笔'
+        return t('panel.paint.title');
       case 'group':
         if (object?.sub_type === 'rough') {
-          return '手绘风格';
+          return t('panel.material.hand_drawn');
         }
-        return '组合';
+        return t('setter.group.title');
       case 'activeSelection':
-        return '组合';
+        return t('setter.group.title')
       default:
-        return '画布';
+        return t('setter.sketch.title')
     }
   }
 

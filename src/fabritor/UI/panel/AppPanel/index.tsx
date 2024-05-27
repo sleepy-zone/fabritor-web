@@ -3,15 +3,16 @@ import { QrcodeOutlined, SmileOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import QRCodePanel from './QRCode';
 import EmojiPanel from './Emoji';
+import { Trans } from '@/i18n/utils';
 
 const APP_LIST = [
   {
-    title: '二维码',
+    title: <Trans i18nKey="panel.app.qrcode" />,
     key: 'qrcode',
     icon: <QrcodeOutlined style={{ fontSize: 30 }} />
   },
   {
-    title: 'Emoji',
+    title: <Trans i18nKey="panel.app.emoji" />,
     key: 'emoji',
     icon: <SmileOutlined style={{ fontSize: 30 }} />
   }

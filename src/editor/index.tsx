@@ -13,7 +13,7 @@ import AutoSave from './extensions/autosave';
 import { createGroup } from './objects/group';
 import createCustomClass from './custom-objects';
 import { HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL, CAPTURE_SUBTARGET_WHEN_DBLCLICK, LOAD_JSON_IGNORE_LOAD_FONT } from '@/config';
-
+import { translate } from '@/i18n/utils';
 export default class Editor {
   public canvas: fabric.Canvas;
   private _options;
@@ -80,7 +80,7 @@ export default class Editor {
   }
 
   private _initSketch () {
-    // 默认小红书尺寸
+    // default size: xiaohongshu
     const { width = 1242, height = 1660 } = this._template || {};
     const sketch = new fabric.Rect({
       fill: '#ffffff',
@@ -94,7 +94,7 @@ export default class Editor {
       // @ts-ignore custom id 
       id: SKETCH_ID,
       // @ts-ignore custom desc
-      fabritor_desc: '我的画板 by fabritor',
+      fabritor_desc: translate('header.fabritor_desc'),
     });
     this.canvas.add(sketch);
     this.canvas.requestRenderAll();

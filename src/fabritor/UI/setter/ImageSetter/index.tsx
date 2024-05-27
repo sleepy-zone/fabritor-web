@@ -10,18 +10,20 @@ import ClipSetter from './Clip';
 import FList from '@/fabritor/components/FList';
 import MoreConfigWrapper from '../Form/MoreConfigWrapper';
 import ImageFx from './ImageFx';
+import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function ImageSetter () {
   const { object, editor } = useContext(GloablStateContext);
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [openFx, setOpenFx] = useState(false);
 
   const IMAGE_ADVANCE_CONFIG = [
     {
       icon: <FunctionOutlined style={{ fontSize: 22 }} />,
-      label: '滤镜',
+      label: t('setter.image.filter'),
       key: 'fx',
       onClick: () => { setOpenFx(true) }
     }
@@ -118,7 +120,7 @@ export default function ImageSetter () {
     <MoreConfigWrapper
       open={openFx}
       setOpen={setOpenFx}
-      title="滤镜"
+      title={t('setter.image.filter')}
     >
       <ImageFx />
     </MoreConfigWrapper>
