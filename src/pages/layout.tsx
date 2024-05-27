@@ -1,0 +1,36 @@
+import { Outlet, useLocale } from 'ice';
+import { useEffect, useState } from 'react';
+import { ConfigProvider } from 'antd';
+import * as dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
+
+
+import enUS from 'antd/locale/en_US';
+import zhCN from 'antd/locale/zh_CN';
+import type { Locale } from 'antd/es/locale';
+import 'dayjs/locale/zh-cn';
+
+export default function Layout() {
+  const [locale] = useLocale();
+  const { i18n } = useTranslation();
+  const [antDLocale, setAntDLocale] = useState<Locale>(enUS);
+
+  useEffect(() => {
+    if (locale === 'en-US') {
+      setAntDLocale(enUS);
+      dayjs.locale('en');
+      i18n.changeLanguage('en-US');
+    } else {
+      setAntDLocale(zhCN);
+      dayjs.locale('zh-cn');
+      i18n.changeLanguage('zh-CN');
+    }
+  }, [locale]);
+
+  return (
+    <ConfigProvider locale={antDLocale}>
+      <Outlet />
+    </ConfigProvider>
+  );
+}
