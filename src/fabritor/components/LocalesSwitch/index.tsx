@@ -1,12 +1,12 @@
 import { Button } from 'antd';
-import { useLocale } from 'ice';
+import { useSearchParams } from 'ice';
 
 export default function LocalesSwitch () {
-  const [locale, setLocale] = useLocale();
-  console.log('locale111111111111', locale)
+  const [searchParams] = useSearchParams();
+  const lng = searchParams.get('lng') || 'en-US';
 
   const switchLocale = () => {
-    setLocale(locale === 'en-US' ? 'zh-CN' : 'en-US');
+    window.location.replace(`/?lng=${lng === 'en-US' ? 'zh-CN' : 'en-US'}`);
   }
 
   return (
@@ -23,7 +23,7 @@ export default function LocalesSwitch () {
       }}
       onClick={switchLocale}
     >
-      { locale === 'en-US' ? 'En' : '中' }
+      { lng === 'en-US' ? 'En' : '中' }
     </Button>
   )
 }

@@ -28,7 +28,6 @@
   "devDependencies": {
     "@applint/spec": "^1.2.3",
     "@ice/app": "^3.3.0",
-    "@ice/plugin-i18n": "^5.0.0",
     "@types/fabric": "^5.3.5",
     "@types/fontfaceobserver": "^2.1.2",
     "@types/node": "^18.11.17",

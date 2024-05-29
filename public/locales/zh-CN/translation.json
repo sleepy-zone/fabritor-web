@@ -45,7 +45,7 @@
     "design": {
       "title": "图层",
       "start": "开始挥洒你的创意 ~",
-      "startFromDemo": "或者从一个简单 DEMO 开始"
+      "start_demo": "或者从一个简单 DEMO 开始"
     },
     "text": {
       "title": "文字",
