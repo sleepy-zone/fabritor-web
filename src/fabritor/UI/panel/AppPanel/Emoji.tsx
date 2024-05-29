@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { useLocale } from 'ice';
+import { useSearchParams } from 'ice';
 import AppSubPanel from './AppSubPanel';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
@@ -10,7 +10,8 @@ import { GloablStateContext } from '@/context';
 export default function EmojiPanel (props) {
   const { back } = props;
   const { editor } = useContext(GloablStateContext);
-  const { locale } = useLocale();
+  const [searchParams] = useSearchParams();
+  const lng = searchParams.get('lng') || 'en-US';
   const [emojiLocale, setEmojiLocale] = useState('en');
 
   const handleEmojiSelect = async (emoji) => {
@@ -29,14 +30,14 @@ export default function EmojiPanel (props) {
   }
 
   useEffect(() => {
-    if (locale?.indexOf('en') === 0) {
+    if (lng?.indexOf('en') === 0) {
       setEmojiLocale('en');
-    } else if (locale?.indexOf('zh') === 0) {
+    } else if (lng?.indexOf('zh') === 0) {
       setEmojiLocale('zh');
     } else {
-      setEmojiLocale(locale || 'en');
+      setEmojiLocale(lng || 'en');
     }
-  }, [locale]);
+  }, [lng]);
 
   return (
     <AppSubPanel title="Emoji" back={back}>

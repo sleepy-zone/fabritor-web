@@ -1,4 +1,5 @@
 import { defineAppConfig } from 'ice';
+import './i18n';
 
 import './font.css';
 

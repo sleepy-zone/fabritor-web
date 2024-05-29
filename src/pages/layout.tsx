@@ -1,10 +1,8 @@
-import { Outlet, useLocale } from 'ice';
+import { Outlet, useSearchParams } from 'ice';
 import { useEffect, useState } from 'react';
 import { ConfigProvider } from 'antd';
 import * as dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import '../i18n';
-
 
 import enUS from 'antd/locale/en_US';
 import zhCN from 'antd/locale/zh_CN';
@@ -12,12 +10,13 @@ import type { Locale } from 'antd/es/locale';
 import 'dayjs/locale/zh-cn';
 
 export default function Layout() {
-  const [locale] = useLocale();
+  const [searchParams] = useSearchParams();
+  const lng = searchParams.get('lng') || 'en-US';
   const { i18n } = useTranslation();
   const [antDLocale, setAntDLocale] = useState<Locale>(enUS);
 
   useEffect(() => {
-    if (locale === 'en-US') {
+    if (lng === 'en-US') {
       setAntDLocale(enUS);
       dayjs.locale('en');
       i18n.changeLanguage('en-US');
@@ -26,7 +25,7 @@ export default function Layout() {
       dayjs.locale('zh-cn');
       i18n.changeLanguage('zh-CN');
     }
-  }, [locale]);
+  }, [lng]);
 
   return (
     <ConfigProvider locale={antDLocale}>
