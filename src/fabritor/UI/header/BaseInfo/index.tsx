@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
 import { Typography } from 'antd';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
 const { Text } = Typography;
 
 export default function BaseInfo () {
   const [desc, setDesc] = useState('');
-  const { editor } = useContext(GloablStateContext);
+  const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
   const handleChange = (v) => {

@@ -1,10 +1,10 @@
 import { createFImage } from '@/editor/objects/image';
 import { useContext } from 'react';
 import ImageSelector from '@/fabritor/components/ImageSelector';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 
 export default function ImagePanel () {
-  const { editor } = useContext(GloablStateContext);
+  const { editor } = useContext(GlobalStateContext);
 
   const addImage = async (url) => {
     await createFImage({

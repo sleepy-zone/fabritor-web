@@ -3,7 +3,7 @@ import type { MenuProps } from 'antd';
 import { Dropdown, Flex } from 'antd';
 import { SKETCH_ID } from '@/utils/constants';
 import { copyObject, pasteObject, removeObject, groupSelection, ungroup, changeLayerLevel } from '@/utils/helper';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
 // ⌘ C
@@ -31,7 +31,7 @@ const ContextMenuItem = (props) => {
 const ContextMenu = (props, ref) => {
   const { object, noCareOpen } = props;
   const [open, setOpen] = useState(false);
-  const { editor } = useContext(GloablStateContext);
+  const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
   const renderMenuItems = () => {
@@ -153,7 +153,7 @@ const ContextMenu = (props, ref) => {
 
   return (
     <Dropdown
-      menu={{ items: renderMenuItems(), onClick: handleClick }} 
+      menu={{ items: renderMenuItems(), onClick: handleClick }}
       trigger={['contextMenu']}
       open={noCareOpen ? undefined : open}
     >

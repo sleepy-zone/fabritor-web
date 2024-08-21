@@ -3,7 +3,7 @@ import SolidColorSetter from '../ColorSetter/Solid';
 import ColorSetter from '../ColorSetter';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
 import { useContext, useEffect } from 'react';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
@@ -11,7 +11,7 @@ const { Item: FormItem } = Form;
 export default function PathSetterForm (props) {
   const { value, onChange, shouldFireEvent, showPenTip, showFillConfig } = props;
   const [form] = Form.useForm();
-  const { editor } = useContext(GloablStateContext);
+  const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
   const fireEvent = () => {

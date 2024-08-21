@@ -5,7 +5,7 @@ import Header from './UI/header';
 import Panel from './UI/panel';
 import Setter from './UI/setter';
 import Editor from '@/editor';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
 import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
@@ -136,7 +136,7 @@ export default function Fabritor () {
   }, []);
 
   return (
-    <GloablStateContext.Provider
+    <GlobalStateContext.Provider
       value={{
         object: activeObject,
         setActiveObject,
@@ -164,6 +164,6 @@ export default function Fabritor () {
 
         <svg id="fabritor-rough-svg" ref={roughSvgEl} />
       </Layout>
-    </GloablStateContext.Provider>
+    </GlobalStateContext.Provider>
   )
 }
