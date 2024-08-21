@@ -7,13 +7,13 @@ import { drawArrowLine, drawLine, drawTriArrowLine } from '@/editor/objects/line
 import createRect from '@/editor/objects/rect';
 import createShape from '@/editor/objects/shape';
 import { useContext } from 'react';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { createPathFromSvg } from '@/editor/objects/path';
 import Center from '@/fabritor/components/Center';
 import { useTranslation } from '@/i18n/utils';
 
 export default function ShapePanel () {
-  const { editor, roughSvg } = useContext(GloablStateContext);
+  const { editor, roughSvg } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
   const addLine = (item) => {

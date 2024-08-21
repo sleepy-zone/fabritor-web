@@ -1,6 +1,6 @@
 import { fabric } from 'fabric';
 import { useEffect, useContext } from 'react';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { Form } from 'antd';
 import FilterGroup from './FilterGroup';
 
@@ -22,7 +22,7 @@ const handleFilterValue = (filter) => {
 }
 
 export default function ImageFx () {
-  const { object, editor } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GlobalStateContext);
   const [form] = Form.useForm();
 
   const handleFxValueChange = (values) => {

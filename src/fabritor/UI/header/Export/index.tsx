@@ -3,7 +3,7 @@ import { ExportOutlined, FileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { downloadFile, base64ToBlob } from '@/utils';
 import { useContext, useRef } from 'react';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import LocalFileSelector from '@/fabritor/components/LocalFileSelector';
 import { CenterV } from '@/fabritor/components/Center';
 import { SETTER_WIDTH } from '@/config';
@@ -16,7 +16,7 @@ const items: MenuProps['items'] = ['jpg', 'png', 'svg', 'json', 'divider', 'clip
 )
 
 export default function Export () {
-  const { editor, setReady, setActiveObject } = useContext(GloablStateContext);
+  const { editor, setReady, setActiveObject } = useContext(GlobalStateContext);
   const localFileSelectorRef = useRef<any>();
   const { t } = useTranslation();
 

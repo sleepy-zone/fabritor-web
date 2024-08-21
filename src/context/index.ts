@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { fabric } from 'fabric';
 import Editor from '@/editor';
-export interface IGloablStateContext {
+export interface IGlobalStateContext {
   object?: fabric.Object | null | undefined;
   setActiveObject?: (o: fabric.Object) => void;
   isReady?: boolean;
@@ -10,4 +10,4 @@ export interface IGloablStateContext {
   roughSvg?: any;
 }
 
-export const GloablStateContext = createContext<IGloablStateContext>(null);
+export const GlobalStateContext = createContext<IGlobalStateContext>(null);

@@ -1,4 +1,4 @@
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { Tag } from 'antd';
 import { useState, useContext, useEffect } from 'react';
 
@@ -6,7 +6,7 @@ function ObjectRotateAngleTip () {
   const [pos, setPos] = useState({ left: 0, top: 0 });
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
-  const { editor } = useContext(GloablStateContext);
+  const { editor } = useContext(GlobalStateContext);
 
   const rotateHandler = (opt) => {
     const { target, e } = opt;

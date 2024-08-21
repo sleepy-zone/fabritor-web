@@ -1,7 +1,7 @@
 import { Button, Form, Row, Col, InputNumber, Switch } from 'antd';
 import { useContext, useEffect, useRef, useState } from 'react';
 import MoreConfigWrapper from '../Form/MoreConfigWrapper';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
@@ -32,7 +32,7 @@ const PxInputNumber = (props) => {
 const noScaledSizeTypes = ['textbox', 'f-text', 'rect'];
 
 export default function PositionSetter () {
-  const { editor, object } = useContext(GloablStateContext);
+  const { editor, object } = useContext(GlobalStateContext);
   const { t } = useTranslation();
   const [showMore, setShowMore] = useState(false);
   const isNoScaledSizeTypeRef = useRef(false);

@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { Radio, Form } from 'antd';
 import ColorSetter from '../ColorSetter/Solid';
 import SliderInputNumber from '@/fabritor/components/SliderInputNumber';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
@@ -56,7 +56,7 @@ export const BORDER_TYPES = [
 
 export default function BorderSetter (props) {
   const { value, onChange } = props;
-  const { editor } = useContext(GloablStateContext);
+  const { editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
   const [form] = Form.useForm();
 

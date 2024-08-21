@@ -1,11 +1,11 @@
 import { fabric } from 'fabric';
 import { useContext, useEffect, useState } from 'react';
 import PathSetterForm from './PathSetterForm';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { transformFill2Colors, transformColors2Fill } from '@/utils';
 
 export default function PathSetter () {
-  const { object, editor } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GlobalStateContext);
   const [value, setValue] = useState({});
 
   const handleChange = (values) => {

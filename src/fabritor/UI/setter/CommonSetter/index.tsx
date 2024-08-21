@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { LockOutlined, UnlockOutlined, CopyOutlined, DeleteOutlined, PicCenterOutlined, AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined, VerticalAlignTopOutlined, VerticalAlignMiddleOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons';
 import { SKETCH_ID } from '@/utils/constants';
 import OpacitySetter from './OpacitySetter';
@@ -50,7 +50,7 @@ const ALIGH_TYPES = [
 ]
 
 export default function CommonSetter () {
-  const { object, editor } = useContext(GloablStateContext);
+  const { object, editor } = useContext(GlobalStateContext);
   const { t } = useTranslation();
   const [lock, setLock] = useState(false);
   const [opacity, setOpacity] = useState(1);

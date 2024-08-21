@@ -5,11 +5,11 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { createTextbox } from '@/editor/objects/textbox';
 import { useContext, useEffect, useState } from 'react';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 
 export default function EmojiPanel (props) {
   const { back } = props;
-  const { editor } = useContext(GloablStateContext);
+  const { editor } = useContext(GlobalStateContext);
   const [searchParams] = useSearchParams();
   const lng = searchParams.get('lng') || 'en-US';
   const [emojiLocale, setEmojiLocale] = useState('en');

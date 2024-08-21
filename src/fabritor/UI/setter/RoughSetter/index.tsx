@@ -2,14 +2,14 @@ import { useContext, useEffect } from 'react';
 import { fabric } from 'fabric';
 import { Form } from 'antd';
 import ColorSetter from '../ColorSetter/Solid';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
 const { Item: FormItem } = Form;
 
 export default function RoughSetter() {
   const [form] = Form.useForm();
-  const { editor, object } = useContext(GloablStateContext);
+  const { editor, object } = useContext(GlobalStateContext);
   const { t } = useTranslation();
 
   const handleValuesChange = (values) => {

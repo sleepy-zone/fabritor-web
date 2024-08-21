@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Modal } from 'antd';
-import { GloablStateContext } from '@/context';
+import { GlobalStateContext } from '@/context';
 import { DRAG_ICON } from '@/assets/icon';
 import { ClearOutlined, DragOutlined, ExclamationCircleFilled, UndoOutlined, RedoOutlined } from '@ant-design/icons';
 import { CenterV } from '@/fabritor/components/Center';
@@ -13,7 +13,7 @@ import './index.scss';
 const i18nKeySuffix = 'header.toolbar';
 
 export default function Toolbar () {
-  const { setActiveObject, editor } = useContext(GloablStateContext);
+  const { setActiveObject, editor } = useContext(GlobalStateContext);
   const [panEnable, setPanEnable] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
