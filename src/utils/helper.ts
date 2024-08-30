@@ -122,6 +122,13 @@ export const groupSelection = (canvas, target) => {
   if (!target || target.type !== 'activeSelection') {
     return;
   }
+
+  canvas.getActiveObjects().forEach((o) => {
+    if (o.type === 'f-image') {
+      o.img.clipPath= null;
+    }
+  });
+
   target.toGroup();
   canvas.requestRenderAll();
   canvas.fire('fabritor:group');
