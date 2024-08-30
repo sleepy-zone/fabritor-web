@@ -65,7 +65,7 @@ export default function Export () {
         downloadFile(png, 'png', name);
         break;
       case 'jpg':
-        const jpg = editor.export2Img({ format: 'jpg' });
+        const jpg = editor.export2Img({ format: 'jpeg' });
         downloadFile(jpg, 'jpg', name);
         break;
       case 'svg':
