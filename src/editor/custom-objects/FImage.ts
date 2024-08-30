@@ -46,7 +46,6 @@ export const createFImageClass = () => {
     _createClipPath () {
       const width = this.img.width;
       const height = this.img.height;
-      console.log(width, height)
       return new fabric.Rect({
         originX: 'center',
         originY: 'center',
