@@ -1,6 +1,6 @@
 // LOCAL
-export const LOAD_FROM_LOCAL_WHEN_INIT = true;
-export const AUTO_SAVE_WHEN_CHANGE = true;
+export const LOAD_FROM_LOCAL_WHEN_INIT = false;
+export const AUTO_SAVE_WHEN_CHANGE = false;
 
 // UI enhance
 export const HOVER_OBJECT_CORNER = true;

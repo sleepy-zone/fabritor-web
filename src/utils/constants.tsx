@@ -1,6 +1,6 @@
 export const APP_NAME = 'fabritor';
 export const APP_VERSION = '3.0.0';
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 3.1;
 export const SCHEMA_VERSION_KEY = 'fabritor_schema_version';
 export const LOG_PREFIX = `${APP_NAME}_log：`;
 
