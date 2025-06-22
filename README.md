@@ -60,3 +60,7 @@ yarn start
 <p align="center"><img alt="photor" src="/public/photor.png"></p>
 
 欢迎提交自己的作品或者项目。
+
+
+break changes
+https://github.com/fabricjs/fabric.js/issues/8299
